@@ -1,0 +1,187 @@
+﻿@model List<DepartmentManagers>
+@{
+    ViewData["Title"] = "Yönetim";
+    Layout = "_LayoutHomePage";
+}
+
+<style>
+    .avatar {
+        width: 100%;
+        max-width: 200px; /* En fazla 250px */
+        aspect-ratio: 1/1; /* Kare oranı */
+        background-color: #f5f5f5; /* Kare arka plan rengi */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden; /* Taşan kısımları gizle */
+        margin: 0 auto;
+        position: relative;
+    }
+
+        .avatar img {
+            width: 80%;
+            height: 80%;
+            border-radius: 50%; /* Normalde yuvarlak */
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .avatar:hover img {
+            width: 100%;
+            height: 100%;
+            border-radius: 0; /* Hover’da kareyi tamamen kaplar */
+            transform: scale(1.05); /* Hafif büyüme efekti */
+        }
+</style>
+
+<div class="container-fluid mt-5 pt-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title mb-0">
+                    <h4 class="m-0 text-uppercase font-weight-bold">Yönetim</h4>
+                </div>
+            </div>
+        </div>
+        @if (Model.ToList().Count() != 0)
+        {
+            <div class="row justify-content-center mt-2">
+                @foreach (var item in Model)
+                {
+                    @if (item.Title == "Bölge Müdürü")
+                    {
+                        <div class="col-auto">
+                            <div class="container text-center" >
+                                @if (item.Image != null)
+                                {
+                                    <div class="row justify-content-center pt-2">
+                                        <div class="avatar">
+                                            <img src="@Url.Action("ViewImageDepartmentManagers", new { Id = item.Id })" alt="">
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="row justify-content-center pt-2">
+                                        <div class="avatar">
+                                            <img src="~/homepage/img/user.png" alt="">
+                                        </div>
+                                    </div>
+                                }
+
+                                <div class="row justify-content-center pt-3 person-info">
+                                    <div class="col-12">
+                                        <h6>@item.Name</h6>
+                                    </div>
+                                    <div class="col-12">
+                                        <h6>@item.Title</h6>
+                                    </div>
+                                    <div class="col-12">
+                                        <h6 class="email">@item.Eposta</h6>
+                                    </div>
+                                    <div class="col-12">
+                                        <h6>@item.Phone</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <br />
+            <div class="row justify-content-center mt-2">
+                @foreach (var item in Model)
+                {
+                    @if (item.Title == "Bölge Müdür Yardımcısı")
+                    {
+                        <div class="col-auto col-md-3">
+                            <div class="container text-center">
+                                @if (item.Image != null)
+                                {
+                                    <div class="row justify-content-center pt-2">
+                                        <div class="avatar">
+                                            <img src="@Url.Action("ViewImageDepartmentManagers", new { Id = item.Id })" alt="">
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="row justify-content-center pt-2">
+                                        <div class="avatar">
+                                            <img src="~/homepage/img/user.png" alt="">
+                                        </div>
+                                    </div>
+                                }
+
+                                <div class="row justify-content-center pt-3 person-info">
+                                    <div class="col-12">
+                                        <h6>@item.Name</h6>
+                                    </div>
+                                    <div class="col-12">
+                                        <h6>@item.Title</h6>
+                                    </div>
+                                    <div class="col-12">
+                                        <h6 class="email">@item.Eposta</h6>
+                                    </div>
+                                    <div class="col-12">
+                                        <h6>@item.Phone</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="row justify-content-center mt-2">
+                @foreach (var item in Model)
+                {
+                    @if (!item.Title.Contains("Bölge Müdür"))
+                    {
+                        <div class="col-auto col-md-3">
+                            <div class="container text-center" style="width:250px;">
+                                @if (item.Image != null)
+                                {
+                                    <div class="row justify-content-center pt-2">
+                                        <div class="avatar">
+                                            <img src="@Url.Action("ViewImageDepartmentManagers", new { Id = item.Id })" alt="">
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="row justify-content-center pt-2">
+                                        <div class="avatar">
+                                            <img src="~/homepage/img/user.png" alt="">
+                                        </div>
+                                    </div>
+                                }
+
+                                <div class="row justify-content-center pt-3 person-info">
+                                    <div class="col-12">
+                                        <h6>@item.Name</h6>
+                                    </div>
+                                    <div class="col-12">
+                                        <h6>@item.Title</h6>
+                                    </div>
+                                    <div class="col-12">
+                                        <h6 class="email">@item.Eposta</h6>
+                                    </div>
+                                    <div class="col-12">
+                                        <h6>@item.Phone</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        }
+        else
+        {
+            <div class="col-lg-12 mt-3">
+                <h6 class="m-0 font-weight-bold">Sistemde kayıtlı herhangi bir veri yok.</h6>
+            </div>
+        }
+    </div>
+</div>
+</div>

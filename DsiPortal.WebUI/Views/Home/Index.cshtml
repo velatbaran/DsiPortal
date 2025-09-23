@@ -1,0 +1,306 @@
+﻿@model AllViewModel
+@{
+    ViewData["Title"] = "Anasayfa";
+    Layout = "_LayoutHomePage";
+}
+
+<style>
+    /* Normal kutu stili */
+    .app-box {
+        background-color: #f8f9fa; /* Varsayılan açık gri */
+        height: 156px;
+        border-radius: 10px;
+        filter: brightness(100%);
+        transition: all 0.3s ease-in-out; /* Hem renk hem animasyon */
+    }
+
+        /* Hover efekti: kutu rengi + resim zoom */
+        .app-box:hover {
+            background-color: #FFCC00; /* Hover'da arka plan rengi */
+        }
+
+        .app-box img {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .app-box:hover img {
+            transform: scale(1.1); /* Hover'da resim büyür */
+        }
+
+        /* Yazı renkleri */
+        .app-box a {
+            color: black;
+            text-decoration: none;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .app-box:hover a {
+            color: #fff !important; /* Hover'da yazılar beyaz olsun */
+        }
+
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-9 px-0">
+            <div class="owl-carousel main-carousel position-relative">
+                @foreach (var item in Model.WorksConducteds.ToList())
+                {
+                    <div class="position-relative overflow-hidden" style="height: 500px;">
+                        <a class="h2 m-0 text-white text-uppercase font-weight-bold" href=" @Url.Action("NewsDetail", new { WorkingName = item.WorkingName })" title="@item.WorkingName">
+                            <img class="img-fluid h-100" src="@Url.Action("ViewImageNews", new {Id = item.Id  })" style="object-fit: cover;" title="@item.WorkingName" />
+                        </a>
+                        <div class="overlay">
+                            <div class="mb-2">
+                                <a class="text-white" href=" @Url.Action("NewsDetail", new { WorkingName = item.WorkingName })" >@item.CreatedDate</a>
+                            </div>
+                            <a class="h2 m-0 text-white text-uppercase font-weight-bold" href=" @Url.Action("NewsDetail", new { WorkingName = item.WorkingName })" title="@item.WorkingName">@item.WorkingName</a>
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+        <div class="col-lg-3 px-0" style="background-color:black">
+            <div class="bg-white border border-top-0 p-3">
+                <img class="text-center" src="@Url.Action("ViewImageRegionalManager", new {Id = Model.RegionalManager.Id  })" width="450" height="430" alt="">
+                <div class="row text-center mb-0 mt-3">
+                    <div class="col-lg-12">
+                        <h6 class="m-0 text-uppercase font-weight-bold">@Model.RegionalManager.Name</h6>
+                    </div>
+                    <div class="col-lg-12">
+                        <h6 class="m-0 text-uppercase font-weight-bold">@Model.RegionalManager.Title</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid pt-5 mb-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="section-title">
+                    <h4 class="m-0 text-uppercase font-weight-bold">Sosyal Tesis</h4>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 px-3 mt-2">
+                        @if (Model.GuestFeeChart != null)
+                        {
+                            <div class="container rounded app-box" style="height: 156px; filter: brightness(100%);">
+                                <div class="row justify-content-center pt-2">
+                                    <img src="~/homepage/img/guest.png" width="100px" height="100px" />
+                                </div>
+                                <div class="row justify-content-center pt-2">
+                                    @if (Model.GuestFeeChart.FileType == ".pdf")
+                                    {
+                                        <a class="h6 m-0 text-center text-secondary font-weight-bold" href="@Url.Action("ViewPdfGuestFeeChart", "Home", new { })" target="_blank" style="color:darkolivegreen" target="_blank">@Model.GuestFeeChart.Name</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="h6 m-0 text-center text-secondary font-weight-bold" href="@Url.Action("DownloadGuestFeeChart", "Home", new { })" target="_blank" style="color:darkolivegreen" target="_blank">@Model.GuestFeeChart.Name</a>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="col-md-4 px-3 mt-2">
+                        @if (Model.GuestFeeChart != null)
+                        {
+                            <div class="container rounded app-box" style="height: 156px; filter: brightness(100%);">
+                                <div class="row justify-content-center pt-2">
+                                    <img src="~/homepage/img/food.png" width="100px" height="100px" />
+                                </div>
+                                <div class="row justify-content-center pt-2">
+                                    @if (Model.FoodList != null)
+                                    {
+                                        @if (Model.FoodList.FileType == ".pdf")
+                                        {
+                                            <a class="h6 m-0 text-center text-secondary font-weight-bold" href="@Url.Action("ViewPdfFoodList", "Home", new { })" target="_blank" style="color:darkolivegreen" target="_blank">@Model.FoodList.Name</a>
+                                        }
+                                        else
+                                        {
+                                            <a class="h6 m-0 text-center text-secondary font-weight-bold" href="@Url.Action("DownloadFoodList", "Home", new { })" target="_blank" style="color:darkolivegreen" target="_blank">@Model.FoodList.Name</a>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="col-md-4 px-3 mt-2">
+                        @if (Model.FoodPriceList != null)
+                        {
+                            <div class="container rounded app-box" style="height: 156px; filter: brightness(100%);">
+                                <div class="row justify-content-center pt-2">
+                                    <img src="~/homepage/img/price.png" width="100px" height="100px" />
+                                </div>
+                                <div class="row justify-content-center pt-2">
+                                    @if (Model.FoodPriceList.FileType == ".pdf")
+                                    {
+                                        <a class="h6 m-0 text-center text-secondary font-weight-bold" href="@Url.Action("ViewPdfFoodPriceList", "Home", new { })" target="_blank" style="color:darkolivegreen" target="_blank">@Model.GuestFeeChart.Name</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="h6 m-0 text-center text-secondary font-weight-bold" href="@Url.Action("DownloadFoodPriceList", "Home", new { })" target="_blank" style="color:darkolivegreen" target="_blank">@Model.GuestFeeChart.Name</a>
+                                    }
+                                </div>
+
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="section-title mt-3">
+                    <h4 class="m-0 text-uppercase font-weight-bold">Uygulamalar-Kısayollar</h4>
+                </div>
+                <div class="row">
+                    @foreach (var item in Model.Apps.Skip(15))
+                    {
+                        <div class="col-md-4 px-3 mt-2">
+                            <div class="container rounded app-box">
+                                <div class="row justify-content-center pt-2">
+                                    <a href="@item.Link" target="_blank" title="@item.Name">
+                                        <img class="text-center"
+                                             src="@Url.Action("ViewImageApps", new {Id = item.Id })"
+                                             width="100" height="100" alt="">
+                                    </a>
+                                </div>
+                                <div class="row justify-content-center pt-2">
+                                    <a class="h6 m-0 text-center font-weight-bold"
+                                       href="@item.Link" target="_blank" title="@item.Name">
+                                        @item.Name
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+
+                <div class="section-title mt-3">
+                    <h4 class="m-0 text-uppercase font-weight-bold">Faydalı Linkler</h4>
+                </div>
+                <div class="row">
+                    @foreach (var item in Model.BenefitLinks.Skip(10))
+                    {
+                        <div class="col-md-4 px-3 mt-2">
+                            <div class="container rounded app-box" style="height: 156px; filter: brightness(100%);">
+                                <div class="row justify-content-center pt-2">
+                                    <a href="@item.Link" target="_blank" title="@item.Name">
+                                        <img class="text-center" src="@Url.Action("ViewImageBnefitLinks", new {Id = item.Id  })" width="100" height="100" alt="">
+                                    </a>
+                                </div>
+                                <div class="row justify-content-center pt-2">
+                                    <a class="h6 m-0 text-center text-secondary font-weight-bold" href="@item.Link" style="color:darkolivegreen" target="_blank" title="@item.Name">@item.Name</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="mb-3">
+                    <div class="section-title mb-1">
+                        <h4 class="m-0 text-uppercase font-weight-bold">Duyurular</h4>
+                        <a class="text-right" href="/tumduyurular"><i class="fa-solid fa-globe"></i> Tümü</a>
+                    </div>
+                    <div class="bg-white border border-top-0 p-3">
+                        @foreach (var item in Model.Announcements)
+                        {
+                            @if (item.FileType == ".pdf")
+                            {
+                                <a class="text-uppercase font-weight-semi-bold" href="@Url.Action("ViewPdfAnnocumentn", "Home", new { id = item.Id })" target="_blank" title="@item.Name">
+                                    <p class="mb-1" style="font-size:12px;color:black;font-style:italic">
+                                        <i class="fa-regular fa-file-pdf mr-2"></i>@item.Name
+                                    </p>
+                                </a>
+                            }
+                            else @if (item.FileType == ".docx")
+                            {
+                                <a class="text-uppercase font-weight-semi-bold" href="@Url.Action("DownloadAnnouncement", "Home", new { id = item.Id })" target="_blank" title="@item.Name">
+                                    <p class="mb-1" style="font-size:12px;color:black;font-style:italic">
+                                        <i class="fa-regular fa-file-word"></i>@item.Name
+                                    </p>
+                                </a>
+                            }
+                            else @if (item.FileType == ".docc")
+                            {
+                                <a class="text-uppercase font-weight-semi-bold" href="@Url.Action("DownloadAnnouncement", "Home", new { id = item.Id })" target="_blank" title="@item.Name">
+                                    <p class="mb-1" style="font-size:12px;color:black;font-style:italic">
+                                        <i class="fa-regular fa-file-word"></i>@item.Name
+                                    </p>
+                                </a>
+                            }
+                            else @if (item.FileType == ".xlsx")
+                            {
+                                <a class="text-uppercase font-weight-semi-bold" href="@Url.Action("DownloadAnnouncement", "Home", new { id = item.Id })" target="_blank" title="@item.Name">
+                                    <p class="mb-1" style="font-size:12px;color:black;font-style:italic">
+                                        <i class="fa-regular fa-file-excel"></i>@item.Name
+                                    </p>
+                                </a>
+                            }
+                            else @if (item.FileType == ".xls")
+                            {
+                                <a class="text-uppercase font-weight-semi-bold" href="@Url.Action("DownloadAnnouncement", "Home", new { id = item.Id })" target="_blank" title="@item.Name">
+                                    <p class="mb-1" style="font-size:12px;color:black;font-style:italic">
+                                        <i class="fa-regular fa-file-excel"></i>@item.Name
+                                    </p>
+                                </a>
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="section-title mb-1">
+                        <h4 class="m-0 text-uppercase font-weight-bold">Günün Menüsü</h4>
+                    </div>
+                    <div class="bg-white border border-top-0 p-3">
+                        @if (ViewData["FoodList"] != null)
+                        {
+                            <p class="d-block w-100 text-white text-decoration-none mb-1 py-3" style="background: #055570;">
+                                <i class="fa-solid fa-bowl-food text-center mr-3 ml-2"></i>Haftasonu yada güncel yemek listesi yükleyin.
+                            </p>
+                        }
+                        <p class="d-block w-100 text-white text-decoration-none mb-1 py-3" style="background: #055570;">
+                            <i class="fa-solid fa-cookie-bite text-center mr-3 ml-2"></i>@Model.ListMenuOfDayViewModel.Eat1
+                        </p>
+                        <p class="d-block w-100 text-white text-decoration-none mb-1 py-3" style="background: #055570;">
+                            <i class="fa-solid fa-cookie-bite text-center mr-3 ml-2"></i>@Model.ListMenuOfDayViewModel.Eat2
+                        </p>
+                        <p class="d-block w-100 text-white text-decoration-none mb-1 py-3" style="background: #055570;">
+                            <i class="fa-solid fa-cookie-bite text-center mr-3 ml-2"></i>@Model.ListMenuOfDayViewModel.Eat3
+                        </p>
+                        <p class="d-block w-100 text-white text-decoration-none mb-1 py-3" style="background: #055570;">
+                            <i class="fa-solid fa-cookie-bite text-center mr-3 ml-2"></i>@Model.ListMenuOfDayViewModel.Eat4
+                        </p>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="section-title mb-1">
+                        <h4 class="m-0 text-uppercase font-weight-bold">Geçmiş Haberler</h4>
+                        @* <a class="text-right" href="/Home/AllNews"><i class="fa-solid fa-globe"></i> Tümü</a> *@
+                        <a class="text-right" href="/tumhaberler"><i class="fa-solid fa-globe"></i> Tümü</a>
+                    </div>
+                    <div class="bg-white border border-top-0 p-3">
+                        @foreach (var item in Model.OldWorksConducteds)
+                        {
+                            <div class="d-flex align-items-center bg-white mb-2" style="height: 220px;">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <a href=" @Url.Action("NewsDetail", new { WorkingName = item.WorkingName })" title="@item.WorkingName" style="color:black;font-size:10px">
+                                            <img class="img-fluid" src="@Url.Action("ViewImageNews", new {Id = item.Id  })" width="200" height="130" title="@item.WorkingName" />
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <span class="badge badge-primary font-weight-semi-bold p-1 mr-2">@item.CreatedDate</span><br />
+                                        <a href=" @Url.Action("NewsDetail", new { WorkingName = item.WorkingName })" title="@item.WorkingName" style="color:black;font-size:10px">@item.WorkingName</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

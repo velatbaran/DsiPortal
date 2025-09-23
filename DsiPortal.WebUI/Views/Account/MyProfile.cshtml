@@ -1,0 +1,31 @@
+﻿@model MyProfileViewModel
+@{
+    ViewData["Title"] = "Profilim";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="MyProfile">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Surname" class="control-label"></label>
+                <input asp-for="Surname" class="form-control" />
+                <span asp-validation-for="Surname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Username" class="control-label"></label>
+                <input asp-for="Username" class="form-control" />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button type="submit" value="Kaydet" class="btn btn-primary" title="Kaydet"><i class="fa-solid fa-floppy-disk"></i> Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>

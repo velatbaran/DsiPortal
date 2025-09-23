@@ -1,0 +1,56 @@
+﻿@model List<WorksConducteds>
+
+@{
+    ViewData["Title"] = "Tüm Yapılan Haberler";
+    Layout = "_LayoutHomePage";
+    int totalCount = ViewBag.TotalCount;
+}
+
+<div class="container-fluid mt-5 pt-3">
+    <div class="container">
+        <div class="section-title mb-1">
+            <div class="col-lg-6">
+                <h4 class="m-0 text-uppercase font-weight-bold">Yapılan Tüm Haberler</h4>
+            </div>
+            <div class="col-lg-6 text-right">
+                <span class="badge badge-primary font-weight-semi-bold">
+                    Toplam Haber Sayısı : @totalCount
+                </span><br />
+            </div>
+        </div>
+        <div class="bg-white border border-top-0 p-3" id="newsContainer">
+            @await Html.PartialAsync("_NewsPartial", Model)
+        </div>
+
+        <div class="text-center mt-3">
+            <button id="loadMoreBtn" class="btn btn-primary"
+                    style="@(Model.Count >= totalCount ? "display:none;" : "")">
+                Daha Fazla Göster
+            </button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+                let skip = @Model.Count; // başlangıç 3
+        const take = 5;
+
+        async function loadNews() {
+            const response = await fetch(`/Home/GetNews?skip=${skip}&take=${take}`);
+            const html = await response.text();
+
+            if (!html.trim()) {
+                document.getElementById("loadMoreBtn").style.display = "none";
+                return;
+            }
+
+            document.getElementById("newsContainer").insertAdjacentHTML("beforeend", html);
+            skip += take;
+        }
+
+        // Buton tıklanınca yeni haberler
+        document.getElementById("loadMoreBtn").addEventListener("click", loadNews);
+
+    </script>
+}

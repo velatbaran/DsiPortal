@@ -1,0 +1,56 @@
+﻿@model List<FormDepartmentsViewModel>
+
+@{
+    ViewData["Title"] = "Formlar";
+    Layout = "_LayoutHomePage";
+}
+
+<div class="container-fluid mt-5 pt-3">
+    <div class="container">
+        <div class="row">
+            @foreach (var department in Model)
+            {
+                <div class="col-lg-12">
+                    <div class="section-title mt-2">
+                        <h4 class="m-0 text-uppercase font-weight-bold">@department.DepartmentName (@department.Count)</h4>
+                    </div>
+                    @foreach (var item in department.Forms)
+                    {
+                        <p class="mt-2">
+                            @if (item.FileType == ".pdf")
+                            {
+                                <a href="@Url.Action("ViewPdfForm", "Home", new { id = item.Id })" target="_blank" class="btn btn-warning btn-sm">
+                                    <i class="fa-solid fa-file-pdf"></i> @item.Name
+                                </a>
+                            }
+                            else @if (item.FileType == ".xls")
+                            {
+                                <a href="@Url.Action("DownloadForm", "Home", new { id = item.Id })" target="_blank" class="btn btn-warning btn-sm">
+                                    <i class="fa-regular fa-file-excel"></i> @item.Name
+                                </a>
+                            }
+                            else @if (item.FileType == ".xlsx")
+                            {
+                                <a href="@Url.Action("DownloadForm", "Home", new { id = item.Id })" target="_blank" class="btn btn-warning btn-sm">
+                                    <i class="fa-regular fa-file-excel"></i> @item.Name
+                                </a>
+                            }
+                            else @if (item.FileType == ".docx")
+                            {
+                                <a href="@Url.Action("DownloadForm", "Home", new { id = item.Id })" target="_blank" class="btn btn-warning btn-sm">
+                                    <i class="fa-regular fa-file-word"></i> @item.Name
+                                </a>
+                            }
+                            else @if (item.FileType == ".doc")
+                            {
+                                <a href="@Url.Action("DownloadForm", "Home", new { id = item.Id })" target="_blank" class="btn btn-warning btn-sm">
+                                    <i class="fa-regular fa-file-word"></i> @item.Name
+                                </a>
+                            }
+                        </p>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>

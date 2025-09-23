@@ -1,0 +1,64 @@
+﻿@model WorksConductedViewModel
+@{
+    ViewData["Title"] = "Haber Ekle";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create" enctype="multipart/form-data" id="uploadForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="WorkingName" class="control-label"></label>
+                <textarea asp-for="WorkingName" class="form-control" rows="2"></textarea>
+                <span asp-validation-for="WorkingName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control" rows="10"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageFiles" class="control-label"></label>
+                <div class="custom-file">
+                    <input asp-for="ImageFiles" class="custom-file-input" id="customFile" multiple>
+                    <label class="custom-file-label" for="customFile">Resim seçiniz (çoklu seçim yapabilirsiniz)</label>
+                </div>
+                <span asp-validation-for="ImageFiles" class="text-danger"></span>
+                <small class="form-text text-muted">Birden fazla resim seçmek için CTRL tuşuna basılı tutarak tıklayın.</small>
+            </div>
+            <div class="form-group">
+                <button type="submit" value="Kaydet" class="btn btn-primary" title="Kaydet"><i class="fa-solid fa-floppy-disk"></i> Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index"><i class="fa-solid fa-backward"></i> Geri Dön</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        // Dosya seçildiğinde dosya adlarını göster
+        $('.custom-file-input').on('change', function() {
+            var files = $(this)[0].files;
+            var fileNames = [];
+
+            for (var i = 0; i < files.length; i++) {
+                fileNames.push(files[i].name);
+            }
+
+            var label = $(this).next('.custom-file-label');
+            if (files.length > 1) {
+                label.html(files.length + ' dosya seçildi: ' + fileNames.join(', '));
+            } else if (files.length == 1) {
+                label.html(fileNames[0]);
+            } else {
+                label.html('Resim seçiniz (çoklu seçim yapabilirsiniz)');
+            }
+        });
+    </script>
+}

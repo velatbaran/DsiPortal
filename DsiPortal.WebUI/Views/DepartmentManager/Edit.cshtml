@@ -1,0 +1,64 @@
+﻿@model DepartmentManagerEditViewModel
+@{
+    ViewData["Title"] = "Müdür Güncelle";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <select name="Title" class="form-control">
+                    @foreach (var unvan in (IEnumerable<Titles>)ViewBag.Unvanlar)
+                    {
+                        <option value="@unvan.Name">@unvan.Name</option> <!-- Value olmadan sadece text -->
+                    }
+                </select>
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Eposta" class="control-label"></label>
+                <input asp-for="Eposta" class="form-control" />
+                <span asp-validation-for="Eposta" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Telefon</label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <div class="custom-file">
+                    <input asp-for="Image" class="custom-file-input" id="customFile" accept="image/*">
+                    <label class="custom-file-label" for="customFile">Resim seçiniz</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" value="Güncelle" class="btn btn-warning" title="Güncelle"><i class="fa-solid fa-pen-to-square"></i> Güncelle</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index"><i class="fa-solid fa-backward"></i> Geri Dön</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(".custom-file-input").on("change", function() {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+}

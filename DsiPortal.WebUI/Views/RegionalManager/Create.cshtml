@@ -1,0 +1,50 @@
+﻿@model RegionalManagerViewModel
+@{
+    ViewData["Title"] = "Bölge Müdürü Ekle";
+}
+
+<div class="row">
+    <label style="color:red;font-style:italic">Not: <strong>Yeni Bölge Müdürünü</strong> eklemek için <strong>eski Bölge Müdürün</strong> kaydını silmeniz gerekiyor. </label>
+    <div class="col-md-6">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <div class="custom-file">
+                    <input asp-for="Image" class="custom-file-input" id="customFile" accept="image/*">
+                    <label class="custom-file-label" for="customFile">Resim seçiniz</label>
+                </div>
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button type="submit" value="Kaydet" class="btn btn-primary" title="Kaydet"><i class="fa-solid fa-floppy-disk"></i> Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index"><i class="fa-solid fa-backward"></i> Geri Dön</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(".custom-file-input").on("change", function() {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+}

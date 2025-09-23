@@ -1,0 +1,28 @@
+﻿@model List<WorksConducteds>
+
+@foreach (var item in Model)
+{
+    <div class="d-flex align-items-center bg-white mb-2" style="height: 220px;">
+        <div class="row">
+            <div class="col-lg-6">
+                <a href="@Url.Action("NewsDetail", new { WorkingName = item.WorkingName })"
+                   title="@item.WorkingName" style="color:black;font-size:12px">
+                    <img class="img-fluid"
+                         src="@Url.Action("ViewImageNews", new { Id = item.Id })"
+                         width="300" height="130"
+                         title="@item.WorkingName" />
+                </a>
+            </div>
+            <div class="col-lg-6 text-left">
+                <span class="badge badge-primary font-weight-semi-bold p-1 mr-2">
+                    @item.CreatedDate.ToString("dd.MM.yyyy HH:mm")
+                </span><br />
+                <a href="@Url.Action("NewsDetail", new { WorkingName = item.WorkingName })"
+                   title="@item.WorkingName" style="color:black;font-size:14px">
+                    @item.WorkingName
+                </a>
+            </div>
+        </div>
+    </div>
+    <hr />
+}

@@ -1,0 +1,418 @@
+﻿@using System.Web
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    var yotube = "https://www.youtube.com/@DSI24.BOLGEMUDURLUGU";
+    var beta = "https://sosyal.teknofest.app/@dsi24bolgekars";
+    var apps = ViewBag.Apps as List<Apps>;
+    var benefitLinks = ViewBag.BenefitLinks as List<BenefitLinks>;
+    var cameras = ViewBag.Cameras as List<Cameras>;
+    var organizaitonchart = ViewBag.OrganizationalChart as Managemention;
+    var userAgent = HttpContextAccessor.HttpContext.Request.Headers["User-Agent"].ToString();
+    bool isEdge = userAgent.Contains("Edg");
+}
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="utf-8">
+    <title>@ViewData["Title"] - DSİ 24.Bölge Müdürlüğü Portal</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="DSİ 24.Bölge Portal" name="dsi,kars,dsi24">
+    <meta content="DSİ 24.Bölge Portal" name="dsi,kars,dsi24">
+
+    <!-- Favicon -->
+    <link href="/homepage/img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <!-- Font Avesome -->
+    <link href="~/lib/fontawesome/css/all.css" rel="stylesheet" />
+    <link href="~/lib/fontawesome/css/all.min.css" rel="stylesheet" />
+    <!-- Libraries Stylesheet -->
+    <link href="~/homepage/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="~/homepage/css/style.css" rel="stylesheet">
+
+    <style>
+        .dropdown-item:hover {
+        color: white;
+        border-left: black;
+        background: #FFCC00
+        }
+
+        body {
+        background-color: #EDEFF4;
+        transition: margin-left 0.3s ease;
+        }
+
+        /* Hover efektleri (orijinal tonlarda) */
+        td:hover {
+        background-color: #FFCC00; /* hafif arka plan */
+        border-radius: 5px;
+        }
+
+        td:hover a {
+        color: white !important; /* doğal siyah ton */
+        }
+
+        td:hover img {
+        transform: scale(1.05); /* hafif zoom */
+        }
+
+    </style>
+    <style>
+        /* Carousel viewport */
+        #apps-viewport {
+        width: 100%;
+        }
+
+        /* Track: öğeler yan yana */
+        #apps-track {
+        display: inline-flex;
+        align-items: center;
+        gap: 15px;
+        position: relative;
+        left: 0;
+        white-space: nowrap;
+        }
+
+        /* Öğeler */
+        .app-item {
+        min-width: 100px;
+        text-align: center;
+        opacity: 1;
+        transition: background-color 0.3s ease, transform 0.3s ease, opacity 0.5s ease-in-out;
+        }
+
+        /* Resim */
+        .app-item img {
+        width: 50px;
+        height: 50px;
+        display: block;
+        margin: 0 auto 4px auto;
+        transition: transform 0.3s ease;
+        }
+
+        /* Hover efektleri (orijinal tonlarda) */
+        .app-item:hover {
+        background-color: #FFCC00; /* hafif arka plan */
+        border-radius: 5px;
+        }
+
+        .app-item:hover a {
+        color: white !important; /* doğal siyah ton */
+        }
+
+        .app-item:hover img {
+        transform: scale(1.05); /* hafif zoom */
+        }
+
+        /* Responsive */
+        @@media (max-width: 1200px) {
+        .app-item {
+        min-width: 90px;
+        }
+
+        .app-item img {
+        width: 40px;
+        height: 40px;
+        }
+        }
+
+        @@media (max-width: 768px) {
+        .app-item {
+        min-width: 70px;
+        }
+
+        .app-item img {
+        width: 30px;
+        height: 30px;
+        }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row align-items-center position-relative" ;height:72px">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-4">
+                <a href="https://www.tccb.gov.tr/" title="Türkiye Cumhuriyeti Cumhurbaşkanlığı" target="_blank">
+                    <img src="~/homepage/img/yuzyil.png" width="75" height="75" />
+                </a>
+                <a href="https://www.tarimorman.gov.tr/" target="_blank" title="Tarım ve Orman Bakanlığı">
+                    <img src="~/homepage/img/tarim-logo.png" width="75" height="75" />
+                </a>
+                <a href="https://www.dsi.gov.tr/" target="_blank" title="Devlet Su İşleri Genel Müdürlüğü">
+                    <img src="~/homepage/img/dsi.png" width="150" height="75" />
+                </a>
+                <a href="https://dsiteknikbulteni.dsi.gov.tr/" target="_blank" title="Devlet Su İşleri Teknik Bülteni">
+                    <img src="~/homepage/img/dsiteknik.png" width="75" height="75" />
+                </a>
+            </div>
+            <div class="col-md-4" style="color:black;font-size:18px">
+                <span class="font-weight-semi-bold">DEVLET SU İŞLERİ GENEL MÜDÜRLÜĞÜ</span><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="font-weight-semi-bold text-center">24.Bölge Müdürlüğü</span>
+            </div>
+            <div class="col-md-2">
+                <a href="https://bolge24.dsi.gov.tr/" target="_blank" title="Devlet Su İşleri 24.Bölge Müdürlüğü">
+                    <img src="~/homepage/img/dsi24.png" width="150" height="75" />
+                </a>
+                <a href="https://www.kars.bel.tr/serhat-sehri-kars" target="_blank" title="Kars Kalesi Tarihçesi">
+                    <img src="~/homepage/img/kale.jpg" width="75" height="75" />
+                </a>
+            </div>
+            <div class="col-md-1">
+            </div>
+        </div>
+    </div>
+    <hr style="height:2px;background:black;" />
+    <div class="container-fluid mb-2">
+        <div id="apps-viewport" class="position-relative overflow-hidden">
+            <div id="apps-track" class="d-flex flex-wrap justify-content-center position-relative">
+                @foreach (var item in apps)
+                {
+                    <div class="app-item text-center">
+                        <a href="@item.Link" target="_blank">
+                            <img src="@Url.Action("ViewImageApps", new { Id = item.Id })"
+                            alt="@item.Name" title="@item.Name" />
+                        </a>
+                        <div class="app-name">
+                            <a class="text-secondary" href="@item.Link" style="color:black"
+                            target="_blank" title="@item.Name">@item.Name</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar Start -->
+    <div class="container-fluid p-0">
+        <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-2 py-lg-0 px-lg-5">
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between px-0 px-lg-3" id="navbarCollapse">
+                <div class="navbar-nav mr-auto py-0">
+                    @* <a href="/Home/Index" class="nav-item nav-link active">Anasayfa</a> *@
+                    <a href="/anasayfa" class="nav-item nav-link active">Anasayfa</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Hakkımızda</a>
+                        <div class="dropdown-menu rounded-0 m-0">
+                            <a href="/yonetim" class="dropdown-item"><i class="fa-solid fa-people-roof"></i> Yönetim</a>
+                            @* <a href="/Home/Management" class="dropdown-item"><i class="fa-solid fa-people-roof"></i> Yönetim</a> *@
+                            @if (organizaitonchart.FileType == ".pdf")
+                            {
+                                <a href="@Url.Action("ViewPdfOrganizationalChart", "Home", new {  })" target="_blank" class="dropdown-item">
+                                    <i class="fa-solid fa-street-view"></i> Organizasyon Şeması
+                                </a>
+                            }
+                            else{
+                                <a href="@Url.Action("ViewImageOrganizationalChart", "Home", new {  })" target="_blank" class="dropdown-item">
+                                    <i class="fa-solid fa-street-view"></i> Organizasyon Şeması
+                                </a>
+                            }
+                            @* <a href="/Home/MyStory" class="dropdown-item">Tarihçemiz</a> *@
+                            <a href="/tarihcemiz" class="dropdown-item"><i class="fa-solid fa-landmark"></i> Tarihçemiz</a>
+                        </div>
+                    </div>
+                    <a href="http://10.124.4.110:8088/widea" class="nav-item nav-link" target="_blank">Karel</a>
+                    <a href="http://10.124.5.83/index.asp" class="nav-item nav-link" target="_blank">Meyer(PDKS)</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">DHYS</a>
+                        <div class="dropdown-menu rounded-0 m-0">
+                            <a href="https://yenidhys.dsi.gov.tr/" class="dropdown-item" target="_blank"><i class="fa-solid fa-folder-plus"></i> Yeni DHYS</a>
+                            <a href="https://dhys.dsi.gov.tr/DsiPersonel/" class="dropdown-item" target="_blank"><i class="fa-solid fa-folder-minus"></i> Eski DHYS</a>
+                        </div>
+                    </div>
+                    @* <a href="/Home/Forms" class="nav-item nav-link">Formlar</a> *@
+                    <a href="/formlar" class="nav-item nav-link">Formlar</a>
+                    <a href="/rehberimiz" class="nav-item nav-link">Rehberimiz</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Faydalı Linkler</a>
+                        <div class="dropdown-menu rounded-0 m-0">
+                            <table class="table" align="center" cellpadding="0" cellspacing="0">
+                                <tbody>
+                                    @foreach (var item in benefitLinks)
+                                    {
+                                    <td class="px-3 text-center" style="text-align:center">
+                                        <a href="@item.Link" target="_blank">
+                                            <img src="@Url.Action("ViewImageBnefitLinks", new {Id = item.Id  })" width="50" height="50" alt="" title="@item.Name" />
+                                        </a><br />
+
+                                        <a class="text-secondary" href="@item.Link" style="color:black" target="_blank" title="@item.Name">@item.Name</a>
+                                    </td>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    @if (cameras.Count() != 0)
+                    {
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Kameralar</a>
+                            <div class="dropdown-menu rounded-0 m-0">
+                                @foreach (var item in cameras)
+                                {
+                                    var url = item.Link?.Trim();
+                                    var finalUrl = isEdge ? url : "microsoft-edge:" + url;
+
+                                    <a href="@finalUrl" class="dropdown-item" target="_blank">
+                                        <i class="fa-solid fa-camera"></i> @item.Name
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    @* <a href="/Home/Contact" class="nav-item nav-link">Iletisim</a> *@
+                    <a href="/iletisim" class="nav-item nav-link">Iletisim</a>
+                </div>
+                <div class="collapse navbar-collapse justify-content-between px-0 px-lg-3" id="navbarCollapse" style="width: 100%; max-width: 300px;">
+                    <div class="navbar-nav ml-auto py-0">
+                        <a href="/Account/Index" class="nav-item nav-link" target="_blank">Admin Paneli</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!-- Navbar End -->
+    @RenderBody()
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark pt-5 px-sm-3 px-md-5 mt-5">
+        <div class="row py-4">
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h5 class="mb-4 text-white text-uppercase font-weight-bold">DSİ 24.Bölge Müdürlüğü</h5>
+                <p class="font-weight-medium"><i class="fa fa-map-marker-alt mr-2"></i>Örnek mah. Hastane sok. Merkez/Kars</p>
+                <p class="font-weight-medium"><i class="fa fa-phone-alt mr-2"></i>0474 212 5804 - 5806</p>
+                <p class="font-weight-medium"><i class="fa-solid fa-fax mr-2"></i>0474 212 5811 (Fax)</p>
+                <p class="font-weight-medium"><i class="fa fa-envelope mr-2"></i>dsi24@dsi.gov.tr</p>
+                <p class="font-weight-medium"><i class="fa-solid fa-paper-plane mr-2"></i>dsi.gnlmud@hs01.kep.tr (Kep Adresi)</p>
+                <p class="font-weight-medium"><i class="fa-solid fa-arrow-down-1-9 mr-2"></i>394 003 9126 (Vergi Numarası)</p>
+            </div>
+            <div class="col-lg-5 col-md-6 mb-5">
+                <h5 class="mb-4 text-white text-uppercase font-weight-bold">Taşra Şubelerimiz</h5>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="mb-2">
+                            <div class="d-flex align-items-center">
+                                <p class="font-weight-medium">241.Şube Müdürlüğü</p>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center ">
+                                <p><i class="fa fa-phone-alt mr-2"></i>Telefon</p>
+                            </div>
+                            <p>0474 223 5334</p>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center">
+                                <p><i class="fa fa-fax mr-2"></i>Fax</p>
+                            </div>
+                            <p>0474 212 5811</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="mb-2">
+                            <div class="d-flex align-items-center">
+                                <p class="font-weight-medium">242.Şube Müdürlüğü</p>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center ">
+                                <p><i class="fa fa-phone-alt mr-2"></i>Telefon</p>
+                            </div>
+                            <p>0476 227 6710</p>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center">
+                                <p><i class="fa fa-fax mr-2"></i>Fax</p>
+                            </div>
+                            <p>0476 227 6710</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="mb-2">
+                            <div class="d-flex align-items-center">
+                                <p class="font-weight-medium">243.Şube Müdürlüğü</p>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center ">
+                                <p><i class="fa fa-phone-alt mr-2"></i>Telefon</p>
+                            </div>
+                            <p>0478 211 5855</p>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center">
+                                <p><i class="fa fa-fax mr-2"></i>Fax</p>
+                            </div>
+                            <p>0478 211 5805</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 mb-5">
+                <h5 class="mb-4 text-white text-uppercase font-weight-bold">Sosyal Tesis</h5>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="mb-2">
+                            <div class="d-flex align-items-center">
+                                <p class="font-weight-medium">Sosyal Tesis-Misafirhane</p>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center ">
+                                <p><i class="fa fa-phone-alt mr-2"></i>Telefon</p>
+                            </div>
+                            <p>0474 223 5720</p>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center">
+                                <p><i class="fa fa-phone-alt mr-2"></i>Dahili No</p>
+                            </div>
+                            <p>1450</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 mb-5 float-right">
+                <h6 class="mt-4 mb-3 text-white text-uppercase font-weight-bold">Bizi Takip Edin</h6>
+                <div class="d-flex justify-content-start">
+                    <a class="btn btn-lg btn-secondary btn-lg-square mr-2" href="https://x.com/dsi_24_blgmd/" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-lg btn-secondary btn-lg-square mr-2" href="https://www.facebook.com/karsdsi" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-lg btn-secondary btn-lg-square mr-2" href="https://www.instagram.com/dsi24.bolgemudurlugu/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a class="btn btn-lg btn-secondary btn-lg-square mr-2" href=@yotube target="_blank"><i class="fab fa-youtube" title="Youtube"></i></a>
+                    <a class="btn btn-lg btn-secondary btn-lg-square" href=@beta target="_blank"><i class="fa-solid fa-umbrella-beach" title="Sosyal Teknofest"></i></a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid py-4 px-sm-3 px-md-5" style="background: #111111;">
+        <p class="m-0 text-center" style="color: #FFCC00;">
+            &copy; @DateTime.Now.Year Tüm Hakları Saklıdır. <br />
+            Bilgi Teknolojileri Şube Müdürülüğü tarafından tasarlandı.<br>
+        </p>
+    </div>
+    <!-- Footer End -->
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary btn-square back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="~/admin/vendor/jquery/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/fontawesome/js/all.js"></script>
+    <script src="~/lib/fontawesome/js/all.min.js"></script>
+    <script src="~/homepage/lib/easing/easing.min.js"></script>
+    <script src="~/homepage/lib/owlcarousel/owl.carousel.min.js"></script>
+    <!-- Template Javascript -->
+    <script src="~/homepage/js/main.js"></script>
+    @RenderSection("Scripts", false)
+</body>
+
+</html>
