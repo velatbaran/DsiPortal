@@ -63,23 +63,6 @@
     </div>
 </div>
 
-@section Scripts {
-    <script src="~/admin/vendor/jquery/jquery.js"></script>
-    <link href="~/datatable/datatables.min.css" rel="stylesheet" />
-    <link href="~/datatable/datatables.css" rel="stylesheet" />
-    <script src="~/datatable/datatables.js"></script>
-    <script src="~/datatable/datatables.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#myTable').DataTable({
-                language: {
-                    url: '/datatable/tr.json'
-                }
-            });
-        });
-    </script>
-}
-
 <script>
     const deleteModal = document.getElementById('deleteModal');
     deleteModal.addEventListener('show.bs.modal', function (event) {

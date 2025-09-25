@@ -4,6 +4,7 @@ using DsiPortal.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DsiPortal.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250924072143_addAudioLogClass")]
+    partial class addAudioLogClass
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,9 +119,11 @@ namespace DsiPortal.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NewValues")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OldValues")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TableName")
@@ -555,13 +560,13 @@ namespace DsiPortal.Data.Migrations
                         {
                             Id = 1,
                             Created = "velatbaran",
-                            CreatedDate = new DateTime(2025, 9, 24, 10, 27, 11, 590, DateTimeKind.Local).AddTicks(902),
+                            CreatedDate = new DateTime(2025, 9, 24, 10, 21, 41, 755, DateTimeKind.Local).AddTicks(125),
                             IsActive = true,
                             IsAdmin = true,
                             Name = "Velat",
                             Password = "2121",
                             Surname = "BARAN",
-                            UserGuid = new Guid("14fc8e20-d962-44c9-b028-a7353115af7f"),
+                            UserGuid = new Guid("d22ae1fd-311f-45a2-8b5d-131754880a31"),
                             Username = "velatbaran"
                         });
                 });

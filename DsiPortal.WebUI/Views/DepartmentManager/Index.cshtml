@@ -8,7 +8,7 @@
     <a asp-action="Create" class="btn btn-outline-primary" title="Yeni Müdür Ekle"><i class="fa-solid fa-plus"></i> Yeni Müdür Ekle</a>
 </p>
 
-<table class="table table-striped table-bordered">
+<table class="table table-striped table-bordered" id="myTable">
     <thead class="thead-dark">
         <tr>
             <th>Adı</th>
@@ -67,6 +67,23 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script src="~/admin/vendor/jquery/jquery.js"></script>
+    <link href="~/datatable/datatables.min.css" rel="stylesheet" />
+    <link href="~/datatable/datatables.css" rel="stylesheet" />
+    <script src="~/datatable/datatables.js"></script>
+    <script src="~/datatable/datatables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#myTable').DataTable({
+                language: {
+                    url: '/datatable/tr.json'
+                }
+            });
+        });
+    </script>
+}
 
 <script>
     const deleteModal = document.getElementById('deleteModal');
