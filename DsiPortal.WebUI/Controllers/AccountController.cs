@@ -123,13 +123,13 @@ namespace DsiPortal.WebUI.Controllers
             return View(model);
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         public IActionResult ChangePassword()
         {
             return View();
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePasswordAsync(ChangePasswordViewModel model)
         {
@@ -204,7 +204,7 @@ namespace DsiPortal.WebUI.Controllers
             _toastNotification.AddSuccessToastMessage("Çıkış işlemi başarılı", new ToastrOptions { Title = "Başarılı" });
             return RedirectToAction("Login");
         }
-        [Route("AccessDenied")]
+        [Route("AccessDenied"), Authorize]
         public IActionResult AccessDenied()
         {
             return View();

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.Net.Http;
 
 namespace DsiPortal.Core.Entities
 {
@@ -15,7 +16,7 @@ namespace DsiPortal.Core.Entities
         public int Id { get; set; }
 
         [DisplayName("Kaydeden"), StringLength(50)]
-        public string Created { get; set; }
+        public string Created { get; set; } 
 
         [DisplayName("Kayıt Tarihi")]
         public DateTime CreatedDate { get; set; } = DateTime.Now;

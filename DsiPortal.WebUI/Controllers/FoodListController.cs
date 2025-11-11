@@ -1,9 +1,13 @@
 ﻿
+using DocumentFormat.OpenXml.InkML;
 using DsiPortal.Core.Entities;
 using DsiPortal.Service.IService;
+using DsiPortal.WebUI.Filters;
 using DsiPortal.WebUI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using NToastNotify;
 
 namespace DsiPortal.WebUI.Controllers
@@ -12,17 +16,22 @@ namespace DsiPortal.WebUI.Controllers
     public class FoodListController : Controller
     {
         private readonly IService<FoodList> _serviceFoodList;
+        private readonly IService<UserEmails> _serviceUserEmails;
         private readonly IToastNotification _toastNotification;
+        private readonly IMailService _mailService;
 
-        public FoodListController(IService<FoodList> serviceFoodList, IToastNotification toastNotification)
+
+        public FoodListController(IService<FoodList> serviceFoodList, IToastNotification toastNotification, IMailService mailService, IService<UserEmails> serviceUserEmails)
         {
             _serviceFoodList = serviceFoodList;
             _toastNotification = toastNotification;
+            _mailService = mailService;
+            _serviceUserEmails = serviceUserEmails;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(await _serviceFoodList.GetAllAsync());
+            return View(await _serviceFoodList.GetQueryable().OrderByDescending(x=>x.CreatedDate).ToListAsync());
         }
 
         public IActionResult Create()
@@ -119,6 +128,45 @@ namespace DsiPortal.WebUI.Controllers
 
             await _serviceFoodList.SaveChangesAsync();
             _toastNotification.AddSuccessToastMessage("Silme işlemi başarılı", new ToastrOptions { Title = "Başarılı" });
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SendEposta()
+        {
+            var allUsers = await _serviceUserEmails.GetAllAsync();
+            var userEmails = allUsers.Select(x=>x.Eposta).ToList();
+
+            if (!userEmails.Any())
+            {
+                _toastNotification.AddSuccessToastMessage("Veritabanında e-posta adresi bulunamadı.", new ToastrOptions { Title = "Başarılı" });
+                return RedirectToAction(nameof(Index));
+            }
+
+            var foodList = _serviceFoodList.GetQueryable().OrderByDescending(x => x.CreatedDate).FirstOrDefault();
+
+            var mail = new MailRequest
+            {
+                ToEmail = userEmails,
+                Subject = $"Dsi 24.Bölge Müdürlüğü - {foodList.Name}",
+                Body = @"
+<div style='font-family: Arial, sans-serif; font-size: 14px;'>
+    <h2 style='border-bottom: 2px solid #2E86C1; padding-bottom: 5px;'>
+        Merhaba,
+    </h2>
+    <h4 style='font-size: 16px; line-height: 1.5;'>
+        Ek'te güncel <strong>yemek listesini</strong> bulabilirsiniz.
+    </h4>
+    <h4 style='margin-top: 20px;'>
+        İyi günler dileriz,<br/>
+        <strong>DSİ 24. Bölge Müdürlüğü</strong>
+    </h4>
+</div>"
+            };
+
+            await _mailService.SendEmailWithAttachmentAsync(mail, foodList.Content, foodList.Name);
+
+            _toastNotification.AddSuccessToastMessage("E -posta başarıyla gönderildi", new ToastrOptions { Title = "Başarılı" });
             return RedirectToAction(nameof(Index));
         }
 

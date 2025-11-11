@@ -35,8 +35,9 @@ namespace DsiPortal.WebUI.Controllers
         private readonly IService<Cameras> _serviceCameras;
         private readonly IToastNotification _toastNotification;
         private readonly IMenuofDay _menuofday;
+        private readonly ExternalMyGuideService _service;
 
-        public HomeController(IService<Managemention> serviceManagemention, IService<RegionalManagers> serviceRegionalManagers, IService<WorksConducteds> serviceWorksConducteds, AppDbContext context, IService<Apps> serviceApps, IService<Announcements> serviceAnnouncementss, IService<Forms> serviceForms, IService<FoodList> serviceFoodList, IToastNotification toastNotification, IMenuofDay menuofday, IService<GuestFeeChart> serviceGuestFeeChart, IService<BenefitLinks> serviceBenefitLinks, IService<FoodPriceList> serviceFoodPriceList, IService<DepartmentManagers> serviceDepartmentManagers, IService<Cameras> serviceCameras)
+        public HomeController(IService<Managemention> serviceManagemention, IService<RegionalManagers> serviceRegionalManagers, IService<WorksConducteds> serviceWorksConducteds, AppDbContext context, IService<Apps> serviceApps, IService<Announcements> serviceAnnouncementss, IService<Forms> serviceForms, IService<FoodList> serviceFoodList, IToastNotification toastNotification, IMenuofDay menuofday, IService<GuestFeeChart> serviceGuestFeeChart, IService<BenefitLinks> serviceBenefitLinks, IService<FoodPriceList> serviceFoodPriceList, IService<DepartmentManagers> serviceDepartmentManagers, IService<Cameras> serviceCameras, ExternalMyGuideService service)
         {
             _serviceManagemention = serviceManagemention;
             _serviceRegionalManagers = serviceRegionalManagers;
@@ -52,6 +53,7 @@ namespace DsiPortal.WebUI.Controllers
             _serviceFoodPriceList = serviceFoodPriceList;
             _serviceDepartmentManagers = serviceDepartmentManagers;
             _serviceCameras = serviceCameras;
+            _service = service;
         }
 
         [Route("anasayfa")]
@@ -441,7 +443,7 @@ namespace DsiPortal.WebUI.Controllers
         }
 
         [Route("tumhaberler")]
-        public async Task<ActionResult> AllNews()
+        public async Task<IActionResult> AllNews()
         {
             ViewBag.BenefitLinks = _serviceBenefitLinks.GetQueryable().OrderBy(x => x.CreatedDate).Take(10).ToList();
             ViewBag.Apps = _serviceApps.GetQueryable().OrderBy(x => x.CreatedDate).Take(15).ToList();
@@ -456,7 +458,7 @@ namespace DsiPortal.WebUI.Controllers
             return View(items);
         }
 
-        public async Task<ActionResult> GetNews(int skip = 0, int take = 5)
+        public async Task<IActionResult> GetNews(int skip = 0, int take = 5)
         {
             ViewBag.BenefitLinks = _serviceBenefitLinks.GetQueryable().OrderBy(x => x.CreatedDate).Take(10).ToList();
             ViewBag.Apps = _serviceApps.GetQueryable().OrderBy(x => x.CreatedDate).Take(15).ToList();
@@ -472,36 +474,38 @@ namespace DsiPortal.WebUI.Controllers
         }
 
         [Route("rehberimiz")]
-        public IActionResult MyGuide()
+        public async Task<IActionResult> MyGuide()
         {
             ViewBag.BenefitLinks = _serviceBenefitLinks.GetQueryable().OrderBy(x => x.CreatedDate).Take(10).ToList();
             ViewBag.Apps = _serviceApps.GetQueryable().OrderBy(x => x.CreatedDate).Take(15).ToList();
             ViewBag.Cameras = _serviceCameras.GetQueryable().OrderByDescending(x => x.CreatedDate).ToList();
             ViewBag.OrganizationalChart = _serviceManagemention.GetQueryable().OrderByDescending(x => x.CreatedDate).FirstOrDefault();
-            var list = new List<MyGuideViewModel>();
-            using (var workbook = new XLWorkbook("\\\\10.124.1.38\\ftp24\\Bilgi Teknolojileri Þube Müdürlüðü\\Dahili Rehber\\dsi24bolge_dahili.xlsx"))
-            {
-                var worksheet = workbook.Worksheet(1); // ilk sayfa
-                var rows = worksheet.RangeUsed().RowsUsed().Skip(1); // ilk satýr baþlýk olsun
+            //var list = new List<MyGuideViewModel>();
+            //using (var workbook = new XLWorkbook("\\\\10.124.1.38\\ftp24\\Bilgi Teknolojileri Þube Müdürlüðü\\Dahili Rehber\\dsi24bolge_dahili.xlsx"))
+            //{
+            //    var worksheet = workbook.Worksheet(1); // ilk sayfa
+            //    var rows = worksheet.RangeUsed().RowsUsed().Skip(1); // ilk satýr baþlýk olsun
 
-                foreach (var row in rows)
-                {
-                    string isDeleted = row.Cell(7).GetString();
-                    if (isDeleted == "False")
-                    {
-                        var myGuide = new MyGuideViewModel
-                        {
-                            AdSoyad = row.Cell(2).GetString(),
-                            Unvan = row.Cell(3).GetString(),
-                            Sube = row.Cell(4).GetString(),
-                            DahiliNo = row.Cell(5).GetString(),
-                            CepNo = row.Cell(6).GetString(),
-                        };
-                        list.Add(myGuide);
-                    }
-                }
-            }
-            return View(list);
+            //    foreach (var row in rows)
+            //    {
+            //        string isDeleted = row.Cell(7).GetString();
+            //        if (isDeleted == "False")
+            //        {
+            //            var myGuide = new MyGuideViewModel
+            //            {
+            //                AdSoyad = row.Cell(2).GetString(),
+            //                Unvan = row.Cell(3).GetString(),
+            //                Sube = row.Cell(4).GetString(),
+            //                DahiliNo = row.Cell(5).GetString(),
+            //                CepNo = row.Cell(6).GetString(),
+            //            };
+            //            list.Add(myGuide);
+            //        }
+            //    }
+            //}
+            //return View(list);
+            var myguide = await _service.GetAllDtoAsync();
+            return View(myguide);
         }
 
     }

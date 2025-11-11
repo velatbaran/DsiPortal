@@ -1,19 +1,17 @@
-﻿@model IEnumerable<WorksConducteds>
+﻿@model IEnumerable<UserEmails>
 
 @{
-    ViewData["Title"] = "Yapılan Haberler";
+    ViewData["Title"] = "Kullanıcı Epostaları";
 }
 
 <p>
-    <a asp-action="Create" class="btn btn-outline-primary" title="Yeni Çalışma Ekle"><i class="fa-solid fa-plus"></i> Yeni Çalışma Ekle</a>
+    <a asp-action="Create" class="btn btn-outline-primary" title="Yeni Eposta Ekle"><i class="fa-solid fa-plus"></i> Yeni Eposta Ekle</a>
 </p>
 
 <table class="table table-striped table-bordered" id="myTable">
     <thead class="thead-dark">
         <tr>
-            <th>Adı</th>
-            <th>Açıklama</th>
-            <th>Resim</th>
+            <th>Eposta</th>
             <th>Kaydeden</th>
             <th>Kayıt Tarihi</th>
             <th>İşlemler</th>
@@ -23,16 +21,13 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.WorkingName)</td>
-                <td>@Html.Raw(item.Description)</td>
-                <td>
-                    <img src="@Url.Action("ViewImage", new { id = item.Id })" class="card-img-top" alt="@item.WorkingName" width="25" height="50">
-                </td>
+                <td>@Html.DisplayFor(modelItem => item.Eposta)</td>              
                 <td>@Html.DisplayFor(modelItem => item.Created)</td>
                 <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
                 <td>
+                    <a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@item.Id" title="Güncelle"><i class="fa-solid fa-pen-to-square"></i> Güncelle</a>
                     <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                            data-file-id="@item.Id" data-file-name="@item.WorkingName" title="Sil">
+                            data-file-id="@item.Id" data-file-name="@item.Eposta" title="Sil">
                         <i class="fa-solid fa-trash"></i> Sil
                     </button>
                 </td>
@@ -55,13 +50,14 @@
                     <input type="hidden" name="id" id="fileId" />
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i> İptal</button>
-                    <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Sil</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" title="İptal"><i class="fa-solid fa-xmark"></i> İptal</button>
+                    <button type="submit" class="btn btn-danger" title="Sil"><i class="fa-solid fa-trash"></i> Sil</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
 @section Scripts {
     <script src="~/admin/vendor/jquery/jquery.js"></script>
     <link href="~/datatable/datatables.min.css" rel="stylesheet" />
@@ -77,15 +73,16 @@
             });
         });
     </script>
-}
-<script>
-    const deleteModal = document.getElementById('deleteModal');
-    deleteModal.addEventListener('show.bs.modal', function (event) {
-        const button = event.relatedTarget;
-        const fileId = button.getAttribute('data-file-id');
-        const fileName = button.getAttribute('data-file-name');
 
-        document.getElementById('fileId').value = fileId;
-        document.getElementById('fileName').textContent = fileName;
-    });
-</script>
+    <script>
+        const deleteModal = document.getElementById('deleteModal');
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const fileId = button.getAttribute('data-file-id');
+            const fileName = button.getAttribute('data-file-name');
+
+            document.getElementById('fileId').value = fileId;
+            document.getElementById('fileName').textContent = fileName;
+        });
+    </script>
+}

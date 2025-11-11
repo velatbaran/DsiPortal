@@ -1,4 +1,5 @@
-﻿@model List<MyGuideViewModel>
+﻿@* @model List<MyGuideViewModel> *@
+@model List<MyGuideDto>
 @{
     ViewData["Title"] = "Rehberimiz";
     Layout = "_LayoutHomePage";
@@ -25,10 +26,10 @@
                         @foreach (var item in Model)
                         {
                             <tr style="color:black">
-                                <td>@Html.DisplayFor(modelItem => item.AdSoyad)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Unvan)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Sube)</td>
-                                <td>@Html.DisplayFor(modelItem => item.DahiliNo)</td>
+                                <td>@Html.DisplayFor(modelItem => item.NameSurname)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                                <td>@Html.DisplayFor(modelItem => item.DepartmentName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.InternalNo)</td>
                                 <td>@Html.DisplayFor(modelItem => item.CepNo)</td>
                             </tr>
                         }

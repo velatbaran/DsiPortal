@@ -85,6 +85,7 @@ namespace DsiPortal.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditAsync(Users user,int id)
         {
+            user.Created = HttpContext.User.FindFirst("Username").Value;
             if (ModelState.IsValid)
             {
                 var _user = await _serviceUser.FindAsync(id);
@@ -98,7 +99,7 @@ namespace DsiPortal.WebUI.Controllers
                 _user.Surname = user.Surname;
                 _user.Username = user.Username;
                 _user.Password = user.Password;
-                _user.Created = HttpContext.User.FindFirst("Username").Value;
+                _user.Created = user.Created;
                 _user.CreatedDate = DateTime.Now;
                 _user.UserGuid = Guid.NewGuid();
                 _user.IsAdmin = user.IsAdmin;

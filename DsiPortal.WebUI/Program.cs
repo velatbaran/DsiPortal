@@ -1,6 +1,7 @@
 using DsiPortal.Data;
 using DsiPortal.Service.Concrete;
 using DsiPortal.Service.IService;
+using DsiPortal.WebUI.Filters;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using NToastNotify;
@@ -30,6 +31,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     // options.UseSqlServer("Server=B24VELATBARAN\\BT; Database=Dsi24PortalDb; Trusted_Connection=True; TrustServerCertificate=True;");
 });
 
+builder.Services.AddDbContext<ExternalDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ExternalConnection")));
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
 {
     x.LoginPath = "/Account/Login";
@@ -48,6 +52,11 @@ builder.Services.AddAuthorization(x =>
 builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
 builder.Services.AddScoped<IMenuofDay, MenuofDay>();
 builder.Services.AddHostedService<ListMenuOfDayTimerBackgorundService>();
+builder.Services.AddScoped<ExternalMyGuideService>();
+
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
+builder.Services.AddScoped<IMailService, MailService>();
+
 
 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls13;
 

@@ -29,6 +29,7 @@ namespace DsiPortal.Data
         public DbSet<Titles> Titles { get; set; }
         public DbSet<Cameras> Cameras { get; set; }
         public DbSet<AuditLog> AuditLogs { get; set; }
+        public DbSet<UserEmails> UserEmails { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
