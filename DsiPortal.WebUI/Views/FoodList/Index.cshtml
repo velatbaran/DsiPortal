@@ -49,8 +49,10 @@
                 <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
                 <td>
                     <div class="d-flex gap-2">
-                        <form method="post" enctype="multipart/form-data" asp-action="SendEposta">
-                            <button type="submit" value="Mail Gönder" class="btn btn-success btn-sm" title="Mail Gönder"><i class="fa-solid fa-paper-plane"></i> Mail Gönder</button>
+                        <form method="post" enctype="multipart/form-data" asp-action="SendEposta" id="mailForm">
+                            <button type="submit" class="btn btn-success btn-sm" id="mailGonderBtn">
+                                <i class="fa-solid fa-paper-plane"></i> Mail Gönder
+                            </button>
                         </form>
                         <a asp-action="Download" asp-route-id="@item.Id" class="btn btn-primary btn-sm" title="İndir"><i class="fa-solid fa-download"></i> İndir</a>
                         @if (item.FileType == ".pdf")
@@ -101,5 +103,16 @@
 
         document.getElementById('fileId').value = fileId;
         document.getElementById('fileName').textContent = fileName;
+    });
+</script>
+<script>
+    document.getElementById("mailForm").addEventListener("submit", function () {
+        var btn = document.getElementById("mailGonderBtn");
+
+        // Butonu devre dışı bırak
+        btn.disabled = true;
+
+        // İçeriğini değiştir (örnek: spinner + metin)
+        btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Gönderiliyor...';
     });
 </script>
