@@ -139,7 +139,7 @@ namespace DsiPortal.WebUI.Controllers
 
             if (!userEmails.Any())
             {
-                _toastNotification.AddSuccessToastMessage("Veritabanında e-posta adresi bulunamadı.", new ToastrOptions { Title = "Başarılı" });
+                _toastNotification.AddErrorToastMessage("Veritabanında kayıtlı e-posta adresi bulunamadı. Lütfen Kullanıcı Epostaları menüsünden eposta adresi kaydedin.", new ToastrOptions { Title = "Hata" });
                 return RedirectToAction(nameof(Index));
             }
 
