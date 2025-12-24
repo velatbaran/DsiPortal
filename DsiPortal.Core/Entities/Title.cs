@@ -8,10 +8,17 @@ using System.Threading.Tasks;
 
 namespace DsiPortal.Core.Entities
 {
-    public class Titles : CommonEntity
+    public class Title : CommonEntity
     {
         [DisplayName("Adı"), StringLength(100), Required(ErrorMessage = "{0} alanı boş geçilemez")]
         public string Name { get; set; }
+
+        public IList<DepartmentManagers> DepartmentManagers { get; set; }
+
+        public Title()
+        {
+            DepartmentManagers=new List<DepartmentManagers>();
+        }
     }  
     
 }

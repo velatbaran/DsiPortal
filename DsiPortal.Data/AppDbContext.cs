@@ -4,16 +4,24 @@ using Microsoft.EntityFrameworkCore.Design;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace DsiPortal.Data
 {
     public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public AppDbContext(DbContextOptions<AppDbContext> options, IHttpContextAccessor httpContextAccessor) : base(options) 
+        {
+            _httpContextAccessor = httpContextAccessor;
+        }
         public DbSet<Announcements> Announcements { get; set; }
         public DbSet<Apps> Apps { get; set; }
         public DbSet<FoodList> FoodList { get; set; }
@@ -26,7 +34,7 @@ namespace DsiPortal.Data
         public DbSet<RegionalManagers> RegionalManagers { get; set; }
         public DbSet<BenefitLinks> BenefitLinks { get; set; }
         public DbSet<DepartmentManagers> DepartmentManagers { get; set; }
-        public DbSet<Titles> Titles { get; set; }
+        public DbSet<Title> Titles { get; set; }
         public DbSet<Cameras> Cameras { get; set; }
         public DbSet<AuditLog> AuditLogs { get; set; }
         public DbSet<UserEmails> UserEmails { get; set; }
@@ -70,11 +78,12 @@ namespace DsiPortal.Data
 
             foreach (var entry in entries)
             {
+                var user = _httpContextAccessor.HttpContext?.User;
                 var audit = new AuditLog
                 {
                     TableName = entry.Metadata.GetTableName(),
                     ChangedAt = DateTime.UtcNow,
-                    UserName = "system", // burada o anki kullanıcıyı inject edebilirsin
+                    UserName = user?.FindFirst("Username")?.Value, // burada o anki kullanıcıyı inject edebilirsin
                     Action = entry.State.ToString()
                 };
 

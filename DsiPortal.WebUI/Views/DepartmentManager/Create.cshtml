@@ -14,14 +14,10 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <select name="Title" class="form-control">
-                    @foreach (var unvan in (IEnumerable<Titles>)ViewBag.Unvanlar)
-                    {
-                        <option value="@unvan.Name">@unvan.Name</option> <!-- Value olmadan sadece text -->
-                    }
-                </select>
-                <span asp-validation-for="Title" class="text-danger"></span>
+                <div class="form-group">
+                    <label asp-for="TitleId" class="control-label"></label>
+                    <select asp-for="TitleId" class="form-control" asp-items="ViewBag.TitleId"></select>
+                </div>
             </div>
             <div class="form-group">
                 <label asp-for="Eposta" class="control-label"></label>

@@ -48,7 +48,7 @@
             <div class="row justify-content-center mt-2">
                 @foreach (var item in Model)
                 {
-                    @if (item.Title == "Bölge Müdürü")
+                    @if (item.Titles.Name == "Bölge Müdürü")
                     {
                         <div class="col-auto">
                             <div class="container text-center" >
@@ -74,7 +74,7 @@
                                         <h6>@item.Name</h6>
                                     </div>
                                     <div class="col-12">
-                                        <h6>@item.Title</h6>
+                                        <h6>@item.Titles.Name</h6>
                                     </div>
                                     <div class="col-12">
                                         <h6 class="email">@item.Eposta</h6>
@@ -92,7 +92,7 @@
             <div class="row justify-content-center mt-2">
                 @foreach (var item in Model)
                 {
-                    @if (item.Title == "Bölge Müdür Yardımcısı")
+                    @if (item.Titles.Name == "Bölge Müdür Yardımcısı")
                     {
                         <div class="col-auto col-md-3">
                             <div class="container text-center">
@@ -118,7 +118,7 @@
                                         <h6>@item.Name</h6>
                                     </div>
                                     <div class="col-12">
-                                        <h6>@item.Title</h6>
+                                        <h6>@item.Titles.Name</h6>
                                     </div>
                                     <div class="col-12">
                                         <h6 class="email">@item.Eposta</h6>
@@ -135,7 +135,7 @@
             <div class="row justify-content-center mt-2">
                 @foreach (var item in Model)
                 {
-                    @if (!item.Title.Contains("Bölge Müdür"))
+                    @if (!item.Titles.Name.Contains("Bölge Müdür"))
                     {
                         <div class="col-auto col-md-3">
                             <div class="container text-center" style="width:250px;">
@@ -161,7 +161,7 @@
                                         <h6>@item.Name</h6>
                                     </div>
                                     <div class="col-12">
-                                        <h6>@item.Title</h6>
+                                        <h6>@item.Titles.Name</h6>
                                     </div>
                                     <div class="col-12">
                                         <h6 class="email">@item.Eposta</h6>

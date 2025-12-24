@@ -3,7 +3,9 @@ using DsiPortal.Service.IService;
 using DsiPortal.WebUI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 using NToastNotify;
 using System.IO;
 
@@ -13,9 +15,9 @@ namespace DsiPortal.WebUI.Controllers
     public class DepartmentManagerController : Controller
     {
         private readonly IService<DepartmentManagers> _serviceDepartmentManagers;
-        private readonly IService<Titles> _serviceTitles;
+        private readonly IService<Title> _serviceTitles;
         private readonly IToastNotification _toastNotification;
-        public DepartmentManagerController(IService<DepartmentManagers> serviceDepartmentManagers, IToastNotification toastNotification, IService<Titles> serviceTitles)
+        public DepartmentManagerController(IService<DepartmentManagers> serviceDepartmentManagers, IToastNotification toastNotification, IService<Title> serviceTitles)
         {
             _serviceDepartmentManagers = serviceDepartmentManagers;
             _toastNotification = toastNotification;
@@ -24,13 +26,14 @@ namespace DsiPortal.WebUI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _serviceDepartmentManagers.GetAllAsync());
+            return View(await _serviceDepartmentManagers.GetQueryable().Include(x=>x.Titles).OrderByDescending(x=>x.CreatedDate).ToListAsync());
         }
 
         [HttpGet]
         public IActionResult Create()
         {
             ViewBag.Unvanlar = _serviceTitles.GetAll().ToList();
+            ViewData["TitleId"] = new SelectList(_serviceTitles.GetAll(), "Id", "Name");
             return View();
         }
 
@@ -49,7 +52,7 @@ namespace DsiPortal.WebUI.Controllers
                         manager = new DepartmentManagers
                         {
                             Name = viewModel.Name,
-                            Title = viewModel.Title,
+                            TitleId = viewModel.TitleId,
                             Eposta = viewModel.Eposta,
                             Phone = viewModel.Phone,
                             FileType = viewModel.Image.ContentType,
@@ -64,7 +67,7 @@ namespace DsiPortal.WebUI.Controllers
                     manager = new DepartmentManagers
                     {
                         Name = viewModel.Name,
-                        Title = viewModel.Title,
+                        TitleId = viewModel.TitleId,
                         Eposta = viewModel.Eposta,
                         Phone = viewModel.Phone,
                         FileType = null,
@@ -78,14 +81,15 @@ namespace DsiPortal.WebUI.Controllers
                 _toastNotification.AddSuccessToastMessage("Kayıt işlemi başarılı", new ToastrOptions { Title = "Başarılı" });
                 return RedirectToAction(nameof(Index));
             }
-            ViewBag.Unvanlar = _serviceTitles.GetAll().ToList();
+            //ViewBag.Unvanlar = _serviceTitles.GetAll().ToList();
+            ViewData["TitleId"] = new SelectList(_serviceTitles.GetAll(), "Id", "Name",viewModel.TitleId);
             return View(viewModel);
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            ViewBag.Unvanlar = _serviceTitles.GetAll().ToList();
+           // ViewBag.Unvanlar = _serviceTitles.GetAll().ToList();
 
             var serviceDepartmentManagers = await _serviceDepartmentManagers.FindAsync(id);
             if (serviceDepartmentManagers == null)
@@ -96,11 +100,12 @@ namespace DsiPortal.WebUI.Controllers
             {
                 Id = serviceDepartmentManagers.Id,
                 Name = serviceDepartmentManagers.Name,
-                Title = serviceDepartmentManagers.Title,
+                TitleId = serviceDepartmentManagers.TitleId,
                 Eposta = serviceDepartmentManagers.Eposta,
                 Phone = serviceDepartmentManagers.Phone,
                 Image = null
             };
+            ViewData["TitleId"] = new SelectList(_serviceTitles.GetAll(), "Id", "Name", departmentManager.TitleId);
             return View(departmentManager);
         }
 
@@ -116,7 +121,7 @@ namespace DsiPortal.WebUI.Controllers
                     if (viewModel.Image == null)
                     {
                         departmentManager.Name = viewModel.Name;
-                        departmentManager.Title = viewModel.Title;
+                        departmentManager.TitleId = viewModel.TitleId;
                         departmentManager.Eposta = viewModel.Eposta;
                         departmentManager.Phone = viewModel.Phone;
                     }
@@ -126,7 +131,7 @@ namespace DsiPortal.WebUI.Controllers
                         {
                             await viewModel.Image.CopyToAsync(memoryStream);
                             departmentManager.Name = viewModel.Name;
-                            departmentManager.Title = viewModel.Title;
+                            departmentManager.TitleId = viewModel.TitleId;
                             departmentManager.Eposta = viewModel.Eposta;
                             departmentManager.Phone = viewModel.Phone;
                             departmentManager.FileType = viewModel.Image.ContentType;
@@ -143,7 +148,8 @@ namespace DsiPortal.WebUI.Controllers
                     _toastNotification.AddErrorToastMessage("Bilgileriniz güncellenirken hata", new ToastrOptions { Title = "Hata" });
                 }
             }
-            ViewBag.Unvanlar = _serviceTitles.GetAll().ToList();
+            // ViewBag.Unvanlar = _serviceTitles.GetAll().ToList();
+            ViewData["TitleId"] = new SelectList(_serviceTitles.GetAll(), "Id", "Name", viewModel.TitleId);
             return View(viewModel);
         }
 

@@ -391,7 +391,7 @@ namespace DsiPortal.WebUI.Controllers
             ViewBag.Apps = _serviceApps.GetQueryable().OrderBy(x => x.CreatedDate).Take(15).ToList();
             ViewBag.Cameras = _serviceCameras.GetQueryable().OrderByDescending(x => x.CreatedDate).ToList();
             ViewBag.OrganizationalChart = _serviceManagemention.GetQueryable().OrderByDescending(x => x.CreatedDate).FirstOrDefault();
-            return View(_serviceDepartmentManagers.GetQueryable().OrderBy(x => x.CreatedDate).ToList());
+            return View(_serviceDepartmentManagers.GetQueryable().Include(x => x.Titles).OrderByDescending(x => x.CreatedDate).ToList());
         }
 
         [Route("formlar")]

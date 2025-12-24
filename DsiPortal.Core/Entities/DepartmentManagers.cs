@@ -13,8 +13,13 @@ namespace DsiPortal.Core.Entities
         [DisplayName("Adı"), StringLength(100), Required(ErrorMessage = "{0} alanı boş geçilemez")]
         public string Name { get; set; }
 
-        [DisplayName("Unvan"), StringLength(100), Required(ErrorMessage = "{0} alanı boş geçilemez")]
-        public string Title { get; set; }
+        //[DisplayName("Unvan"), StringLength(100), Required(ErrorMessage = "{0} alanı boş geçilemez")]
+        //public string Title { get; set; }
+
+        [DisplayName("Unvan")]
+        public Title? Titles { get; set; }
+        [DisplayName("Unvan")]
+        public int? TitleId { get; set; }
 
         [DisplayName("Eposta"), StringLength(50), Required(ErrorMessage = "{0} alanı boş geçilemez")]
         public string Eposta { get; set; }
