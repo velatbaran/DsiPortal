@@ -424,23 +424,31 @@ namespace DsiPortal.WebUI.Controllers
         }
 
         [HttpGet]
-        [Route("haber/{WorkingName}")]
-        public async Task<IActionResult> NewsDetailAsync(string WorkingName)
+        [Route("haber/{id:int}/{workingName?}")]
+        public async Task<IActionResult> NewsDetailAsync(int id, string workingName)
         {
             ViewBag.BenefitLinks = _serviceBenefitLinks.GetQueryable().OrderBy(x => x.CreatedDate).Take(10).ToList();
             ViewBag.Apps = _serviceApps.GetQueryable().OrderBy(x => x.CreatedDate).Take(15).ToList();
             ViewBag.Cameras = _serviceCameras.GetQueryable().OrderByDescending(x => x.CreatedDate).ToList();
             ViewBag.OrganizationalChart = _serviceManagemention.GetQueryable().OrderByDescending(x => x.CreatedDate).FirstOrDefault();
-            var result = await _serviceWorksConducteds.GetQueryable().Where(x => x.IsMainImage == true && x.WorkingName == WorkingName).FirstOrDefaultAsync();
-            var works = await _serviceWorksConducteds.GetQueryable().Where(x => x.WorkingName == WorkingName).ToListAsync();
-            if (result == null || works == null)
-            {
+            var works = await _serviceWorksConducteds
+                .GetQueryable()
+                .Where(x => x.Id == id)
+                .ToListAsync();
+
+            if (works == null || !works.Any())
                 return NotFound();
-            }
+
+            var result = works.FirstOrDefault(x => x.IsMainImage);
+
+            if (result == null)
+                return NotFound();
+
             ViewData["Id"] = result.Id;
             ViewData["Description"] = result.Description;
             ViewData["WorkingName"] = result.WorkingName;
             ViewData["CreateDate"] = result.CreatedDate.ToShortDateString();
+
             return View(works);
         }
 

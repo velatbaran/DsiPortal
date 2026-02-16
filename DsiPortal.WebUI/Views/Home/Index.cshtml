@@ -52,9 +52,9 @@
                         </a>
                         <div class="overlay">
                             <div class="mb-2">
-                                <a class="text-white" href=" @Url.Action("NewsDetail", new { WorkingName = item.WorkingName })">@item.CreatedDate</a>
+                                <a class="text-white" href=" @Url.Action("NewsDetail", new { id = item.Id, workingName = item.WorkingName })">@item.CreatedDate</a>
                             </div>
-                            <a class="h2 m-0 text-white text-uppercase font-weight-bold" href=" @Url.Action("NewsDetail", new { WorkingName = item.WorkingName })" title="@item.WorkingName">@item.WorkingName</a>
+                            <a class="h2 m-0 text-white text-uppercase font-weight-bold" href=" @Url.Action("NewsDetail", new {id = item.Id, workingName = item.WorkingName })" title="@item.WorkingName">@item.WorkingName</a>
                         </div>
                     </div>
                 }
