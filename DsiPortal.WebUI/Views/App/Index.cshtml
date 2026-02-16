@@ -82,12 +82,23 @@
     <script src="~/datatable/datatables.js"></script>
     <script src="~/datatable/datatables.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#myTable').DataTable({
-                language: {
-                    url: '/datatable/tr.json'
-                }
+        cument).ready(function() {
+            // DataTable başlat
+            var table = $('#myTable').DataTable({
+                ordering: false,
+                responsive: {
+                    details: { type: 'column', target: 0 }
+                },
+                columnDefs: [
+                    { className: 'control', orderable: false, targets: 0 },
+                    { orderable: false, targets: -1 }
+                ],
+                language: { url: '/datatable/tr.json' }
             });
-        });
+
+            // 🔹 Input değişince sadece draw çağır
+            $('#myTable thead tr:eq(1) th input').on('keyup change clear', function () {
+                table.draw();
+            });
     </script>
 }

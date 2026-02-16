@@ -3,6 +3,7 @@ using DsiPortal.Service.IService;
 using DsiPortal.WebUI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NToastNotify;
 
 namespace DsiPortal.WebUI.Controllers
@@ -21,7 +22,7 @@ namespace DsiPortal.WebUI.Controllers
 
         public async Task<IActionResult> IndexAsync()
         {
-            return View(await _serviceFoodPriceList.GetAllAsync());
+            return View(await _serviceFoodPriceList.GetQueryable().OrderByDescending(x => x.CreatedDate).ToListAsync());
         }
 
         public IActionResult Create()

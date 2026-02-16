@@ -74,7 +74,7 @@ namespace DsiPortal.WebUI.Controllers
             ViewBag.OrganizationalChart = _serviceManagemention.GetQueryable().OrderByDescending(x => x.CreatedDate).FirstOrDefault();
             ViewBag.BenefitLinks = _serviceBenefitLinks.GetQueryable().OrderBy(x => x.CreatedDate).Take(10).ToList();
             ViewBag.Cameras = _serviceCameras.GetAll();
-            var (eat1, eat2, eat3, eat4) = _menuofday.IListMenuofDay();
+            var (eat1, eat2, eat3, eat4,eat5,eat6) = _menuofday.IListMenuofDay();
             var listMenuOfDayViewModel = new ListMenuOfDayViewModel();
             if (eat1 == null || eat2 == null || eat3 == null || eat4 == null)
             {
@@ -94,7 +94,9 @@ namespace DsiPortal.WebUI.Controllers
                     Eat1 = eat1,
                     Eat2 = eat2,
                     Eat3 = eat3,
-                    Eat4 = eat4
+                    Eat4 = eat4,
+                    Eat5 = eat5,
+                    Eat6 = eat6
                 };
             }
 

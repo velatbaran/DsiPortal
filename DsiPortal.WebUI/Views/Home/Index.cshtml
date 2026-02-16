@@ -52,7 +52,7 @@
                         </a>
                         <div class="overlay">
                             <div class="mb-2">
-                                <a class="text-white" href=" @Url.Action("NewsDetail", new { WorkingName = item.WorkingName })" >@item.CreatedDate</a>
+                                <a class="text-white" href=" @Url.Action("NewsDetail", new { WorkingName = item.WorkingName })">@item.CreatedDate</a>
                             </div>
                             <a class="h2 m-0 text-white text-uppercase font-weight-bold" href=" @Url.Action("NewsDetail", new { WorkingName = item.WorkingName })" title="@item.WorkingName">@item.WorkingName</a>
                         </div>
@@ -250,29 +250,67 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <div class="section-title mb-1">
-                        <h4 class="m-0 text-uppercase font-weight-bold">Günün Menüsü</h4>
-                    </div>
-                    <div class="bg-white border border-top-0 p-3">
-                        @if (ViewData["FoodList"] != null)
-                        {
+
+                    @if (Model.ListMenuOfDayViewModel.Eat5 != null || Model.ListMenuOfDayViewModel.Eat6 != null)
+                    {
+                        <div class="section-title mb-1">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Günün Ramazan Menüsü</h4>
+                        </div>
+                        <div class="bg-white border border-top-0 p-3">
+                            @if (ViewData["FoodList"] != null)
+                            {
+                                <p class="d-block w-100 text-white text-decoration-none mb-1 py-3" style="background: #055570;">
+                                    <i class="fa-solid fa-bowl-food text-center mr-3 ml-2"></i>Güncel Ramazan menü yemek listesini yükleyin.
+                                </p>
+                            }
                             <p class="d-block w-100 text-white text-decoration-none mb-1 py-3" style="background: #055570;">
-                                <i class="fa-solid fa-bowl-food text-center mr-3 ml-2"></i>Haftasonu yada güncel yemek listesi yükleyin.
+                                <i class="fa-solid fa-cookie-bite text-center mr-3 ml-2"></i>@Model.ListMenuOfDayViewModel.Eat1
                             </p>
-                        }
-                        <p class="d-block w-100 text-white text-decoration-none mb-1 py-3" style="background: #055570;">
-                            <i class="fa-solid fa-cookie-bite text-center mr-3 ml-2"></i>@Model.ListMenuOfDayViewModel.Eat1
-                        </p>
-                        <p class="d-block w-100 text-white text-decoration-none mb-1 py-3" style="background: #055570;">
-                            <i class="fa-solid fa-cookie-bite text-center mr-3 ml-2"></i>@Model.ListMenuOfDayViewModel.Eat2
-                        </p>
-                        <p class="d-block w-100 text-white text-decoration-none mb-1 py-3" style="background: #055570;">
-                            <i class="fa-solid fa-cookie-bite text-center mr-3 ml-2"></i>@Model.ListMenuOfDayViewModel.Eat3
-                        </p>
-                        <p class="d-block w-100 text-white text-decoration-none mb-1 py-3" style="background: #055570;">
-                            <i class="fa-solid fa-cookie-bite text-center mr-3 ml-2"></i>@Model.ListMenuOfDayViewModel.Eat4
-                        </p>
-                    </div>
+                            <p class="d-block w-100 text-white text-decoration-none mb-1 py-3" style="background: #055570;">
+                                <i class="fa-solid fa-cookie-bite text-center mr-3 ml-2"></i>@Model.ListMenuOfDayViewModel.Eat2
+                            </p>
+                            <p class="d-block w-100 text-white text-decoration-none mb-1 py-3" style="background: #055570;">
+                                <i class="fa-solid fa-cookie-bite text-center mr-3 ml-2"></i>@Model.ListMenuOfDayViewModel.Eat3
+                            </p>
+                            <p class="d-block w-100 text-white text-decoration-none mb-1 py-3" style="background: #055570;">
+                                <i class="fa-solid fa-cookie-bite text-center mr-3 ml-2"></i>@Model.ListMenuOfDayViewModel.Eat4
+                            </p>
+                            <p class="d-block w-100 text-white text-decoration-none mb-1 py-3" style="background: #055570;">
+                                <i class="fa-solid fa-cookie-bite text-center mr-3 ml-2"></i>@Model.ListMenuOfDayViewModel.Eat5
+                            </p>
+                            <p class="d-block w-100 text-white text-decoration-none mb-1 py-3" style="background: #055570;">
+                                <i class="fa-solid fa-cookie-bite text-center mr-3 ml-2"></i>@Model.ListMenuOfDayViewModel.Eat6
+                            </p>
+                        </div>
+                    }
+
+                    else
+                    {
+                        <div class="section-title mb-1">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Günün Menüsü</h4>
+                        </div>
+                        <div class="bg-white border border-top-0 p-3">
+                            @if (ViewData["FoodList"] != null)
+                            {
+                                <p class="d-block w-100 text-white text-decoration-none mb-1 py-3" style="background: #055570;">
+                                    <i class="fa-solid fa-bowl-food text-center mr-3 ml-2"></i>Haftasonu yada güncel yemek listesini yükleyin.
+                                </p>
+                            }
+                            <p class="d-block w-100 text-white text-decoration-none mb-1 py-3" style="background: #055570;">
+                                <i class="fa-solid fa-cookie-bite text-center mr-3 ml-2"></i>@Model.ListMenuOfDayViewModel.Eat1
+                            </p>
+                            <p class="d-block w-100 text-white text-decoration-none mb-1 py-3" style="background: #055570;">
+                                <i class="fa-solid fa-cookie-bite text-center mr-3 ml-2"></i>@Model.ListMenuOfDayViewModel.Eat2
+                            </p>
+                            <p class="d-block w-100 text-white text-decoration-none mb-1 py-3" style="background: #055570;">
+                                <i class="fa-solid fa-cookie-bite text-center mr-3 ml-2"></i>@Model.ListMenuOfDayViewModel.Eat3
+                            </p>
+                            <p class="d-block w-100 text-white text-decoration-none mb-1 py-3" style="background: #055570;">
+                                <i class="fa-solid fa-cookie-bite text-center mr-3 ml-2"></i>@Model.ListMenuOfDayViewModel.Eat4
+                            </p>
+                        </div>
+                    }
+
                 </div>
                 <div class="mb-3">
                     <div class="section-title mb-1">

@@ -8,6 +8,6 @@ namespace DsiPortal.Service.IService
 {
     public interface IMenuofDay
     {
-        (string?,string?,string?,string?)   IListMenuofDay();
+        (string?,string?,string?,string?,string?,string?)   IListMenuofDay();
     }
 }

@@ -24,7 +24,7 @@ namespace DsiPortal.WebUI.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            return View(await _serviceApps.GetAllAsync());
+            return View(await _serviceApps.GetQueryable().OrderByDescending(x => x.CreatedDate).ToListAsync());
         }
 
         [HttpGet]

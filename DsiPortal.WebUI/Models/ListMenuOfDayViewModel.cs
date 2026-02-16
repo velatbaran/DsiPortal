@@ -6,5 +6,7 @@
         public string Eat2 { get; set; }
         public string Eat3 { get; set; }
         public string Eat4 { get; set; }
+        public string Eat5 { get; set; }
+        public string Eat6 { get; set; }
     }
 }
