@@ -39,8 +39,8 @@ namespace DsiPortal.Service.Concrete
                         }
                         else
                         {
-                            _logger.LogInformation("Bugünkü menü: {Eat1}, {Eat2}, {Eat3}, {Eat4},{Eat5}, {Eat6}",
-                                result.Item1, result.Item2, result.Item3, result.Item4, result.Item5, result.Item6);
+                            _logger.LogInformation("Bugünkü menü: {Eat1}, {Eat2}, {Eat3}, {Eat4},{Eat5}",
+                                result.Item1, result.Item2, result.Item3, result.Item4, result.Item5);
                         }
                     }
                 }

@@ -2,10 +2,21 @@
 
 @foreach (var item in Model)
 {
+    var slug = item.WorkingName
+                    .ToLower()
+                    .Replace(" ", "-")
+                    .Replace("/", "-")
+                    .Replace("ç", "c")
+                    .Replace("ğ", "g")
+                    .Replace("ı", "i")
+                    .Replace("ö", "o")
+                    .Replace("ş", "s")
+                    .Replace("ü", "u");
+
     <div class="d-flex align-items-center bg-white mb-2" style="height: 220px;">
         <div class="row">
             <div class="col-lg-6">
-                <a href="@Url.Action("NewsDetail", new { WorkingName = item.WorkingName })"
+                <a href=" @Url.Action("NewsDetail", new {  slug = slug })"
                    title="@item.WorkingName" style="color:black;font-size:12px">
                     <img class="img-fluid"
                          src="@Url.Action("ViewImageNews", new { Id = item.Id })"
@@ -17,7 +28,7 @@
                 <span class="badge badge-primary font-weight-semi-bold p-1 mr-2">
                     @item.CreatedDate.ToString("dd.MM.yyyy HH:mm")
                 </span><br />
-                <a href="@Url.Action("NewsDetail", new { WorkingName = item.WorkingName })"
+                <a href=" @Url.Action("NewsDetail", new {  slug = slug })"
                    title="@item.WorkingName" style="color:black;font-size:14px">
                     @item.WorkingName
                 </a>

@@ -66,7 +66,7 @@ namespace DsiPortal.WebUI.Controllers
             var foodPriceList = _serviceFoodPriceList.GetQueryable().OrderByDescending(x => x.CreatedDate).FirstOrDefault();
             var apps = _serviceApps.GetQueryable().OrderBy(x => x.CreatedDate);
             var benefitLinks = _serviceBenefitLinks.GetQueryable().OrderBy(x => x.CreatedDate);
-            var worksConducteds = _serviceWorksConducteds.GetQueryable().Where(x => x.IsMainImage == true).OrderByDescending(x => x.CreatedDate).Take(6);
+            var worksConducteds = _serviceWorksConducteds.GetQueryable().Where(x => x.IsMainImage == true).OrderByDescending(x => x.CreatedDate).Take(8);
             var oldworksConducteds = _serviceWorksConducteds.GetQueryable().Where(x => x.IsMainImage == true).OrderByDescending(x => x.CreatedDate).Skip(6).Take(6);
             var annocuments = _serviceAnnouncements.GetQueryable().OrderByDescending(x => x.CreatedDate).Take(10);
             var cameras = _serviceCameras.GetQueryable().OrderByDescending(x => x.CreatedDate).ToList();
@@ -74,7 +74,7 @@ namespace DsiPortal.WebUI.Controllers
             ViewBag.OrganizationalChart = _serviceManagemention.GetQueryable().OrderByDescending(x => x.CreatedDate).FirstOrDefault();
             ViewBag.BenefitLinks = _serviceBenefitLinks.GetQueryable().OrderBy(x => x.CreatedDate).Take(10).ToList();
             ViewBag.Cameras = _serviceCameras.GetAll();
-            var (eat1, eat2, eat3, eat4,eat5,eat6) = _menuofday.IListMenuofDay();
+            var (eat1, eat2, eat3, eat4,eat5) = _menuofday.IListMenuofDay();
             var listMenuOfDayViewModel = new ListMenuOfDayViewModel();
             if (eat1 == null || eat2 == null || eat3 == null || eat4 == null)
             {
@@ -95,11 +95,9 @@ namespace DsiPortal.WebUI.Controllers
                     Eat2 = eat2,
                     Eat3 = eat3,
                     Eat4 = eat4,
-                    Eat5 = eat5,
-                    Eat6 = eat6
+                    Eat5 = eat5
                 };
             }
-
 
             var model = new AllViewModel()
             {
@@ -424,17 +422,27 @@ namespace DsiPortal.WebUI.Controllers
         }
 
         [HttpGet]
-        [Route("haber/{id:int}/{workingName?}")]
-        public async Task<IActionResult> NewsDetailAsync(int id, string workingName)
+        [Route("haber/{slug?}")]
+        public async Task<IActionResult> NewsDetailAsync(string slug)
         {
             ViewBag.BenefitLinks = _serviceBenefitLinks.GetQueryable().OrderBy(x => x.CreatedDate).Take(10).ToList();
             ViewBag.Apps = _serviceApps.GetQueryable().OrderBy(x => x.CreatedDate).Take(15).ToList();
             ViewBag.Cameras = _serviceCameras.GetQueryable().OrderByDescending(x => x.CreatedDate).ToList();
             ViewBag.OrganizationalChart = _serviceManagemention.GetQueryable().OrderByDescending(x => x.CreatedDate).FirstOrDefault();
             var works = await _serviceWorksConducteds
-                .GetQueryable()
-                .Where(x => x.Id == id)
-                .ToListAsync();
+    .GetQueryable()
+    .Where(x =>
+        x.WorkingName
+            .ToLower()
+                    .Replace(" ", "-")
+                    .Replace("/", "-")
+                    .Replace("ç", "c")
+                    .Replace("ð", "g")
+                    .Replace("ý", "i")
+                    .Replace("ö", "o")
+                    .Replace("þ", "s")
+                    .Replace("ü", "u") == slug)
+    .ToListAsync();
 
             if (works == null || !works.Any())
                 return NotFound();

@@ -39,7 +39,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="section-title mb-0">
-                    <h4 class="m-0 text-uppercase font-weight-bold">Yönetim</h4>
+                    <h5 class="m-0 text-uppercase font-weight-bold">Yönetim</h5>
                 </div>
             </div>
         </div>
@@ -94,7 +94,7 @@
                 {
                     @if (item.Titles.Name == "Bölge Müdür Yardımcısı")
                     {
-                        <div class="col-auto col-md-3">
+                        <div class="col-auto col-md-2">
                             <div class="container text-center">
                                 @if (item.Image != null)
                                 {
@@ -132,10 +132,59 @@
                     }
                 }
             </div>
+            <br />
             <div class="row justify-content-center mt-2">
                 @foreach (var item in Model)
                 {
-                    @if (!item.Titles.Name.Contains("Bölge Müdür"))
+                    @if (!item.Titles.Name.Contains("Bölge Müdür") && !item.Titles.Name.Any(char.IsDigit)
+                   )
+                    {
+                        <div class="col-auto col-md-3">
+                            <div class="container text-center" style="width:250px;">
+                                @if (item.Image != null)
+                                {
+                                    <div class="row justify-content-center pt-2">
+                                        <div class="avatar">
+                                            <img src="@Url.Action("ViewImageDepartmentManagers", new { Id = item.Id })" alt="">
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="row justify-content-center pt-2">
+                                        <div class="avatar">
+                                            <img src="~/homepage/img/user.png" alt="">
+                                        </div>
+                                    </div>
+                                }
+
+                                <div class="row justify-content-center pt-3 person-info">
+                                    <div class="col-12">
+                                        <h6>@item.Name</h6>
+                                    </div>
+                                    <div class="col-12">
+                                        <h6>@item.Titles.Name</h6>
+                                    </div>
+                                    <div class="col-12">
+                                        <h6 class="email">@item.Eposta</h6>
+                                    </div>
+                                    <div class="col-12">
+                                        <h6>@item.Phone</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <br /><br />
+            <h4>Numaralı Şube Müdürlükleri</h4>
+            <br />
+            <div class="row justify-content-center mt-2">
+                @foreach (var item in Model)
+                {
+                    @if (item.Titles.Name.Any(char.IsDigit)
+                   )
                     {
                         <div class="col-auto col-md-3">
                             <div class="container text-center" style="width:250px;">
