@@ -3,6 +3,13 @@
     ViewData["Title"] = "Haber Ekle";
 }
 
+<style>
+    .news-description {
+        word-break: break-word;
+        overflow-wrap: anywhere;
+    }
+</style>
+
 <div class="row">
     <div class="col-md-6">
         <form asp-action="Create" enctype="multipart/form-data" id="uploadForm">
@@ -13,9 +20,10 @@
                 <span asp-validation-for="WorkingName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" class="form-control" rows="10"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <label for="Description">Açıklama</label>
+                <textarea id="Description" name="Description" class="form-control">
+                    @(Model?.Description ?? "")
+        </textarea>
             </div>
             <div class="form-group">
                 <label asp-for="ImageFiles" class="control-label"></label>
@@ -41,6 +49,7 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
     <script>
         // Dosya seçildiğinde dosya adlarını göster
         $('.custom-file-input').on('change', function() {
@@ -58,6 +67,30 @@
                 label.html(fileNames[0]);
             } else {
                 label.html('Resim seçiniz (çoklu seçim yapabilirsiniz)');
+            }
+        });
+    </script>
+    <script src="~/ckeditor_4.22.1_standard/ckeditor/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('Description', {
+            height: 300,
+            allowedContent: 'p b i u; strong em; br;', // sadece gerekli etiketler
+            removePlugins: 'sourcearea',
+            pasteFilter: 'p b i u; strong em; br;',  // Word’den gereksiz stilleri temizler
+
+            // Paste sonrası boş satırları temizle
+            on: {
+                paste: function(evt) {
+                    var editorData = evt.data.dataValue;
+
+                    // Gereksiz boş satırları sil (\n\n veya <p></p> gibi)
+                    editorData = editorData.replace(/(<p>(&nbsp;|\s)*<\/p>)+/gi, '<p></p>');
+
+                    // Tekrarlayan boşlukları azalt
+                    editorData = editorData.replace(/\s{2,}/g, ' ');
+
+                    evt.data.dataValue = editorData;
+                }
             }
         });
     </script>
