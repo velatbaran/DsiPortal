@@ -61,17 +61,20 @@ namespace DsiPortal.WebUI.Controllers
                                     IsMainImage = firstImage
                                 };
 
-                                await _serviceWorksConducteds.AddAsync(image);                            
+                                await _serviceWorksConducteds.AddAsync(image);
                             }
                         }
                         firstImage = false;
                     }
 
                     await _serviceWorksConducteds.SaveChangesAsync();
-                    _toastNotification.AddSuccessToastMessage("Resimler kayıt işlemi başarılı", new ToastrOptions { Title = "Başarılı" });
+                    _toastNotification.AddSuccessToastMessage("Kayıt işlemi başarılı", new ToastrOptions { Title = "Başarılı" });
                     return Redirect(nameof(Index));
                 }
+                _toastNotification.AddErrorToastMessage("Kayıt işlemi yapılırken hata oluştu.", new ToastrOptions { Title = "Hata" });
+                return View(viewModel);
             }
+            _toastNotification.AddErrorToastMessage("Lütfen zorunlu alanları doldurun.", new ToastrOptions { Title = "Hata" });
             return View(viewModel);
         }
 
@@ -94,9 +97,40 @@ namespace DsiPortal.WebUI.Controllers
             if (announcements != null)
             {
                 _serviceWorksConducteds.Delete(announcements);
+
+                _toastNotification.AddSuccessToastMessage("Silme işlemi başarılı", new ToastrOptions { Title = "Başarılı" });
+            }
+            else
+            {
+                _toastNotification.AddErrorToastMessage("Silme işlemi yapılırken hata oluştu.", new ToastrOptions { Title = "Hata" });
             }
 
             await _serviceWorksConducteds.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteSelected(List<int> ids)
+        {
+            if (ids != null && ids.Any())
+            {
+                foreach (var id in ids)
+                {
+                    var announcement = await _serviceWorksConducteds.FindAsync(id);
+                    if (announcement != null)
+                    {
+                        _serviceWorksConducteds.Delete(announcement);
+                        _toastNotification.AddSuccessToastMessage("Silme işlemi başarılı", new ToastrOptions { Title = "Başarılı" });
+                    }
+                    else
+                    {
+                        _toastNotification.AddErrorToastMessage("Silme işlemi yapılırken hata oluştu.", new ToastrOptions { Title = "Hata" });
+                    }
+                }
+                await _serviceWorksConducteds.SaveChangesAsync();
+            }
+
             return RedirectToAction(nameof(Index));
         }
     }
