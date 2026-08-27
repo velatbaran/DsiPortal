@@ -25,6 +25,9 @@
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <!-- Font Avesome -->
     <link href="~/lib/fontawesome/css/all.css" rel="stylesheet" />
     <link href="~/lib/fontawesome/css/all.min.css" rel="stylesheet" />
@@ -35,206 +38,536 @@
     <link href="~/homepage/css/style.css" rel="stylesheet">
 
     <style>
-        .dropdown-item:hover {
-        color: white;
-        border-left: black;
-        background: #FFCC00
+
+        :root {
+            --dsi-navy: #0B3350;
+            --dsi-navy-deep: #082741;
+            --dsi-teal: #1A7A8C;
+            --dsi-gold: #FFCC00;
+            --dsi-gold-deep: #E0AD00;
+            --dsi-stone: #F3F5F7;
+            --dsi-stone-dark: #E4E9ED;
+            --dsi-ink: #16232E;
+            --dsi-slate-600: #5B6B78;
+            --dsi-white: #FFFFFF;
+            --dsi-radius: 14px;
+            --dsi-radius-sm: 8px;
+            --dsi-shadow-sm: 0 2px 8px rgba(11, 51, 80, .06);
+            --dsi-shadow-md: 0 10px 30px rgba(11, 51, 80, .10);
+            --dsi-shadow-lg: 0 20px 45px rgba(8, 39, 65, .18);
+            --font-display: 'Manrope', 'Inter', system-ui, sans-serif;
+            --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        @@media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: .001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .001ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-        background-color: #EDEFF4;
-        transition: margin-left 0.3s ease;
+            background-color: var(--dsi-stone);
+            font-family: var(--font-body);
+            color: var(--dsi-ink);
+            transition: margin-left 0.3s ease;
         }
 
-        /* Hover efektleri (orijinal tonlarda) */
-        td:hover {
-        background-color: #FFCC00; /* hafif arka plan */
-        border-radius: 5px;
+        h1, h2, h3, h4, h5, h6, .font-weight-semi-bold {
+            font-family: var(--font-display);
         }
 
-        td:hover a {
-        color: white !important; /* doğal siyah ton */
+        a {
+            text-decoration: none;
         }
 
-        td:hover img {
-        transform: scale(1.05); /* hafif zoom */
+        :focus-visible {
+            outline: 3px solid var(--dsi-teal);
+            outline-offset: 2px;
+            border-radius: 4px;
         }
 
-    </style>
-    <style>
-        /* Carousel viewport */
+        /* ---------- Top identity bar ---------- */
+        .dsi-topbar {
+            background: linear-gradient(180deg, #ffffff 0%, #fbfcfd 100%);
+            border-bottom: 1px solid var(--dsi-stone-dark);
+            box-shadow: var(--dsi-shadow-sm);
+            position: relative;
+            z-index: 5;
+        }
+
+            .dsi-topbar .logo-link {
+                display: inline-flex;
+                align-items: center;
+                padding: 6px;
+                border-radius: var(--dsi-radius-sm);
+                transition: transform .25s ease, background-color .25s ease;
+            }
+
+                .dsi-topbar .logo-link:hover {
+                    transform: translateY(-2px);
+                    background-color: var(--dsi-stone);
+                }
+
+            .dsi-topbar img {
+                object-fit: contain;
+            }
+
+        .dsi-title-block {
+            border-left: 3px solid var(--dsi-gold);
+            padding-left: 18px;
+        }
+
+            .dsi-title-block .eyebrow {
+                font-family: var(--font-body);
+                font-size: .72rem;
+                font-weight: 600;
+                letter-spacing: .12em;
+                text-transform: uppercase;
+                color: var(--dsi-teal);
+                margin: 0 0 2px;
+            }
+
+            .dsi-title-block .title-main {
+                font-family: var(--font-display);
+                font-weight: 800;
+                font-size: 1.15rem;
+                color: var(--dsi-navy-deep);
+                line-height: 1.25;
+                margin: 0;
+            }
+
+            .dsi-title-block .title-sub {
+                font-family: var(--font-display);
+                font-weight: 700;
+                font-size: 1.05rem;
+                color: var(--dsi-ink);
+                margin: 2px 0 0;
+            }
+
+        /* thin water-ripple divider under the topbar */
+        .dsi-wave-divider {
+            display: block;
+            width: 100%;
+            height: 10px;
+            line-height: 0;
+            background: linear-gradient(90deg, var(--dsi-navy) 0%, var(--dsi-teal) 55%, var(--dsi-gold) 100%);
+        }
+
+        /* ---------- Apps ribbon ---------- */
+        .apps-ribbon-wrap {
+            background: var(--dsi-white);
+            border-bottom: 1px solid var(--dsi-stone-dark);
+        }
+
         #apps-viewport {
-        width: 100%;
+            width: 100%;
+            padding: 14px 0;
         }
 
-        /* Track: öğeler yan yana */
         #apps-track {
-        display: inline-flex;
-        align-items: center;
-        gap: 15px;
-        position: relative;
-        left: 0;
-        white-space: nowrap;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: stretch;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
         }
 
-        /* Öğeler */
         .app-item {
-        min-width: 100px;
-        text-align: center;
-        opacity: 1;
-        transition: background-color 0.3s ease, transform 0.3s ease, opacity 0.5s ease-in-out;
+            min-width: 96px;
+            text-align: center;
+            background: var(--dsi-stone);
+            border: 1px solid transparent;
+            border-radius: var(--dsi-radius-sm);
+            padding: 10px 8px 8px;
+            opacity: 1;
+            transition: background-color .25s ease, border-color .25s ease, transform .25s ease, box-shadow .25s ease;
         }
 
-        /* Resim */
-        .app-item img {
-        width: 50px;
-        height: 50px;
-        display: block;
-        margin: 0 auto 4px auto;
-        transition: transform 0.3s ease;
-        }
+            .app-item img {
+                width: 42px;
+                height: 42px;
+                display: block;
+                margin: 0 auto 6px auto;
+                transition: transform 0.3s ease;
+            }
 
-        /* Hover efektleri (orijinal tonlarda) */
-        .app-item:hover {
-        background-color: #FFCC00; /* hafif arka plan */
-        border-radius: 5px;
-        }
+            .app-item .app-name a {
+                font-size: .78rem;
+                font-weight: 600;
+                color: var(--dsi-ink) !important;
+                white-space: normal;
+            }
 
-        .app-item:hover a {
-        color: white !important; /* doğal siyah ton */
-        }
+            .app-item:hover {
+                background-color: var(--dsi-navy);
+                border-color: var(--dsi-navy);
+                transform: translateY(-3px);
+                box-shadow: var(--dsi-shadow-md);
+            }
 
-        .app-item:hover img {
-        transform: scale(1.05); /* hafif zoom */
-        }
+                .app-item:hover .app-name a {
+                    color: var(--dsi-white) !important;
+                }
 
-        /* Responsive */
+                .app-item:hover img {
+                    transform: scale(1.08);
+                }
+
         @@media (max-width: 1200px) {
-        .app-item {
-        min-width: 90px;
-        }
+            .app-item {
+                min-width: 84px;
+            }
 
-        .app-item img {
-        width: 40px;
-        height: 40px;
-        }
+                .app-item img {
+                    width: 36px;
+                    height: 36px;
+                }
         }
 
         @@media (max-width: 768px) {
-        .app-item {
-        min-width: 70px;
+            .app-item {
+                min-width: 68px;
+            }
+
+                .app-item img {
+                    width: 28px;
+                    height: 28px;
+                }
+
+                .app-item .app-name a {
+                    font-size: .68rem;
+                }
         }
 
-        .app-item img {
-        width: 30px;
-        height: 30px;
+        /* ---------- Navbar ---------- */
+        .dsi-navbar {
+            background: linear-gradient(180deg, var(--dsi-navy-deep) 0%, var(--dsi-navy) 100%) !important;
+            box-shadow: 0 4px 18px rgba(8, 39, 65, .25);
         }
+
+            .dsi-navbar .nav-item.nav-link,
+            .dsi-navbar .navbar-nav .nav-link {
+                position: relative;
+                color: rgba(255,255,255,.88) !important;
+                font-weight: 600;
+                font-size: .92rem;
+                padding: 1rem .95rem !important;
+                transition: color .2s ease;
+            }
+
+                .dsi-navbar .navbar-nav .nav-link::after {
+                    content: "";
+                    position: absolute;
+                    left: .95rem;
+                    right: .95rem;
+                    bottom: .55rem;
+                    height: 2px;
+                    background: var(--dsi-gold);
+                    transform: scaleX(0);
+                    transform-origin: left;
+                    transition: transform .25s ease;
+                }
+
+                .dsi-navbar .navbar-nav .nav-link:hover,
+                .dsi-navbar .navbar-nav .nav-link.active {
+                    color: var(--dsi-white) !important;
+                }
+
+                    .dsi-navbar .navbar-nav .nav-link:hover::after,
+                    .dsi-navbar .navbar-nav .nav-link.active::after {
+                        transform: scaleX(1);
+                    }
+
+            .dsi-navbar .dropdown-menu {
+                border: none;
+                border-radius: var(--dsi-radius-sm);
+                box-shadow: var(--dsi-shadow-lg);
+                padding: .4rem;
+                margin-top: .35rem;
+                min-width: 15rem;
+            }
+
+            .dsi-navbar .dropdown-item {
+                border-radius: 6px;
+                padding: .55rem .75rem;
+                font-weight: 500;
+                font-size: .9rem;
+                color: var(--dsi-ink);
+                transition: background-color .18s ease, color .18s ease, padding-left .18s ease;
+            }
+
+                .dsi-navbar .dropdown-item i {
+                    width: 1.15rem;
+                    color: var(--dsi-teal);
+                }
+
+                .dsi-navbar .dropdown-item:hover,
+                .dsi-navbar .dropdown-item:focus {
+                    color: var(--dsi-ink) !important;
+                    background: var(--dsi-gold) !important;
+                    padding-left: 1rem;
+                }
+
+                    .dsi-navbar .dropdown-item:hover i {
+                        color: var(--dsi-ink);
+                    }
+
+        /* benefit links dropdown: modern responsive grid instead of a bare table */
+        .benefit-links-panel {
+            min-width: 30rem;
+            max-width: 90vw;
         }
+
+            .benefit-links-panel table {
+                width: 100%;
+            }
+
+            .benefit-links-panel td {
+                display: inline-block;
+                vertical-align: top;
+                width: 92px;
+                border-radius: var(--dsi-radius-sm);
+                padding: .6rem .35rem !important;
+                transition: background-color .2s ease, transform .2s ease;
+            }
+
+                .benefit-links-panel td:hover {
+                    background-color: var(--dsi-gold) !important;
+                    border-radius: var(--dsi-radius-sm);
+                    transform: translateY(-2px);
+                }
+
+                    .benefit-links-panel td:hover a {
+                        color: var(--dsi-ink) !important;
+                    }
+
+                .benefit-links-panel td img {
+                    border-radius: 6px;
+                    transition: transform .25s ease;
+                }
+
+                .benefit-links-panel td:hover img {
+                    transform: scale(1.05);
+                }
+
+                .benefit-links-panel td a.text-secondary {
+                    font-size: .72rem;
+                    font-weight: 600;
+                }
+
+        .dsi-navbar .nav-item.nav-link i,
+        .dsi-navbar .navbar-nav > .nav-item > a i {
+            margin-right: .35rem;
+        }
+
+        @@media (max-width: 991px) {
+            .benefit-links-panel {
+                min-width: 100%;
+            }
+        }
+
+        /* ---------- Footer ---------- */
+        .dsi-footer {
+            background: linear-gradient(180deg, var(--dsi-navy-deep) 0%, #071c2f 100%) !important;
+        }
+
+            .dsi-footer h5, .dsi-footer h6 {
+                color: var(--dsi-gold) !important;
+                position: relative;
+                padding-bottom: .6rem;
+            }
+
+                .dsi-footer h5::after {
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    bottom: 0;
+                    width: 42px;
+                    height: 3px;
+                    background: var(--dsi-teal);
+                    border-radius: 2px;
+                }
+
+            .dsi-footer p, .dsi-footer .font-weight-medium {
+                color: rgba(255,255,255,.82);
+            }
+
+            .dsi-footer .branch-card {
+                background: rgba(255,255,255,.04);
+                border: 1px solid rgba(255,255,255,.08);
+                border-radius: var(--dsi-radius-sm);
+                padding: 1rem;
+                height: 100%;
+                transition: background-color .2s ease, border-color .2s ease;
+            }
+
+                .dsi-footer .branch-card:hover {
+                    background: rgba(255,255,255,.07);
+                    border-color: rgba(255,204,0,.35);
+                }
+
+                .dsi-footer .branch-card .font-weight-medium:first-child {
+                    color: var(--dsi-white);
+                    font-weight: 700 !important;
+                }
+
+            .dsi-footer .btn-lg-square {
+                width: 42px;
+                height: 42px;
+                border-radius: 50%;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(255,255,255,.08) !important;
+                border: 1px solid rgba(255,255,255,.12);
+                color: var(--dsi-white) !important;
+                transition: background-color .2s ease, transform .2s ease, color .2s ease;
+            }
+
+                .dsi-footer .btn-lg-square:hover {
+                    background: var(--dsi-gold) !important;
+                    color: var(--dsi-navy-deep) !important;
+                    transform: translateY(-3px);
+                }
+
+        .dsi-copyright {
+            background: #060f1a !important;
+            border-top: 1px solid rgba(255,255,255,.06);
+        }
+
+        /* ---------- Back to top ---------- */
+        .back-to-top {
+            background: var(--dsi-navy) !important;
+            box-shadow: var(--dsi-shadow-md);
+            transition: background-color .2s ease, transform .2s ease;
+        }
+
+            .back-to-top:hover {
+                background: var(--dsi-gold) !important;
+                color: var(--dsi-navy-deep) !important;
+                transform: translateY(-3px);
+            }
+
     </style>
+      
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div class="row align-items-center position-relative" ;height:72px">
-            <div class="col-md-1">
-            </div>
-            <div class="col-md-4">
-                <a href="https://www.tccb.gov.tr/" title="Türkiye Cumhuriyeti Cumhurbaşkanlığı" target="_blank">
-                    <img src="~/homepage/img/yuzyil.png" width="75" height="75" />
-                </a>
-                <a href="https://www.tarimorman.gov.tr/" target="_blank" title="Tarım ve Orman Bakanlığı">
-                    <img src="~/homepage/img/tarim-logo.png" width="75" height="75" />
-                </a>
-                <a href="https://www.dsi.gov.tr/" target="_blank" title="Devlet Su İşleri Genel Müdürlüğü">
-                    <img src="~/homepage/img/dsi.png" width="150" height="75" />
-                </a>
-                <a href="https://dsiteknikbulteni.dsi.gov.tr/" target="_blank" title="Devlet Su İşleri Teknik Bülteni">
-                    <img src="~/homepage/img/dsiteknik.png" width="75" height="75" />
-                </a>
-            </div>
-            <div class="col-md-4" style="color:black;font-size:18px">
-                <span class="font-weight-semi-bold">DEVLET SU İŞLERİ GENEL MÜDÜRLÜĞÜ</span><br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="font-weight-semi-bold text-center">24.Bölge Müdürlüğü</span>
-            </div>
-            <div class="col-md-2">
-                <a href="https://bolge24.dsi.gov.tr/" target="_blank" title="Devlet Su İşleri 24.Bölge Müdürlüğü">
-                    <img src="~/homepage/img/dsi24.png" width="150" height="75" />
-                </a>
-                <a href="https://www.kars.bel.tr/serhat-sehri-kars" target="_blank" title="Kars Kalesi Tarihçesi">
-                    <img src="~/homepage/img/kale.jpg" width="75" height="75" />
-                </a>
-            </div>
-            <div class="col-md-1">
+
+    <!-- ===== Identity / top bar ===== -->
+    <div class="dsi-topbar">
+        <div class="container-fluid">
+            <div class="row align-items-center py-2 gy-2">
+                <div class="col-md-1"></div>
+                <div class="col-md-4 d-flex flex-wrap align-items-center">
+                    <a href="https://www.tccb.gov.tr/" class="logo-link" title="Türkiye Cumhuriyeti Cumhurbaşkanlığı" target="_blank">
+                        <img src="~/homepage/img/yuzyil.png" width="70" height="70" alt="Cumhurbaşkanlığı" />
+                    </a>
+                    <a href="https://www.tarimorman.gov.tr/" class="logo-link" target="_blank" title="Tarım ve Orman Bakanlığı">
+                        <img src="~/homepage/img/tarim-logo.png" width="70" height="70" alt="Tarım ve Orman Bakanlığı" />
+                    </a>
+                    <a href="https://www.dsi.gov.tr/" class="logo-link" target="_blank" title="Devlet Su İşleri Genel Müdürlüğü">
+                        <img src="~/homepage/img/dsi.png" width="140" height="70" alt="DSİ Genel Müdürlüğü" />
+                    </a>
+                    <a href="https://dsiteknikbulteni.dsi.gov.tr/" class="logo-link" target="_blank" title="Devlet Su İşleri Teknik Bülteni">
+                        <img src="~/homepage/img/dsiteknik.png" width="70" height="70" alt="DSİ Teknik Bülteni" />
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <div class="dsi-title-block">
+                        <p class="eyebrow">Devlet Su İşleri</p>
+                        <p class="title-main">DEVLET SU İŞLERİ GENEL MÜDÜRLÜĞÜ</p>
+                        <p class="title-sub">24. Bölge Müdürlüğü</p>
+                    </div>
+                </div>
+                <div class="col-md-2 d-flex flex-wrap align-items-center">
+                    <a href="https://bolge24.dsi.gov.tr/" class="logo-link" target="_blank" title="Devlet Su İşleri 24.Bölge Müdürlüğü">
+                        <img src="~/homepage/img/dsi24.png" width="140" height="70" alt="DSİ 24. Bölge Müdürlüğü" />
+                    </a>
+                    <a href="https://www.kars.bel.tr/serhat-sehri-kars" class="logo-link" target="_blank" title="Kars Kalesi Tarihçesi">
+                        <img src="~/homepage/img/kale.jpg" width="70" height="70" alt="Kars Kalesi" style="border-radius:8px" />
+                    </a>
+                </div>
+                <div class="col-md-1"></div>
             </div>
         </div>
+        <span class="dsi-wave-divider"></span>
     </div>
-    <hr style="height:2px;background:black;" />
-    <div class="container-fluid mb-2">
-        <div id="apps-viewport" class="position-relative overflow-hidden">
-            <div id="apps-track" class="d-flex flex-wrap justify-content-center position-relative">
-                @foreach (var item in apps)
-                {
-                    <div class="app-item text-center">
-                        <a href="@item.Link" target="_blank">
-                            <img src="@Url.Action("ViewImageApps", new { Id = item.Id })"
-                            alt="@item.Name" title="@item.Name" />
-                        </a>
-                        <div class="app-name">
-                            <a class="text-secondary" href="@item.Link" style="color:black"
-                            target="_blank" title="@item.Name">@item.Name</a>
+
+    <!-- ===== Quick-access apps ribbon ===== -->
+    <div class="apps-ribbon-wrap">
+        <div class="container-fluid">
+            <div id="apps-viewport" class="position-relative overflow-hidden">
+                <div id="apps-track">
+                    @foreach (var item in apps)
+                    {
+                        <div class="app-item text-center">
+                            <a href="@item.Link" target="_blank">
+                                <img src="@Url.Action("ViewImageApps", new { Id = item.Id })"
+                                     alt="@item.Name" title="@item.Name" />
+                            </a>
+                            <div class="app-name">
+                                <a class="text-secondary" href="@item.Link"
+                                   target="_blank" title="@item.Name">@item.Name</a>
+                            </div>
                         </div>
-                    </div>
-                }
+                    }
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Navbar Start -->
     <div class="container-fluid p-0">
-        <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-2 py-lg-0 px-lg-5">
+        <nav class="navbar navbar-expand-lg dsi-navbar navbar-dark py-1 px-lg-5">
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-between px-0 px-lg-3" id="navbarCollapse">
                 <div class="navbar-nav mr-auto py-0">
-                    @* <a href="/Home/Index" class="nav-item nav-link active">Anasayfa</a> *@
-                    <a href="/anasayfa" class="nav-item nav-link active">Anasayfa</a>
+                    <a href="/anasayfa" class="nav-item nav-link active"><i class="fa-solid fa-house"></i>Anasayfa</a>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Hakkımızda</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa-solid fa-circle-info"></i>Hakkımızda</a>
                         <div class="dropdown-menu rounded-0 m-0">
                             <a href="/yonetim" class="dropdown-item"><i class="fa-solid fa-people-roof"></i> Yönetim</a>
-                            @* <a href="/Home/Management" class="dropdown-item"><i class="fa-solid fa-people-roof"></i> Yönetim</a> *@
                             @if (organizaitonchart.FileType == ".pdf")
                             {
                                 <a href="@Url.Action("ViewPdfOrganizationalChart", "Home", new {  })" target="_blank" class="dropdown-item">
                                     <i class="fa-solid fa-street-view"></i> Organizasyon Şeması
                                 </a>
                             }
-                            else{
+                            else
+                            {
                                 <a href="@Url.Action("ViewImageOrganizationalChart", "Home", new {  })" target="_blank" class="dropdown-item">
                                     <i class="fa-solid fa-street-view"></i> Organizasyon Şeması
                                 </a>
                             }
-                            @* <a href="/Home/MyStory" class="dropdown-item">Tarihçemiz</a> *@
                             <a href="/tarihcemiz" class="dropdown-item"><i class="fa-solid fa-landmark"></i> Tarihçemiz</a>
                         </div>
                     </div>
-                    <a href="http://10.124.4.110:8088/widea" class="nav-item nav-link" target="_blank">Karel</a>
-                    <a href="http://10.124.5.83/index.asp" class="nav-item nav-link" target="_blank">Meyer(PDKS)</a>
+                    <a href="http://10.124.4.110:8088/widea" class="nav-item nav-link" target="_blank"><i class="fa-solid fa-phone-volume"></i>Karel</a>
+                    <a href="http://10.124.5.83/index.asp" class="nav-item nav-link" target="_blank"><i class="fa-solid fa-fingerprint"></i>Meyer(PDKS)</a>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">DHYS</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa-solid fa-file-signature"></i>DHYS</a>
                         <div class="dropdown-menu rounded-0 m-0">
                             <a href="https://yenidhys.dsi.gov.tr/" class="dropdown-item" target="_blank"><i class="fa-solid fa-handshake-angle"></i> Yeni DHYS</a>
                             <a href="https://dhys.dsi.gov.tr/DsiPersonel/" class="dropdown-item" target="_blank"><i class="fa-solid fa-handshake-angle"></i> Eski DHYS</a>
                         </div>
                     </div>
-                    @* <a href="/Home/Forms" class="nav-item nav-link">Formlar</a> *@
-                    <a href="/formlar" class="nav-item nav-link">Formlar</a>
-                    <a href="/rehberimiz" class="nav-item nav-link">Rehberimiz</a>
+                    <a href="/formlar" class="nav-item nav-link"><i class="fa-solid fa-file-lines"></i>Formlar</a>
+                    <a href="/rehberimiz" class="nav-item nav-link"><i class="fa-solid fa-book"></i>Rehberimiz</a>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Faydalı Linkler</a>
-                        <div class="dropdown-menu rounded-0 m-0">
-                            <table class="table" align="center" cellpadding="0" cellspacing="0">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa-solid fa-link"></i>Faydalı Linkler</a>
+                        <div class="dropdown-menu rounded-0 m-0 benefit-links-panel">
+                            <table class="table mb-0" align="center" cellpadding="0" cellspacing="0">
                                 <tbody>
                                     @foreach (var item in benefitLinks)
                                     {
@@ -243,7 +576,7 @@
                                             <img src="@Url.Action("ViewImageBnefitLinks", new {Id = item.Id  })" width="50" height="50" alt="" title="@item.Name" />
                                         </a><br />
 
-                                        <a class="text-secondary" href="@item.Link" style="color:black" target="_blank" title="@item.Name">@item.Name</a>
+                                        <a class="text-secondary" href="@item.Link" target="_blank" title="@item.Name">@item.Name</a>
                                     </td>
                                     }
                                 </tbody>
@@ -253,7 +586,7 @@
                     @if (cameras.Count() != 0)
                     {
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Kameralar</a>
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa-solid fa-video"></i>Kameralar</a>
                             <div class="dropdown-menu rounded-0 m-0">
                                 @foreach (var item in cameras)
                                 {
@@ -268,13 +601,12 @@
                         </div>
                     }
 
-                    @* <a href="/Home/Contact" class="nav-item nav-link">Iletisim</a> *@
-                    <a href="/iletisim" class="nav-item nav-link">İletişim</a>
+                    <a href="/iletisim" class="nav-item nav-link"><i class="fa-solid fa-address-card"></i>İletişim</a>
                 </div>
                 <div class="collapse navbar-collapse justify-content-between px-0 px-lg-3" id="navbarCollapse" style="width: 100%; max-width: 400px;">
                     <div class="navbar-nav ml-auto py-0">
-                        <a href="/Account/Index" class="nav-item nav-link" target="_blank">Admin Paneli</a>
-                        <a href="http://172.20.124.11:81/" class="nav-item nav-link" target="_blank">Bt Yönetimi</a>
+                        <a href="/Account/Index" class="nav-item nav-link" target="_blank"><i class="fa-solid fa-user-shield"></i>Admin Paneli</a>
+                        <a href="http://172.20.124.11:81/" class="nav-item nav-link" target="_blank"><i class="fa-solid fa-server"></i>Bt Yönetimi</a>
                     </div>
                 </div>
             </div>
@@ -283,10 +615,10 @@
     <!-- Navbar End -->
     @RenderBody()
     <!-- Footer Start -->
-    <div class="container-fluid bg-dark pt-5 px-sm-3 px-md-5 mt-5">
+    <div class="container-fluid dsi-footer pt-5 px-sm-3 px-md-5 mt-5">
         <div class="row py-4">
             <div class="col-lg-3 col-md-6 mb-5">
-                <h5 class="mb-4 text-white text-uppercase font-weight-bold">DSİ 24.Bölge Müdürlüğü</h5>
+                <h5 class="mb-4 text-uppercase font-weight-bold">DSİ 24.Bölge Müdürlüğü</h5>
                 <p class="font-weight-medium"><i class="fa fa-map-marker-alt mr-2"></i>Örnek mah. Hastane sok. Merkez/Kars</p>
                 <p class="font-weight-medium"><i class="fa fa-phone-alt mr-2"></i>0474 212 5804 - 5806</p>
                 <p class="font-weight-medium"><i class="fa-solid fa-fax mr-2"></i>0474 212 5811 (Fax)</p>
@@ -295,105 +627,60 @@
                 <p class="font-weight-medium"><i class="fa-solid fa-arrow-down-1-9 mr-2"></i>394 003 9126 (Vergi Numarası)</p>
             </div>
             <div class="col-lg-5 col-md-6 mb-5">
-                <h5 class="mb-4 text-white text-uppercase font-weight-bold">Taşra Şubelerimiz</h5>
-                <div class="row">
+                <h5 class="mb-4 text-uppercase font-weight-bold">Taşra Şubelerimiz</h5>
+                <div class="row g-3">
                     <div class="col-lg-4">
-                        <div class="mb-2">
-                            <div class="d-flex align-items-center">
-                                <p class="font-weight-medium">241.Şube Müdürlüğü</p>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="d-flex align-items-center ">
-                                <p><i class="fa fa-phone-alt mr-2"></i>Telefon</p>
-                            </div>
-                            <p>0474 223 5334</p>
-                        </div>
-                        <div class="mb-3">
-                            <div class="d-flex align-items-center">
-                                <p><i class="fa fa-fax mr-2"></i>Fax</p>
-                            </div>
-                            <p>0474 212 5811</p>
+                        <div class="branch-card">
+                            <p class="font-weight-medium mb-3">241.Şube Müdürlüğü</p>
+                            <p class="mb-1 small"><i class="fa fa-phone-alt mr-2"></i>Telefon</p>
+                            <p class="mb-3">0474 223 5334</p>
+                            <p class="mb-1 small"><i class="fa fa-fax mr-2"></i>Fax</p>
+                            <p class="mb-0">0474 212 5811</p>
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <div class="mb-2">
-                            <div class="d-flex align-items-center">
-                                <p class="font-weight-medium">242.Şube Müdürlüğü</p>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="d-flex align-items-center ">
-                                <p><i class="fa fa-phone-alt mr-2"></i>Telefon</p>
-                            </div>
-                            <p>0476 227 6710</p>
-                        </div>
-                        <div class="mb-3">
-                            <div class="d-flex align-items-center">
-                                <p><i class="fa fa-fax mr-2"></i>Fax</p>
-                            </div>
-                            <p>0476 227 6710</p>
+                        <div class="branch-card">
+                            <p class="font-weight-medium mb-3">242.Şube Müdürlüğü</p>
+                            <p class="mb-1 small"><i class="fa fa-phone-alt mr-2"></i>Telefon</p>
+                            <p class="mb-3">0476 227 6710</p>
+                            <p class="mb-1 small"><i class="fa fa-fax mr-2"></i>Fax</p>
+                            <p class="mb-0">0476 227 6710</p>
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <div class="mb-2">
-                            <div class="d-flex align-items-center">
-                                <p class="font-weight-medium">243.Şube Müdürlüğü</p>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="d-flex align-items-center ">
-                                <p><i class="fa fa-phone-alt mr-2"></i>Telefon</p>
-                            </div>
-                            <p>0478 211 5855</p>
-                        </div>
-                        <div class="mb-3">
-                            <div class="d-flex align-items-center">
-                                <p><i class="fa fa-fax mr-2"></i>Fax</p>
-                            </div>
-                            <p>0478 211 5805</p>
+                        <div class="branch-card">
+                            <p class="font-weight-medium mb-3">243.Şube Müdürlüğü</p>
+                            <p class="mb-1 small"><i class="fa fa-phone-alt mr-2"></i>Telefon</p>
+                            <p class="mb-3">0478 211 5855</p>
+                            <p class="mb-1 small"><i class="fa fa-fax mr-2"></i>Fax</p>
+                            <p class="mb-0">0478 211 5805</p>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-2 col-md-6 mb-5">
-                <h5 class="mb-4 text-white text-uppercase font-weight-bold">Sosyal Tesis</h5>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="mb-2">
-                            <div class="d-flex align-items-center">
-                                <p class="font-weight-medium">Sosyal Tesis-Misafirhane</p>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="d-flex align-items-center ">
-                                <p><i class="fa fa-phone-alt mr-2"></i>Telefon</p>
-                            </div>
-                            <p>0474 223 5720</p>
-                        </div>
-                        <div class="mb-3">
-                            <div class="d-flex align-items-center">
-                                <p><i class="fa fa-phone-alt mr-2"></i>Dahili No</p>
-                            </div>
-                            <p>1450</p>
-                        </div>
-                    </div>
+                <h5 class="mb-4 text-uppercase font-weight-bold">Sosyal Tesis</h5>
+                <div class="branch-card">
+                    <p class="font-weight-medium mb-3">Sosyal Tesis-Misafirhane</p>
+                    <p class="mb-1 small"><i class="fa fa-phone-alt mr-2"></i>Telefon</p>
+                    <p class="mb-3">0474 223 5720</p>
+                    <p class="mb-1 small"><i class="fa fa-phone-alt mr-2"></i>Dahili No</p>
+                    <p class="mb-0">1450</p>
                 </div>
             </div>
             <div class="col-lg-2 col-md-6 mb-5 float-right">
-                <h6 class="mt-4 mb-3 text-white text-uppercase font-weight-bold">Bizi Takip Edin</h6>
-                <div class="d-flex justify-content-start">
-                    <a class="btn btn-lg btn-secondary btn-lg-square mr-2" href="https://x.com/dsi_24_blgmd/" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-lg btn-secondary btn-lg-square mr-2" href="https://www.facebook.com/karsdsi" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-lg btn-secondary btn-lg-square mr-2" href="https://www.instagram.com/dsi24.bolgemudurlugu/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a class="btn btn-lg btn-secondary btn-lg-square mr-2" href=@yotube target="_blank"><i class="fab fa-youtube" title="Youtube"></i></a>
-                    <a class="btn btn-lg btn-secondary btn-lg-square" href=@beta target="_blank"><i class="fa-solid fa-umbrella-beach" title="Sosyal Teknofest"></i></a>
+                <h6 class="mt-4 mb-3 text-uppercase font-weight-bold">Bizi Takip Edin</h6>
+                <div class="d-flex justify-content-start flex-wrap gap-2">
+                    <a class="btn btn-lg btn-lg-square mr-2" href="https://x.com/dsi_24_blgmd/" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-lg btn-lg-square mr-2" href="https://www.facebook.com/karsdsi" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-lg btn-lg-square mr-2" href="https://www.instagram.com/dsi24.bolgemudurlugu/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a class="btn btn-lg btn-lg-square mr-2" href=@yotube target="_blank" title="Youtube"><i class="fab fa-youtube"></i></a>
+                    <a class="btn btn-lg btn-lg-square" href=@beta target="_blank" title="Sosyal Teknofest"><i class="fa-solid fa-umbrella-beach"></i></a>
                 </div>
-
             </div>
         </div>
     </div>
-    <div class="container-fluid py-4 px-sm-3 px-md-5" style="background: #111111;">
+    <div class="container-fluid dsi-copyright py-4 px-sm-3 px-md-5">
         <p class="m-0 text-center" style="color: #FFCC00;">
             &copy; @DateTime.Now.Year Tüm Hakları Saklıdır. <br />
             Bilgi Teknolojileri Şube Müdürülüğü tarafından tasarlandı.<br>

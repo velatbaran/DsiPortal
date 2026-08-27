@@ -1,31 +1,531 @@
 ﻿@model List<WorksConducteds>
-
 @{
     ViewData["Title"] = "Tüm Yapılan Haberler";
     Layout = "_LayoutHomePage";
     int totalCount = ViewBag.TotalCount;
 }
 
-<div class="container-fluid mt-5 pt-3">
+<style>
+
+    :root {
+        --dsi-navy: #0B3350;
+        --dsi-navy-deep: #082741;
+        --dsi-navy-light: #14496f;
+        --dsi-gold: #FFCC00;
+        --dsi-gold-deep: #E0AD00;
+        --dsi-stone: #F3F5F7;
+        --dsi-stone-dark: #E4E9ED;
+        --dsi-ink: #16232E;
+        --dsi-radius-sm: 10px;
+        --dsi-radius-md: 16px;
+        --dsi-shadow-sm: 0 2px 8px rgba(11, 51, 80, .10);
+        --dsi-shadow-md: 0 10px 26px rgba(11, 51, 80, .18);
+        --dsi-shadow-lg: 0 22px 50px rgba(8, 39, 65, .28);
+    }
+
+    @@media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: .001ms !important;
+            transition-duration: .001ms !important;
+        }
+    }
+
+    .news-hero {
+        position: relative;
+        background: linear-gradient(135deg, var(--dsi-navy) 0%, var(--dsi-navy-deep) 100%);
+        padding: 3.2rem 0 4.5rem;
+        margin-top: 2rem;
+        overflow: hidden;
+        isolation: isolate;
+    }
+
+        .news-hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 12% 20%, rgba(255,204,0,.10) 0%, transparent 45%), radial-gradient(circle at 88% 80%, rgba(255,255,255,.06) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+    .news-hero-inner {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 1.5rem;
+    }
+
+    .news-hero-eyebrow {
+        color: var(--dsi-gold);
+        font-weight: 700;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+        font-size: .78rem;
+        margin: 0 0 .5rem;
+    }
+
+    .news-hero-title {
+        color: #ffffff;
+        font-weight: 800;
+        font-size: clamp(1.6rem, 3vw, 2.4rem);
+        text-transform: uppercase;
+        margin: 0;
+        letter-spacing: .01em;
+    }
+
+    .news-hero-stats {
+        display: flex;
+        gap: .9rem;
+        flex-wrap: wrap;
+    }
+
+    .stat-pill {
+        background: rgba(255,255,255,.08);
+        border: 1px solid rgba(255,255,255,.16);
+        backdrop-filter: blur(6px);
+        border-radius: var(--dsi-radius-sm);
+        padding: .7rem 1.3rem;
+        min-width: 128px;
+        text-align: center;
+    }
+
+        .stat-pill .stat-value {
+            display: block;
+            color: var(--dsi-gold);
+            font-weight: 800;
+            font-size: 1.5rem;
+            line-height: 1.1;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .stat-pill .stat-label {
+            display: block;
+            color: rgba(255,255,255,.78);
+            font-size: .7rem;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            margin-top: .2rem;
+        }
+
+    /* Hero altındaki dalga kesiği */
+    .news-hero-wave {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -1px;
+        line-height: 0;
+        z-index: 1;
+    }
+
+        .news-hero-wave svg {
+            display: block;
+            width: 100%;
+            height: 46px;
+        }
+
+    .news-toolbar {
+        position: relative;
+        z-index: 2;
+        margin-top: -2.6rem;
+        margin-bottom: 2rem;
+        background: #ffffff;
+        border-radius: var(--dsi-radius-md);
+        box-shadow: var(--dsi-shadow-lg);
+        padding: 1.1rem 1.4rem;
+    }
+
+    .news-progress-block {
+        max-width: 420px;
+        margin: 0 auto;
+    }
+
+    .news-progress-label {
+        display: flex;
+        justify-content: space-between;
+        font-size: .74rem;
+        font-weight: 700;
+        color: var(--dsi-navy);
+        text-transform: uppercase;
+        letter-spacing: .04em;
+        margin-bottom: .35rem;
+    }
+
+    .news-progress-track {
+        width: 100%;
+        height: 6px;
+        border-radius: 6px;
+        background: var(--dsi-stone-dark);
+        overflow: hidden;
+    }
+
+    .news-progress-fill {
+        height: 100%;
+        border-radius: 6px;
+        background: linear-gradient(90deg, var(--dsi-navy) 0%, var(--dsi-gold) 100%);
+        width: 0%;
+        transition: width .5s ease;
+    }
+
+
+    #newsContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 1.1rem;
+    }
+
+        /* Partial'ın araya koyduğu <hr>'leri gizle — aralığı artık gap veriyor */
+        #newsContainer > hr {
+            display: none;
+        }
+
+        /* Her haber TEK SATIR: sol tarafta görsel, sağ tarafta içerik */
+        #newsContainer > .news-item {
+            display: flex !important;
+            flex-direction: row;
+            align-items: stretch !important;
+            height: auto !important;
+            margin: 0 !important;
+            background: #ffffff;
+            border-radius: var(--dsi-radius-md);
+            overflow: hidden;
+            box-shadow: var(--dsi-shadow-sm);
+            border: 1px solid var(--dsi-stone-dark);
+            transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+            opacity: 0;
+            animation: newsCardIn .5s ease forwards;
+        }
+
+            #newsContainer > .news-item:hover {
+                transform: translateX(4px);
+                box-shadow: var(--dsi-shadow-lg);
+                border-color: var(--dsi-navy);
+            }
+
+    @@keyframes newsCardIn {
+        from {
+            opacity: 0;
+            transform: translateY(14px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* İlk yükte sırayla beliren satırlar */
+    #newsContainer > .news-item:nth-child(1) {
+        animation-delay: .02s;
+    }
+
+    #newsContainer > .news-item:nth-child(2) {
+        animation-delay: .07s;
+    }
+
+    #newsContainer > .news-item:nth-child(3) {
+        animation-delay: .12s;
+    }
+
+    #newsContainer > .news-item:nth-child(4) {
+        animation-delay: .17s;
+    }
+
+    #newsContainer > .news-item:nth-child(5) {
+        animation-delay: .22s;
+    }
+
+    #newsContainer > .news-item:nth-child(n+6) {
+        animation-delay: .26s;
+    }
+
+    /* Partial'ın row/col-12 yapısını yatay satıra çeviriyoruz */
+    #newsContainer .row {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: stretch;
+        margin: 0;
+        width: 100%;
+    }
+
+        #newsContainer .row > .col-12.p-0.text-center {
+            flex: 0 0 220px;
+            max-width: 220px;
+            padding: 0 !important;
+        }
+
+            #newsContainer .row > .col-12.p-0.text-center > a {
+                display: block;
+                height: 100%;
+            }
+
+    #newsContainer .news-img-wrapper {
+        height: 100%;
+        min-height: 140px;
+        border-radius: 0;
+        position: relative;
+    }
+
+        #newsContainer .news-img-wrapper::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(8,39,65,0) 60%, rgba(8,39,65,.35) 100%);
+            opacity: 0;
+            transition: opacity .3s ease;
+        }
+
+    #newsContainer > .news-item:hover .news-img-wrapper::after {
+        opacity: 1;
+    }
+
+    #newsContainer .news-img {
+        transition: transform .5s ease;
+    }
+
+    #newsContainer > .news-item:hover .news-img {
+        transform: scale(1.06);
+    }
+
+    #newsContainer .col-12.p-1 {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 1rem 1.5rem !important;
+        position: relative;
+    }
+
+    #newsContainer .badge-primary {
+        background-color: var(--dsi-navy) !important;
+        font-weight: 700;
+        font-size: .68rem;
+        letter-spacing: .03em;
+        padding: .35rem .65rem;
+        border-radius: 20px;
+        align-self: flex-start;
+    }
+
+    #newsContainer .news-title {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        font-size: 1rem !important;
+        font-weight: 700;
+        color: var(--dsi-ink);
+        margin-top: .5rem;
+        transition: color .2s ease;
+    }
+
+    #newsContainer .news-item:hover .news-title {
+        color: var(--dsi-navy);
+    }
+
+    #newsContainer .news-title::after {
+        content: "Devamını oku →";
+        display: inline-block;
+        margin-left: .6rem;
+        font-size: .74rem;
+        font-weight: 700;
+        color: var(--dsi-gold-deep);
+        opacity: 0;
+        transform: translateX(-4px);
+        transition: opacity .2s ease, transform .2s ease;
+        -webkit-line-clamp: initial;
+    }
+
+    #newsContainer .news-item:hover .news-title::after {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    @@media (max-width: 576px) {
+        #newsContainer > .news-item {
+            flex-direction: column;
+        }
+
+        #newsContainer .row {
+            flex-wrap: wrap;
+        }
+
+            #newsContainer .row > .col-12.p-0.text-center {
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+
+        #newsContainer .news-img-wrapper {
+            height: 170px;
+            min-height: 0;
+        }
+    }
+
+
+    .skeleton-card {
+        display: flex;
+        flex-direction: row;
+        border-radius: var(--dsi-radius-md);
+        overflow: hidden;
+        border: 1px solid var(--dsi-stone-dark);
+        background: #ffffff;
+    }
+
+        .skeleton-card .sk-img,
+        .skeleton-card .sk-line {
+            background: linear-gradient(90deg, var(--dsi-stone) 25%, var(--dsi-stone-dark) 37%, var(--dsi-stone) 63%);
+            background-size: 400% 100%;
+            animation: skeletonShimmer 1.4s ease infinite;
+        }
+
+        .skeleton-card .sk-img {
+            flex: 0 0 220px;
+            min-height: 140px;
+        }
+
+        .skeleton-card .sk-body {
+            flex: 1 1 auto;
+            padding: 1rem 1.5rem;
+            align-self: center;
+        }
+
+        .skeleton-card .sk-line {
+            height: 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+            .skeleton-card .sk-line.w-70 {
+                width: 70%;
+            }
+
+            .skeleton-card .sk-line.w-40 {
+                width: 40%;
+            }
+
+    @@media (max-width: 576px) {
+        .skeleton-card {
+            flex-direction: column;
+        }
+
+            .skeleton-card .sk-img {
+                flex-basis: auto;
+                height: 170px;
+            }
+    }
+
+    @@keyframes skeletonShimmer {
+        0% {
+            background-position: 100% 0;
+        }
+
+        100% {
+            background-position: 0 0;
+        }
+    }
+
+
+    .load-more-wrap {
+        text-align: center;
+        margin-top: 2.5rem;
+    }
+
+    #loadMoreBtn {
+        background: var(--dsi-navy);
+        border: none;
+        color: #ffffff;
+        font-weight: 700;
+        letter-spacing: .02em;
+        padding: .8rem 2.4rem;
+        border-radius: 30px;
+        box-shadow: var(--dsi-shadow-sm);
+        display: inline-flex;
+        align-items: center;
+        gap: .55rem;
+        transition: background-color .2s ease, color .2s ease, transform .2s ease, box-shadow .2s ease;
+    }
+
+        #loadMoreBtn:hover:not(:disabled) {
+            background: var(--dsi-gold);
+            color: var(--dsi-navy-deep);
+            transform: translateY(-3px);
+            box-shadow: var(--dsi-shadow-md);
+        }
+
+        #loadMoreBtn:disabled {
+            opacity: .8;
+            cursor: default;
+            transform: none;
+        }
+
+        #loadMoreBtn .spinner-border {
+            width: .9rem;
+            height: .9rem;
+            border-width: .15em;
+        }
+
+        #loadMoreBtn i.fa-arrow-down {
+            transition: transform .2s ease;
+        }
+
+        #loadMoreBtn:hover:not(:disabled) i.fa-arrow-down {
+            transform: translateY(2px);
+        }
+
+    :focus-visible {
+        outline: 3px solid var(--dsi-navy);
+        outline-offset: 2px;
+    }
+</style>
+
+<!-- Hero -->
+<div class="news-hero">
     <div class="container">
-        <div class="section-title mb-1">
-            <div class="col-lg-6">
-                <h4 class="m-0 text-uppercase font-weight-bold">Yapılan Tüm Haberler</h4>
+        <div class="news-hero-inner">
+            <div>
+                <p class="news-hero-eyebrow">DSİ 24. Bölge Müdürlüğü</p>
+                <h1 class="news-hero-title">Yapılan Tüm Haberler</h1>
             </div>
-            <div class="col-lg-6 text-right">
-                <span class="badge badge-primary font-weight-semi-bold">
-                    Toplam Haber Sayısı : @totalCount
-                </span><br />
+            <div class="news-hero-stats">
+                <div class="stat-pill">
+                    <span class="stat-value" id="totalCounter">0</span>
+                    <span class="stat-label">Toplam Haber</span>
+                </div>
+                <div class="stat-pill">
+                    <span class="stat-value" id="shownCounter">@Model.Count</span>
+                    <span class="stat-label">Gösterilen</span>
+                </div>
             </div>
         </div>
-        <div class="bg-white border border-top-0 p-3" id="newsContainer">
+    </div>
+
+</div>
+
+<div class="container-fluid mb-5">
+    <div class="container">
+
+        <!-- İlerleme çubuğu -->
+        <div class="news-toolbar">
+            <div class="news-progress-block">
+                <div class="news-progress-label">
+                    <span id="progressText">@Model.Count / @totalCount</span>
+                    <span>haber</span>
+                </div>
+                <div class="news-progress-track">
+                    <div class="news-progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="newsContainer">
             @await Html.PartialAsync("_NewsPartial", Model)
         </div>
 
-        <div class="text-center mt-3">
-            <button id="loadMoreBtn" class="btn btn-primary"
+        <div class="load-more-wrap">
+            <button id="loadMoreBtn" class="btn"
                     style="@(Model.Count >= totalCount ? "display:none;" : "")">
-                Daha Fazla Göster
+                <i class="fa-solid fa-arrow-down"></i>
+                <span class="btn-label">Daha Fazla Göster</span>
             </button>
         </div>
     </div>
@@ -33,24 +533,100 @@
 
 @section Scripts {
     <script>
-                let skip = @Model.Count; // başlangıç 3
+        let skip = @Model.Count;
         const take = 5;
+        const totalCount = @totalCount;
 
-        async function loadNews() {
-            const response = await fetch(`/Home/GetNews?skip=${skip}&take=${take}`);
-            const html = await response.text();
+        const container = document.getElementById("newsContainer");
+        const loadMoreBtn = document.getElementById("loadMoreBtn");
+        const btnLabel = loadMoreBtn.querySelector(".btn-label");
+        const progressFill = document.getElementById("progressFill");
+        const progressText = document.getElementById("progressText");
+        const totalCounterEl = document.getElementById("totalCounter");
+        const shownCounterEl = document.getElementById("shownCounter");
 
-            if (!html.trim()) {
-                document.getElementById("loadMoreBtn").style.display = "none";
-                return;
+        // ---- Sayaç animasyonu (0 -> toplam haber sayısı) ----
+        function animateCount(el, to, duration = 900) {
+            const start = performance.now();
+            function tick(now) {
+                const progress = Math.min((now - start) / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                el.textContent = Math.round(eased * to);
+                if (progress < 1) requestAnimationFrame(tick);
             }
+            requestAnimationFrame(tick);
+        }
+        animateCount(totalCounterEl, totalCount);
 
-            document.getElementById("newsContainer").insertAdjacentHTML("beforeend", html);
-            skip += take;
+        // ---- İlerleme çubuğu ----
+        function updateProgress(shown) {
+            const pct = totalCount > 0 ? Math.min((shown / totalCount) * 100, 100) : 100;
+            progressFill.style.width = pct + "%";
+            progressText.textContent = `${shown} / ${totalCount}`;
+            shownCounterEl.textContent = shown;
+        }
+        updateProgress(@Model.Count);
+
+        // ---- İskelet kartlar ----
+        function renderSkeletons(count) {
+            const frag = document.createDocumentFragment();
+            const nodes = [];
+            for (let i = 0; i < count; i++) {
+                const el = document.createElement("div");
+                el.className = "skeleton-card";
+                el.innerHTML = `
+                    <div class="sk-img"></div>
+                    <div class="sk-body">
+                        <div class="sk-line w-40"></div>
+                        <div class="sk-line w-70"></div>
+                    </div>`;
+                frag.appendChild(el);
+                nodes.push(el);
+            }
+            container.appendChild(frag);
+            return nodes;
         }
 
-        // Buton tıklanınca yeni haberler
-        document.getElementById("loadMoreBtn").addEventListener("click", loadNews);
+        // ---- Daha fazla haber yükle ----
+        async function loadNews() {
+            loadMoreBtn.disabled = true;
+            btnLabel.textContent = "Yükleniyor...";
+            const skeletons = renderSkeletons(Math.min(take, 3));
 
+            try {
+                const response = await fetch(`/Home/GetNews?skip=${skip}&take=${take}`);
+                const html = await response.text();
+
+                skeletons.forEach(el => el.remove());
+
+                if (!html.trim()) {
+                    loadMoreBtn.style.display = "none";
+                    return;
+                }
+
+                const before = new Set(Array.from(container.children));
+                container.insertAdjacentHTML("beforeend", html);
+
+                Array.from(container.children)
+                    .filter(el => !before.has(el) && el.tagName !== "HR")
+                    .forEach((el, i) => {
+                        el.style.animationDelay = (i * 0.06) + "s";
+                    });
+
+                skip += take;
+                updateProgress(Math.min(skip, totalCount));
+
+                if (skip >= totalCount) {
+                    loadMoreBtn.style.display = "none";
+                }
+            } finally {
+                if (loadMoreBtn.style.display !== "none") {
+                    loadMoreBtn.disabled = false;
+                    btnLabel.textContent = "Daha Fazla Göster";
+                }
+            }
+        }
+
+        loadMoreBtn.addEventListener("click", loadNews);
     </script>
 }

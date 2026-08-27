@@ -1,6 +1,6 @@
 ﻿@model List<WorksConducteds>
 
-    <style>
+<style>
     .news-img-wrapper {
         width: 100%;
         height: 130px;
@@ -29,19 +29,19 @@
                     .Replace("ş", "s")
                     .Replace("ü", "u");
 
-                            <div class="d-flex align-items-center bg-white mb-2 news-item">
-                                <div class="row w-100 m-0">
-                                    <div class="col-lg-6 text-right">
-                                        <a href="@Url.Action("NewsDetail", new { slug = slug })" title="@item.WorkingName">
-                                            <div class="news-img-wrapper">
-                                                <img src="@Url.Action("ViewImageNews", new { Id = item.Id })"
-                                                     alt="@item.WorkingName"
-                                                     class="news-img" />
-                                            </div>
-                                        </a>
-                                    </div>
+    <div class="d-flex align-items-center bg-white mb-2 news-item">
+        <div class="row w-100 m-0">
+            <div class="col-lg-6 text-right">
+                <a href="@Url.Action("NewsDetail", new { slug = slug })" title="@item.WorkingName">
+                    <div class="news-img-wrapper">
+                        <img src="@Url.Action("ViewImageNews", new { Id = item.Id })"
+                             alt="@item.WorkingName"
+                             class="news-img" />
+                    </div>
+                </a>
+            </div>
             <div class="col-lg-6 text-left">
-                <span class="badge badge-primary font-weight-semi-bold p-1 mr-2">
+                <span class="badge badge-primary text-white font-weight-semi-bold p-1 mr-2">
                     @item.CreatedDate.ToString("dd.MM.yyyy HH:mm")
                 </span><br />
                 <a href=" @Url.Action("NewsDetail", new {  slug = slug })"

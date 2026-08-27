@@ -1,0 +1,120 @@
+﻿/* Genel Arka Plan Özelleştirmesi (Koyu Beyaz / Yumuşak Gri) */
+body {
+    background-color: #f8fafc !important;
+}
+
+.guide-page-wrapper {
+    background-color: #f8fafc;
+    min-height: 100vh;
+}
+
+/* Rehber Kart Mimarisi */
+.guide-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+}
+
+/* Modern Table Özelleştirmeleri */
+.custom-table {
+    margin-bottom: 0 !important;
+    vertical-align: middle;
+}
+
+    .custom-table thead th {
+        background-color: #f1f5f9 !important;
+        color: #475569 !important;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid #cbd5e1 !important;
+        padding: 1rem 0.75rem;
+    }
+
+    .custom-table tbody tr {
+        transition: background-color 0.2s ease;
+    }
+
+        .custom-table tbody tr:hover {
+            background-color: #f8fafc !important;
+        }
+
+    .custom-table td {
+        padding: 0.85rem 0.75rem;
+        color: #1e293b;
+        font-weight: 500;
+        border-bottom-color: #f1f5f9;
+    }
+
+/* İletişim Bağlantıları ve Badge'ler */
+.phone-link {
+    color: #0f172a;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+    .phone-link:hover {
+        color: #0d6efd;
+    }
+
+.internal-badge {
+    background-color: #e0f2fe;
+    color: #0369a1;
+    font-weight: 700;
+    padding: 0.35em 0.65em;
+    border-radius: 6px;
+}
+
+.department-badge {
+    background-color: #f1f5f9;
+    color: #334155;
+    border: 1px solid #e2e8f0;
+}
+
+/* Avatar Daire Rengi */
+.avatar-circle {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    background-color: #f1f5f9;
+    color: #0284c7;
+    font-weight: 700;
+}
+
+/* DataTables Arayüz Elemanları */
+.dataTables_wrapper .dataTables_filter input {
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 0.4rem 0.75rem;
+    outline: none;
+    background-color: #ffffff;
+}
+
+    .dataTables_wrapper .dataTables_filter input:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+    }
+
+.dataTables_wrapper .dataTables_length select {
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 0.3rem 0.5rem;
+    background-color: #ffffff;
+}
+
+.page-item.active .page-link {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    border-radius: 6px;
+}
+
+.page-link {
+    border-radius: 6px;
+    margin: 0 2px;
+    color: #475569;
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+}

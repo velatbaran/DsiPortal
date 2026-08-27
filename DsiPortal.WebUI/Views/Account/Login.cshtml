@@ -4,48 +4,97 @@
     ViewData["Title"] = "Giriş";
     Layout = "_LayoutLogin";
 }
-<div class="row justify-content-center">
-    <div class="col-lg-12">
-        <div class="card o-hidden border-0 shadow-lg my-5">
+
+<link href="~/css/login-theme.css" rel="stylesheet" />
+<div class="row justify-content-center align-items-center min-vh-100">
+    <div class="col-xl-10 col-lg-12 col-md-9">
+        <div class="card border-0 shadow-lg rounded-xl overflow-hidden my-5 login-card">
             <div class="card-body p-0">
-                <!-- Nested Row within Card Body -->
-                <div class="row">
-                    <div class="col-lg-6 d-none d-lg-block bg-login-image">
-                        <img src="~/admin/img/dsi24login.jpg" width="600px" height="500px"/>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="p-5">
-                            <div class="text-center">
-                                <h2 class="h4 text-gray-900 mb-4">DSİ 24.Bölge Müdürlüğü Portal</h2>
-                                <h1 class="h4 text-gray-900 mb-4">Giriş Sayfası</h1>
-                            </div>
-                            <form class="user" asp-action="Login">
-                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                <div class="form-group">
-                                    <label asp-for="Username" class="control-label"></label>
-                                    <input asp-for="Username" class="form-control" placeholder="kullanıcı adı giriniz..." />
-                                    <span asp-validation-for="Username" class="text-danger"></span>
+                <div class="row no-gutters">
+
+                    <!-- Sol Görsel Alanı (Tamamen Net ve Modern) -->
+                    <div class="col-lg-6 d-none d-lg-block position-relative overflow-hidden">
+                        <img src="~/admin/img/dsi24login.jpg" class="login-bg-img" alt="DSİ 24. Bölge Müdürlüğü" />
+
+                        <div class="login-img-overlay"></div>
+
+                        <div class="login-img-content p-4">
+                            <div class="clear-card p-4 rounded-lg">
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="badge-modern mr-2">
+                                        <i class="fa-solid fa-water"></i> DSİ
+                                    </span>
+                                    <small class="text-white-50 font-weight-bold text-uppercase tracking-wide">24. Bölge Müdürlüğü</small>
                                 </div>
-                                <div class="form-group">
-                                    <label asp-for="Password" class="control-label"></label>
-                                    <input type="password" asp-for="Password" class="form-control" placeholder="şifre giriniz..." />
-                                    <span asp-validation-for="Password" class="text-danger"></span>
-                                </div>
-                                <input type="hidden" asp-for="ReturnUrl" value="@Context.Request.Query["ReturnUrl"]" />
-                                <div class="form-group">
-                                    <button type="submit" value="Giriş" class="btn btn-primary btn-lg" title="Giriş"><i class="fa-solid fa-right-to-bracket"></i> Giriş</button>
-                                </div>
-                            </form>
-                            <hr>
-                            <div class="form-group">
-                                <a class="small" href="/Account/ForgetPassword">Şifremi Unuttum!</a>
+                                <h4 class="text-white font-weight-bold mb-1">Portal Yönetim Sistemi</h4>
+                                <p class="text-white-50 small mb-0">Güvenli ve Hızlı Kurumsal Erişim</p>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Sağ Form Alanı -->
+                    <div class="col-lg-6 d-flex align-items-center bg-white">
+                        <div class="p-4 p-sm-5 w-100">
+
+                            <!-- Üst Başlık ve İkon -->
+                            <div class="text-center mb-4">
+                                <div class="login-brand-icon mb-3 mx-auto">
+                                    <i class="fa-solid fa-user-shield text-primary"></i>
+                                </div>
+                                <h4 class="font-weight-bold text-gray-900 mb-1">Hoş Geldiniz</h4>
+                                <p class="text-muted small">Lütfen hesabınıza giriş yapın</p>
+                            </div>
+
+                            <!-- Giriş Formu -->
+                            <form class="user-form" asp-action="Login" method="post">
+                                <div asp-validation-summary="ModelOnly" class="alert alert-danger p-2 small border-0"></div>
+
+                                <!-- Kullanıcı Adı Input Group -->
+                                <div class="form-group mb-3">
+                                    <label asp-for="Username" class="small font-weight-bold text-gray-700 mb-1">Kullanıcı Adı</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text bg-light border-right-0"><i class="fa-regular fa-user text-muted"></i></span>
+                                        </div>
+                                        <input asp-for="Username" class="form-control border-left-0 bg-light" placeholder="kullanıcı adınızı giriniz..." />
+                                    </div>
+                                    <span asp-validation-for="Username" class="text-danger small"></span>
+                                </div>
+
+                                <!-- Şifre Input Group -->
+                                <div class="form-group mb-3">
+                                    <label asp-for="Password" class="small font-weight-bold text-gray-700 mb-1">Şifre</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text bg-light border-right-0"><i class="fa-solid fa-lock text-muted"></i></span>
+                                        </div>
+                                        <input type="password" asp-for="Password" class="form-control border-left-0 bg-light" placeholder="şifrenizi giriniz..." />
+                                    </div>
+                                    <span asp-validation-for="Password" class="text-danger small"></span>
+                                </div>
+
+                                <input type="hidden" asp-for="ReturnUrl" value="@Context.Request.Query["ReturnUrl"]" />
+
+                                <!-- Giriş Yap Butonu -->
+                                <button type="submit" class="btn btn-primary btn-block btn-login font-weight-bold py-2 mt-4 shadow-sm">
+                                    <i class="fa-solid fa-right-to-bracket mr-2"></i> Giriş Yap
+                                </button>
+                            </form>
+
+                            <hr class="my-4">
+
+                            <!-- Şifremi Unuttum Bağlantısı -->
+                            <div class="text-center">
+                                <a class="small text-muted font-weight-bold hover-primary" href="/Account/ForgetPassword">
+                                    <i class="fa-solid fa-key mr-1"></i> Şifremi Unuttum
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
-
     </div>
-
 </div>

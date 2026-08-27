@@ -1,0 +1,103 @@
+﻿/* Genel Arka Plan Özelleştirmesi (Yumuşak Gri) */
+body {
+    background-color: #f8fafc !important;
+}
+
+.forms-page-wrapper {
+    background-color: #f8fafc;
+    min-height: 100vh;
+}
+
+/* Departman Kart Mimarisi */
+.dept-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
+    margin-bottom: 1.75rem;
+    overflow: hidden;
+}
+
+.dept-header {
+    background-color: #ffffff;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+/* Form Kartı Temalara Uygun Hover Efekti */
+.form-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.9rem 1.25rem;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid transparent; /* Varsayılan şeffaf kenarlık */
+    background-color: #ffffff;
+    text-decoration: none !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+    /* Hover (Kartın Üzerine Gelindiğinde) */
+    .form-item:hover {
+        background-color: #f0f7ff !important; /* Yumuşak Açık Mavi Arka Plan */
+        border-color: #bfdbfe !important; /* Mavi Kenarlık Tint */
+        border-left-color: #0d6efd !important; /* Sol Kenarda Belirgin Mavi Çizgi */
+        transform: translateY(-2px); /* Yumuşak Yukarı Kayma */
+        box-shadow: 0 6px 16px -4px rgba(13, 110, 253, 0.12); /* Mavi Tonlu Gölge */
+    }
+
+        /* Hover Sırasında Başlık Metni Rengi */
+        .form-item:hover .text-dark {
+            color: #0d6efd !important;
+        }
+
+        /* Hover Sırasında İkon Kutusu ve Buton Efekti */
+        .form-item:hover .icon-box {
+            transform: scale(1.05);
+            transition: transform 0.2s ease;
+        }
+
+        .form-item:hover .download-badge {
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        }
+
+/* Dosya Türü Rozetleri (Badge & İkon) */
+.icon-box {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+/* Renk Temaları (Dosya Uzantılarına Göre) */
+.file-pdf {
+    background-color: #fef2f2;
+    color: #dc2626;
+}
+
+.file-excel {
+    background-color: #f0fdf4;
+    color: #16a34a;
+}
+
+.file-word {
+    background-color: #eff6ff;
+    color: #2563eb;
+}
+
+.file-default {
+    background-color: #f8fafc;
+    color: #64748b;
+}
+
+.download-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.4rem 0.75rem;
+    border-radius: 6px;
+}

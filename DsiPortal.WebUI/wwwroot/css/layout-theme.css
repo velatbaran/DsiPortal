@@ -1,0 +1,153 @@
+﻿/* ===================================================================
+           Aynı marka paleti (Layout ile tutarlı): lacivert / teal / altın
+        =================================================================== */
+:root {
+    --dsi-navy: #0B3350;
+    --dsi-navy-deep: #082741;
+    --dsi-teal: #1A7A8C;
+    --dsi-gold: #FFCC00;
+    --dsi-stone: #F3F5F7;
+    --dsi-stone-dark: #E4E9ED;
+    --dsi-ink: #16232E;
+    --dsi-radius-sm: 10px;
+    --dsi-shadow-sm: 0 2px 8px rgba(11, 51, 80, .06);
+    --dsi-shadow-md: 0 10px 26px rgba(11, 51, 80, .14);
+}
+
+/* Bölüm başlıkları — footer/navbar ile aynı altın vurgulu dil */
+.section-title {
+    position: relative;
+    padding-bottom: .5rem;
+    margin-bottom: 1rem !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+    .section-title h4 {
+        color: var(--dsi-navy-deep);
+        font-weight: 800;
+        letter-spacing: .02em;
+        position: relative;
+        padding-bottom: .5rem;
+    }
+
+        .section-title h4::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 46px;
+            height: 3px;
+            background: var(--dsi-gold);
+            border-radius: 2px;
+        }
+
+    .section-title a {
+        color: var(--dsi-teal);
+        font-weight: 600;
+        font-size: .85rem;
+        transition: color .2s ease;
+    }
+
+        .section-title a:hover {
+            color: var(--dsi-navy);
+        }
+
+/* ===================================================================
+           App / kısayol / faydalı link kutuları — üst şeritteki .app-item
+           kartlarıyla aynı dil: nötr zemin, hover'da lacivert + altın vurgu
+        =================================================================== */
+.app-box {
+    background-color: var(--dsi-stone);
+    border: 1px solid var(--dsi-stone-dark);
+    height: 156px;
+    border-radius: var(--dsi-radius-sm);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    box-shadow: var(--dsi-shadow-sm);
+    transition: background-color .25s ease, border-color .25s ease, transform .25s ease, box-shadow .25s ease;
+}
+
+    .app-box:hover {
+        background-color: var(--dsi-navy);
+        border-color: var(--dsi-navy);
+        transform: translateY(-4px);
+        box-shadow: var(--dsi-shadow-md);
+    }
+
+    .app-box img {
+        transition: transform 0.3s ease-in-out;
+        object-fit: contain;
+    }
+
+    .app-box:hover img {
+        transform: scale(1.1);
+    }
+
+    .app-box a {
+        color: var(--dsi-ink);
+        text-decoration: none;
+        transition: color 0.25s ease-in-out;
+    }
+
+    .app-box:hover a {
+        color: #fff !important;
+    }
+
+    .app-box .h6 {
+        font-size: .82rem;
+        line-height: 1.2;
+        padding: 0 .5rem;
+    }
+
+    /* Sosyal Tesis kutuları biraz daha ferah olsun */
+    .app-box.social-box {
+        height: 156px;
+    }
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none; /* KRİTİK */
+}
+
+    .overlay a {
+        pointer-events: auto; /* sadece overlay içindeki linkler */
+    }
+
+.news-item {
+    height: 220px;
+    overflow: hidden;
+}
+
+.news-img-wrapper {
+    width: 100%;
+    height: 130px;
+    overflow: hidden;
+    border-radius: var(--dsi-radius-sm) var(--dsi-radius-sm) 0 0;
+}
+
+.news-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* taşma yok */
+    object-position: center;
+    display: block; /* alt boşluk gider */
+    transition: transform .35s ease;
+}
+
+.news-item:hover .news-img {
+    transform: scale(1.06);
+}
+
+.news-title {
+    color: black;
+    font-size: 10px;
+    line-height: 1.2;
+    display: block;
+}

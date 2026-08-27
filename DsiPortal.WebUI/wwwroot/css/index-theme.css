@@ -1,0 +1,215 @@
+﻿/* ===================================================================
+           Marka rengi — Layout'taki navbar/üst bar ile BİREBİR aynı ton.
+           Bu sayfadaki tüm vurgu, kart ve link renkleri buradan türetilir.
+        =================================================================== */
+:root {
+    --dsi-navy: #0B3350; /* navbar/üst bar ile aynı renk */
+    --dsi-navy-deep: #082741; /* koyu varyant (hover/derinlik) */
+    --dsi-navy-light: #14496f; /* açık varyant (ikincil yüzeyler) */
+    --dsi-gold: #FFCC00;
+    --dsi-stone: #F3F5F7;
+    --dsi-stone-dark: #E4E9ED;
+    --dsi-ink: #16232E;
+    --dsi-radius-sm: 10px;
+    --dsi-shadow-sm: 0 2px 8px rgba(11, 51, 80, .10);
+    --dsi-shadow-md: 0 10px 26px rgba(11, 51, 80, .22);
+}
+
+/* Bölüm başlıkları — navbar ile aynı lacivert + altın vurgu */
+.section-title {
+    position: relative;
+    padding-bottom: .5rem;
+    margin-bottom: 1rem !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+    .section-title h4 {
+        color: var(--dsi-navy);
+        font-weight: 800;
+        letter-spacing: .02em;
+        position: relative;
+        padding-bottom: .5rem;
+    }
+
+        .section-title h4::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 46px;
+            height: 3px;
+            background: var(--dsi-gold);
+            border-radius: 2px;
+        }
+
+    .section-title a {
+        color: var(--dsi-navy);
+        font-weight: 600;
+        font-size: .85rem;
+        transition: color .2s ease;
+    }
+
+        .section-title a:hover {
+            color: var(--dsi-gold);
+        }
+
+/* ===================================================================
+           App / kısayol / faydalı link kutuları — üst bar ile AYNI lacivert
+           zemin varsayılan durumda; hover'da altına dönüyor (navbar linkleri
+           ile aynı mantık: lacivert taban + altın vurgu).
+        =================================================================== */
+.app-box {
+    background-color: var(--dsi-stone);
+    border: 1px solid var(--dsi-stone-dark);
+    height: 156px;
+    border-radius: var(--dsi-radius-sm);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: var(--dsi-shadow-sm);
+    transition: background-color .25s ease, border-color .25s ease, transform .25s ease, box-shadow .25s ease;
+}
+
+    .app-box:hover {
+        background-color: var(--dsi-navy);
+        border-color: var(--dsi-navy);
+        transform: translateY(-4px);
+        box-shadow: var(--dsi-shadow-md);
+    }
+
+    .app-box img {
+        transition: transform 0.3s ease-in-out;
+        object-fit: contain;
+    }
+
+    .app-box:hover img {
+        transform: scale(1.1);
+    }
+
+    .app-box a {
+        color: var(--dsi-ink);
+        text-decoration: none;
+        transition: color 0.25s ease-in-out;
+    }
+
+    .app-box:hover a {
+        color: #ffffff !important;
+    }
+
+    .app-box .h6 {
+        font-size: .82rem;
+        line-height: 1.2;
+        padding: 0 .5rem;
+    }
+
+    .app-box.social-box {
+        height: 156px;
+    }
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none; /* KRİTİK */
+}
+
+    .overlay a {
+        pointer-events: auto; /* sadece overlay içindeki linkler */
+    }
+
+/* Duyurular / Geçmiş Haberler paneli — navbar ile aynı lacivert şerit */
+.info-panel {
+    border-top: 3px solid var(--dsi-navy) !important;
+    box-shadow: var(--dsi-shadow-sm);
+}
+
+    .info-panel a {
+        color: var(--dsi-ink);
+    }
+
+        .info-panel a:hover {
+            color: var(--dsi-navy);
+        }
+
+.news-item {
+    height: 220px;
+    overflow: hidden;
+}
+
+.news-img-wrapper {
+    width: 100%;
+    height: 130px;
+    overflow: hidden;
+    border-radius: var(--dsi-radius-sm) var(--dsi-radius-sm) 0 0;
+}
+
+.news-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* taşma yok */
+    object-position: center;
+    display: block; /* alt boşluk gider */
+    transition: transform .35s ease;
+}
+
+.news-item:hover .news-img {
+    transform: scale(1.06);
+}
+
+.news-title {
+    color: black;
+    font-size: 10px;
+    line-height: 1.2;
+    display: block;
+}
+
+.badge-primary {
+    background-color: var(--dsi-navy) !important;
+}
+
+/* Günün Menüsü satırları — teal yerine navbar'ın lacivert tonu */
+.menu-row {
+    background: var(--dsi-navy) !important;
+}
+
+/**Bölge müdürü*/
+
+.manager-card {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 415px; /* Eski yükseklik değeri */
+}
+
+    .manager-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12) !important;
+    }
+
+.manager-img-wrapper {
+    height: 100%;
+    position: relative;
+}
+
+.manager-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+}
+
+.manager-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(8, 39, 65, 0.92) 100%);
+}
+
+.tracking-wide {
+    letter-spacing: 0.8px;
+}

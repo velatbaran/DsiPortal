@@ -1,0 +1,88 @@
+﻿/* Card ve Hover Efektleri */
+.management-card {
+    background: #ffffff;
+    border: 1px solid #eef2f6;
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+    .management-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+    }
+
+/* Avatar Alanı ve Efektler */
+.avatar-wrapper {
+    width: 140px;
+    height: 140px;
+    aspect-ratio: 1/1;
+    background-color: #f8fafc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    margin: 0 auto;
+    position: relative;
+    border-radius: 50%;
+    border: 3px solid #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+    .avatar-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: all 0.3s ease;
+    }
+
+.management-card:hover .avatar-wrapper {
+    border-radius: 12px;
+}
+
+    .management-card:hover .avatar-wrapper img {
+        transform: scale(1.08);
+    }
+
+/* İletişim Bağlantıları */
+.contact-link {
+    color: #475569;
+    text-decoration: none;
+    word-break: break-all;
+    transition: color 0.2s ease;
+}
+
+    .contact-link:hover {
+        color: #0d6efd;
+    }
+
+/* Ayraç ve Başlıklar */
+.section-divider {
+    position: relative;
+    text-align: center;
+    margin: 3.5rem 0 2.5rem 0;
+}
+
+    .section-divider::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: #e2e8f0;
+        z-index: 1;
+    }
+
+.section-divider-title {
+    position: relative;
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    background: #ffffff;
+    z-index: 2;
+    border-radius: 20px;
+    border: 1px solid #e2e8f0;
+    font-weight: 700;
+    color: #1e293b;
+}

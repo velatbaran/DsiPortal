@@ -3,22 +3,230 @@
 <html lang="tr">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="DSİ 24. Bölge Müdürlüğü Yönetim Portalı">
+    <meta name="author" content="DSİ 24. Bölge">
 
-    <title>@ViewData["Title"] - DSİ 24.Bölge Müdürlüğü Portal</title>
+    <title>@ViewData["Title"] - DSİ 24. Bölge Müdürlüğü Portal</title>
 
+    <!-- Bootstrap & FontAwesome -->
     <link href="~/lib/bootstrap5.3/bootstrap.min.css" rel="stylesheet" />
-    <!-- Font Avesome -->
-    <link href="~/lib/fontawesome/css/all.css" rel="stylesheet" />
     <link href="~/lib/fontawesome/css/all.min.css" rel="stylesheet" />
-    <!-- Custom styles for this template-->
     <link href="/admin/css/sb-admin-2.min.css" rel="stylesheet">
-    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+
+    <!-- Modern Sidebar & Custom Layout Stilleri -->
+    <style>
+        :root {
+            --dsi-primary: #082741;
+            --dsi-secondary: #0d6efd;
+            --dsi-dark-hover: #0b3558;
+            --sidebar-width: 260px;
+        }
+
+        /* Modern Sidebar Arka Planı */
+        .sidebar-modern {
+            background: linear-gradient(180deg, #082741 0%, #051a2c 100%) !important;
+            width: var(--sidebar-width) !important;
+            min-height: 100vh;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Kurumsal Brand / Logo Alanı */
+        .sidebar-brand-modern {
+            padding: 1.5rem 1rem;
+            display: flex;
+            align-items: center;
+            text-decoration: none !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 0.5rem;
+        }
+
+        .brand-logo-wrapper {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 6px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .brand-text-wrapper {
+            display: flex;
+            flex-direction: column;
+            margin-left: 12px;
+        }
+
+        .brand-title {
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.95rem;
+            line-height: 1.2;
+            letter-spacing: 0.5px;
+        }
+
+        .brand-subtitle {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.72rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
+
+        /* Menü Başlıkları */
+        .sidebar-heading-modern {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            padding: 1.2rem 1.25rem 0.4rem;
+        }
+
+        /* Menü Elemanları */
+        .nav-item-modern {
+            margin: 2px 10px;
+            border-radius: 8px;
+            transition: all 0.25s ease;
+        }
+
+        .nav-link-modern {
+            color: rgba(255, 255, 255, 0.75) !important;
+            padding: 0.7rem 1rem !important;
+            display: flex !important;
+            align-items: center;
+            font-size: 0.88rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.25s ease !important;
+        }
+
+            .nav-link-modern:hover {
+                color: #ffffff !important;
+                background: rgba(255, 255, 255, 0.08);
+                transform: translateX(3px);
+            }
+
+            .nav-link-modern.active {
+                color: #ffffff !important;
+                background: var(--dsi-secondary) !important;
+                box-shadow: 0 4px 12px rgba(13, 110, 253, 0.35);
+                font-weight: 600;
+            }
+
+        .nav-icon-wrapper {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 0.95rem;
+            opacity: 0.85;
+        }
+
+        /* Accordion (Açılır Menü) Özel Stilleri */
+        .nav-link-modern[data-toggle="collapse"]::after {
+            width: 1rem;
+            text-align: center;
+            float: right;
+            vertical-align: 0;
+            border: 0;
+            font-weight: 900;
+            content: '\f107';
+            font-family: 'Font Awesome 5 Free';
+            margin-left: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link-modern[data-toggle="collapse"].collapsed::after {
+            transform: rotate(-90deg);
+        }
+
+        .collapse-inner-modern {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 0.4rem;
+            margin: 0.2rem 0 0.4rem 0.5rem;
+            border-left: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .collapse-item-modern {
+            color: rgba(255, 255, 255, 0.65);
+            padding: 0.5rem 0.8rem 0.5rem 2.2rem;
+            display: flex;
+            align-items: center;
+            font-size: 0.83rem;
+            text-decoration: none !important;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+            .collapse-item-modern:hover {
+                color: #ffffff;
+                background: rgba(255, 255, 255, 0.05);
+            }
+
+            .collapse-item-modern i {
+                position: absolute;
+                left: 0.8rem;
+                font-size: 0.75rem;
+                opacity: 0.7;
+            }
+
+        /* Alt Sol Kullanıcı Profil Kartı */
+        .sidebar-user-card {
+            margin: 1.5rem 10px 1rem;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            backdrop-filter: blur(8px);
+        }
+
+        .sidebar-user-img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--dsi-secondary);
+        }
+
+        .sidebar-user-info {
+            margin-left: 10px;
+            overflow: hidden;
+        }
+
+        .sidebar-user-name {
+            color: #ffffff;
+            font-size: 0.82rem;
+            font-weight: 600;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        .sidebar-user-role {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.7rem;
+            margin: 0;
+        }
+
+        /* Ayraçlar */
+        .sidebar-divider-modern {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            margin: 0.8rem 1rem;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -27,98 +235,139 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav sidebar-modern sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/Account/Index">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    @* <i class="fas fa-laugh-wink"></i> *@
-                    <img class="img-profile rounded-circle" src="/admin/img/dsi.png" height="40">
+            <a class="sidebar-brand-modern" href="/Account/Index">
+                <div class="brand-logo-wrapper">
+                    <img class="img-profile rounded-circle" src="/admin/img/dsi.png" height="34" width="34" alt="DSİ Logo">
                 </div>
-                <div class="sidebar-brand-text mx-3" style="font-size:12px">DSİ 24.Bölge Administrator</div>
+                <div class="brand-text-wrapper">
+                    <span class="brand-title">DSİ 24. BÖLGE</span>
+                    <span class="brand-subtitle">Yönetim Portalı</span>
+                </div>
             </a>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="/Account/Index">
-                    <i class="fa-solid fa-house"></i>
+            <!-- Ana Menü -->
+            <li class="nav-item-modern">
+                <a class="nav-link-modern active" href="/Account/Index">
+                    <span class="nav-icon-wrapper"><i class="fa-solid fa-house"></i></span>
                     <span>Anasayfa</span>
                 </a>
             </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
+            <div class="sidebar-divider-modern"></div>
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                İşlemler
-            </div>
+            <!-- KATEGORİ 1: KURUMSAL YAPILANMA -->
+            <div class="sidebar-heading-modern">Kurumsal Yapı</div>
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="/Managemention/Index">
-                    <i class="fa-solid fa-building-ngo"></i>
-                    <span> Organizasyon Şeması</span>
+            <li class="nav-item-modern">
+                <a class="nav-link-modern collapsed" href="#" data-toggle="collapse" data-target="#collapseCorporate" aria-expanded="false" aria-controls="collapseCorporate">
+                    <span class="nav-icon-wrapper"><i class="fa-solid fa-sitemap"></i></span>
+                    <span>Yönetim ve Kadro</span>
                 </a>
-                <a class="nav-link collapsed" href="/DepartmentManager/Index">
-                    <i class="fa-solid fa-people-roof"></i>
-                    <span> Yönetim-Müdürler</span>
+                <div id="collapseCorporate" class="collapse" data-parent="#accordionSidebar">
+                    <div class="collapse-inner-modern">
+                        <a class="collapse-item-modern" href="/Managemention/Index">
+                            <i class="fa-solid fa-diagram-project"></i> Organizasyon Şeması
+                        </a>
+                        <a class="collapse-item-modern" href="/RegionalManager/Index">
+                            <i class="fa-solid fa-user-tie"></i> Bölge Müdürü
+                        </a>
+                        <a class="collapse-item-modern" href="/DepartmentManager/Index">
+                            <i class="fa-solid fa-people-roof"></i> Bölge Müdür Yardımcıları
+                        </a>
+                        <a class="collapse-item-modern" href="/User/Index">
+                            <i class="fa-solid fa-users-gear"></i> Kullanıcı Yönetimi
+                        </a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- KATEGORİ 2: İÇERİK YÖNETİMİ -->
+            <div class="sidebar-heading-modern">İçerik ve Duyurular</div>
+
+            <li class="nav-item-modern">
+                <a class="nav-link-modern collapsed" href="#" data-toggle="collapse" data-target="#collapseContent" aria-expanded="false" aria-controls="collapseContent">
+                    <span class="nav-icon-wrapper"><i class="fa-solid fa-bullhorn"></i></span>
+                    <span>Yayın Yönetimi</span>
                 </a>
-                <a class="nav-link collapsed" href="/RegionalManager/Index">
-                    <i class="fa-solid fa-user-secret"></i>
-                    <span> Bölge Müdürü</span>
+                <div id="collapseContent" class="collapse" data-parent="#accordionSidebar">
+                    <div class="collapse-inner-modern">
+                        <a class="collapse-item-modern" href="/News/Index">
+                            <i class="fa-solid fa-newspaper"></i> Haberler
+                        </a>
+                        <a class="collapse-item-modern" href="/Announcement/Index">
+                            <i class="fa-solid fa-flag"></i> Duyurular
+                        </a>
+                        <a class="collapse-item-modern" href="/Form/Index">
+                            <i class="fa-solid fa-file-lines"></i> Formlar
+                        </a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- KATEGORİ 3: SOSYAL VE HİZMETLER -->
+            <div class="sidebar-heading-modern">Sosyal Tesis ve Hizmetler</div>
+
+            <li class="nav-item-modern">
+                <a class="nav-link-modern collapsed" href="#" data-toggle="collapse" data-target="#collapseServices" aria-expanded="false" aria-controls="collapseServices">
+                    <span class="nav-icon-wrapper"><i class="fa-solid fa-utensils"></i></span>
+                    <span>Yemek ve Konaklama</span>
                 </a>
-                <a class="nav-link collapsed" href="/User/Index">
-                    <i class="fa-solid fa-users"></i>
-                    <span> Kullanıcılar</span>
+                <div id="collapseServices" class="collapse" data-parent="#accordionSidebar">
+                    <div class="collapse-inner-modern">
+                        <a class="collapse-item-modern" href="/FoodList/Index">
+                            <i class="fa-solid fa-burger"></i> Yemek Listesi
+                        </a>
+                        <a class="collapse-item-modern" href="/FoodPriceList/Index">
+                            <i class="fa-solid fa-hand-holding-dollar"></i> Yemek Fiyatları
+                        </a>
+                        <a class="collapse-item-modern" href="/GuestFeeChart/Index">
+                            <i class="fa-solid fa-hotel"></i> Misafirhane Çizelgesi
+                        </a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- KATEGORİ 4: BİLGİ SİSTEMLERİ -->
+            <div class="sidebar-heading-modern">Sistem ve Bağlantılar</div>
+
+            <li class="nav-item-modern">
+                <a class="nav-link-modern" href="/App/Index">
+                    <span class="nav-icon-wrapper"><i class="fa-solid fa-cubes"></i></span>
+                    <span>Uygulama Kısayolları</span>
                 </a>
-                <a class="nav-link collapsed" href="/News/Index">
-                    <i class="fa-solid fa-check-double"></i>
-                    <span> Haberler</span>
+            </li>
+            <li class="nav-item-modern">
+                <a class="nav-link-modern" href="/Camera/Index">
+                    <span class="nav-icon-wrapper"><i class="fa-solid fa-video"></i></span>
+                    <span>Kamera Sistemleri</span>
                 </a>
-                <a class="nav-link collapsed" href="/Announcement/Index">
-                    <i class="fa-solid fa-flag"></i>
-                    <span> Duyurular</span>
+            </li>
+            <li class="nav-item-modern">
+                <a class="nav-link-modern" href="/BenefitLink/Index">
+                    <span class="nav-icon-wrapper"><i class="fa-solid fa-link"></i></span>
+                    <span>Faydalı Linkler</span>
                 </a>
-                <a class="nav-link collapsed" href="/Form/Index">
-                    <i class="fa-solid fa-align-justify"></i>
-                    <span> Formlar</span>
-                </a>
-                <a class="nav-link collapsed" href="/App/Index">
-                    <i class="fa-brands fa-app-store-ios"></i>
-                    <span> Uygulamalar-Kısayollar</span>
-                </a>
-                <a class="nav-link collapsed" href="/Camera/Index">
-                    <i class="fa-solid fa-camera"></i>
-                    <span> Kameralar</span>
-                </a>
-                <a class="nav-link collapsed" href="/BenefitLink/Index">
-                    <i class="fa-solid fa-link"></i>
-                    <span> Faydalı Linkler</span>
-                </a>
-                <a class="nav-link collapsed" href="/FoodList/Index">
-                    <i class="fa-solid fa-burger"></i>
-                    <span> Yemek Listesi</span>
-                </a>
-                <a class="nav-link collapsed" href="/FoodPriceList/Index">
-                    <i class="fa-solid fa-hand-holding-dollar"></i>
-                    <span> Yemek Fiyat Listesi</span>
-                </a>
-                <a class="nav-link collapsed" href="/GuestFeeChart/Index">
-                    <i class="fa-solid fa-user-check"></i>
-                    <span> Misafirhane Yemek Çizelgesi</span>
-                </a>
-                <a class="nav-link collapsed" href="/UserEmails/Index">
-                    <i class="fa-solid fa-envelope"></i>
-                    <span> Kullanıcı Epostaları</span>
+            </li>
+            <li class="nav-item-modern">
+                <a class="nav-link-modern" href="/UserEmails/Index">
+                    <span class="nav-icon-wrapper"><i class="fa-solid fa-envelope-open-text"></i></span>
+                    <span>E-Posta Rehberi</span>
                 </a>
             </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
+            <div class="sidebar-divider-modern"></div>
+
+            <!-- Alt Kullanıcı Bilgi Kartı -->
+            <div class="sidebar-user-card">
+                <img class="sidebar-user-img" src="/admin/img/undraw_profile.svg" alt="User Avatar">
+                <div class="sidebar-user-info">
+                    <p class="sidebar-user-name">@Context.User.Identity.Name</p>
+                    <p class="sidebar-user-role">Sistem Yöneticisi</p>
+                </div>
+            </div>
 
         </ul>
         <!-- End of Sidebar -->
@@ -129,7 +378,7 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow-sm">
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -145,25 +394,25 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@Context.User.Identity.Name</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-700 font-weight-bold small">@Context.User.Identity.Name</span>
                                 <img class="img-profile rounded-circle" src="/admin/img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                  aria-labelledby="userDropdown">
-                                 <a href="/Account/MyProfile">
+                                <a class="dropdown-item" href="/Account/MyProfile">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profilim
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a href="/Account/ChangePassword">
+                                <a class="dropdown-item" href="/Account/ChangePassword">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Şifremi Değiştir
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a href="/Account/LogOut" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="/Account/LogOut" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Çıkış
+                                    Çıkış Yap
                                 </a>
                             </div>
                         </li>
@@ -174,25 +423,20 @@
                 <!-- End of Topbar -->
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
-                    <!-- Content Row -->
                     <div class="row">
                         <div class="col-md-12 mb-4">
-@*                             <h1 class="mt-2 mb-4">@ViewData["Title"]</h1>
-                            <hr /> *@
                             @RenderBody()
                         </div>
                     </div>
-
                 </div>
 
             </div>
             <!-- End of Main Content -->
             <!-- Footer -->
-            <footer class="sticky-footer bg-white">
+            <footer class="sticky-footer bg-white border-top">
                 <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span> &copy; DSİ 24. Bölge Müdürlüğü Portal Sayfası <strong>@DateTime.Now.Year</strong></span>
+                    <div class="copyright text-center my-auto text-muted">
+                        <span>&copy; DSİ 24. Bölge Müdürlüğü Portal Sayfası <strong>@DateTime.Now.Year</strong></span>
                     </div>
                 </div>
             </footer>
@@ -209,43 +453,55 @@
     </a>
 
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ayrılmaya Hazır mısın?</h5>
+                    <h5 class="modal-title font-weight-bold text-gray-800" id="exampleModalLabel">Ayrılmak İstiyor musunuz?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Mevcut oturumunuzu sonlandırmak için "Çıkış"ı seçiniz..</div>
+                <div class="modal-body">Mevcut oturumunuzu sonlandırmak için "Çıkış Yap" butonuna tıklayınız.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">İptal</button>
-                    <a class="btn btn-primary" href="/Account/LogOut">Çıkış</a>
+                    <button class="btn btn-light" type="button" data-dismiss="modal">İptal</button>
+                    <a class="btn btn-danger" href="/Account/LogOut">Çıkış Yap</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap core JavaScript-->
+    <!-- Scripts -->
     <script src="/admin/vendor/jquery/jquery.min.js"></script>
     <script src="/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/bootstrap5.3/bootstrap.bundle.min.js"></script>
-    <!-- Core plugin JavaScript-->
     <script src="~/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
     <script src="~/admin/js/sb-admin-2.min.js"></script>
 
-    <!-- Page level plugins -->
-    <script src="~/admin/vendor/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="~/admin/js/demo/chart-area-demo.js"></script>
-    <script src="~/admin/js/demo/chart-pie-demo.js"></script>
     @RenderSection("Scripts", required: false)
     @await Component.InvokeAsync("NToastNotify")
+
+    <!-- Aktif Menü Linkini Otomatik Vurgulama Scripti -->
+    <script>
+        $(document).ready(function () {
+            var currentUrl = window.location.pathname;
+
+            $('.sidebar-modern .nav-link-modern, .sidebar-modern .collapse-item-modern').each(function () {
+                var href = $(this).attr('href');
+                if (href && currentUrl.toLowerCase() === href.toLowerCase()) {
+                    $('.nav-link-modern').removeClass('active');
+                    $(this).addClass('active');
+
+                    // Eğer link bir collapse (açılır menü) içerisindeyse, o menüyü açık getir
+                    var parentCollapse = $(this).closest('.collapse');
+                    if (parentCollapse.length) {
+                        parentCollapse.addClass('show');
+                        parentCollapse.prev('.nav-link-modern').removeClass('collapsed').attr('aria-expanded', 'true');
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

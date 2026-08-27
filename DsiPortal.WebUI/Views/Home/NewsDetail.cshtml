@@ -1,183 +1,114 @@
 ﻿@model List<WorksConducteds>
 @{
-    ViewData["Title"] = "Yapılan Çalışma Detayı";
+    ViewData["Title"] = "Yapılan Haber Detayı";
     Layout = "_LayoutHomePage";
 }
 
-<style>
-    .news-image-wrapper {
-        height: 500px; /* Sabit yükseklik */
-        overflow: hidden;
-    }
-
-        .news-image-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Kırpar ama bozulmaz */
-        }
-
-    .news-description {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        font-size: 16px;
-        line-height: 1.6;
-        color: #000;
-        word-break: break-word;
-        overflow-wrap: anywhere;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-    }
-
-        .news-description p {
-            margin: 0 0 1em 0; /* paragraflar arasında boşluk */
-            padding: 0;
-        }
-</style>
-
-<div class="container-fluid mt-5 pt-3">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="section-title mt-2">
-                    <h5 class="m-0 text-uppercase font-weight-bold">@ViewData["WorkingName"]</h5>
-                    <span class="m-0 text-uppercase font-weight-bold text-right badge badge-primary">@ViewData["CreateDate"]</span>
+<link href="~/css/newdetail-teheme.css" rel="stylesheet" />
+<div class="container my-5 pt-3">
+    <div class="row">
+        <div class="col-12">
+            <!-- Ana İçerik Kartı -->
+            <article class="detail-card">
+                <div class="main-image-wrapper">
+                    <img src="@Url.Action("ViewImageNews", new { Id = ViewData["Id"] })" alt="@ViewData["WorkingName"]" loading="eager" />
                 </div>
-                <div class="row mt-2">
-                    <div class="col-lg-12">
-                        <div class="news-image-wrapper">
-                            <img src="@Url.Action("ViewImageNews", new { Id = ViewData["Id"] })" />
-                        </div>
+
+                <div class="detail-content">
+                    <header class="detail-header">
+                        <h1 class="detail-title">@ViewData["WorkingName"]</h1>
+                        <span class="date-badge">
+                            <i class="far class="far fa-calendar-alt me-1"></i> @ViewData["CreateDate"]
+                        </span>
+                    </header>
+
+                    <div class="news-description">
+                        @Html.Raw(ViewData["Description"])
                     </div>
-                    <div class="col-lg-12">
-                        <div class="news-description">
-                            @Html.Raw(ViewData["Description"])
+                </div>
+            </article>
+        </div>
+
+        <!-- Galeri Alanı -->
+        @if (Model != null && Model.Count > 1)
+        {
+            <div class="col-12 mt-4">
+                <h3 class="section-heading">Tüm Fotoğraflar</h3>
+
+                <div class="owl-carousel news-carousel carousel-item-4 position-relative galery">
+                    @foreach (var item in Model)
+                    {
+                        <div class="px-2">
+                            <div class="gallery-card">
+                                <img class="gallery-img"
+                                     src="@Url.Action("ViewImageNews", new { Id = item.Id })"
+                                     alt="Galeri Görseli"
+                                     loading="lazy"
+                                     data-index="@Model.IndexOf(item)">
+                            </div>
                         </div>
+                    }
+                </div>
+
+                <!-- Modern Lightbox Modal -->
+                <div class="custom-modal" id="imageLightbox">
+                    <div class="custom-modal-dialog">
+                        <button type="button" class="modal-btn modal-close" aria-label="Kapat">&times;</button>
+                        <button type="button" class="modal-btn modal-prev" aria-label="Önceki">&#10094;</button>
+                        <button type="button" class="modal-btn modal-next" aria-label="Sonraki">&#10095;</button>
+                        <img class="modal-img" id="modal-img" src="" alt="Büyütülmüş Görsel">
                     </div>
                 </div>
             </div>
-            @if (Model.Count > 1)
-            {
-                <div class="col-lg-12">
-                    <div class="section-title mt-4">
-                        <h4 class="m-0 text-uppercase font-weight-bold">Tüm Resimler</h4>
-                    </div>
-                    <div class="owl-carousel news-carousel carousel-item-4 position-relative galery">
-                        @foreach (var item in Model)
-                        {
-                            <div class="position-relative overflow-hidden" style="height: 300px;">
-                                <img class="img-fluid gallery-img h-100"
-                                     src="@Url.Action("ViewImageNews", new {Id = item.Id})"
-                                     style="object-fit: cover; cursor:pointer;"
-                                     data-index="@Model.IndexOf(item)">
-                            </div>
-                        }
-                    </div>
-
-                    <!-- Modal -->
-                    <div class="modal">
-                        <span class="close">&times;</span>
-                        <span class="prev">&#10094;</span>
-                        <span class="next">&#10095;</span>
-                        <img class="modal-content" id="modal-img">
-                        <div class="caption"></div>
-                    </div>
-
-                </div>
-            }
-        </div>
+        }
     </div>
-    <style>
-        /* Modal (büyük resim) kutusu */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.9);
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const modal = document.getElementById('imageLightbox');
+        const modalImg = document.getElementById('modal-img');
+        const closeBtn = document.querySelector('.modal-close');
+        const prevBtn = document.querySelector('.modal-prev');
+        const nextBtn = document.querySelector('.modal-next');
+        const galleryImages = document.querySelectorAll('.gallery-img');
+
+        if (!modal || galleryImages.length === 0) return;
+
+        let currentIndex = 0;
+
+        function showImage(index) {
+            if (index < 0) index = galleryImages.length - 1;
+            if (index >= galleryImages.length) index = 0;
+            currentIndex = index;
+            modalImg.src = galleryImages[currentIndex].src;
         }
 
-        .modal-content {
-            display: block;
-            margin: 60px auto;
-            max-width: 90%; /* Ekranın %90’ını geçmesin */
-            max-height: 80vh; /* Ekranın %80 yüksekliğini geçmesin */
-            object-fit: contain; /* Resmi orantılı sığdırır */
-            background-color:black;
-        }
-
-        .close, .prev, .next {
-            position: absolute;
-            top: 50%;
-            color: #fff;
-            font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
-            user-select: none;
-            transition: 0.3s;
-        }
-
-        .close {
-            top: 20px;
-            right: 35px;
-        }
-
-        .prev {
-            left: 20px;
-            transform: translateY(-50%);
-        }
-
-        .next {
-            right: 20px;
-            transform: translateY(-50%);
-        }
-
-    </style>
-    <script>
-                document.addEventListener('DOMContentLoaded', function () {
-            const modal = document.querySelector('.modal');
-            const modalImg = document.getElementById('modal-img');
-            const captionText = document.querySelector('.caption');
-            const closeBtn = document.querySelector('.close');
-            const prevBtn = document.querySelector('.prev');
-            const nextBtn = document.querySelector('.next');
-            const galleryImages = document.querySelectorAll('.gallery-img');
-
-            let currentIndex = 0;
-
-            function showImage(index) {
-                if (index < 0) index = galleryImages.length - 1;
-                if (index >= galleryImages.length) index = 0;
-                currentIndex = index;
-                const img = galleryImages[currentIndex];
-                modalImg.src = img.src;
-                captionText.innerHTML = img.alt || "";
-            }
-
-            galleryImages.forEach((img, i) => {
-                img.addEventListener('click', function () {
-                    modal.style.display = 'block';
-                    showImage(i);
-                });
-            });
-
-            closeBtn.addEventListener('click', () => modal.style.display = 'none');
-            prevBtn.addEventListener('click', () => showImage(currentIndex - 1));
-            nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
-
-            modal.addEventListener('click', function (e) {
-                if (e.target === modal) modal.style.display = 'none';
-            });
-
-            document.addEventListener('keydown', function (e) {
-                if (modal.style.display === 'block') {
-                    if (e.key === 'Escape') modal.style.display = 'none';
-                    if (e.key === 'ArrowLeft') showImage(currentIndex - 1);
-                    if (e.key === 'ArrowRight') showImage(currentIndex + 1);
-                }
+        galleryImages.forEach((img, i) => {
+            img.addEventListener('click', function () {
+                modal.style.display = 'flex';
+                showImage(i);
             });
         });
 
-    </script>
+        const closeModal = () => modal.style.display = 'none';
 
+        closeBtn.addEventListener('click', closeModal);
+        prevBtn.addEventListener('click', (e) => { e.stopPropagation(); showImage(currentIndex - 1); });
+        nextBtn.addEventListener('click', (e) => { e.stopPropagation(); showImage(currentIndex + 1); });
+
+        modal.addEventListener('click', function (e) {
+            if (e.target === modal || e.target.classList.contains('custom-modal-dialog')) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (modal.style.display === 'flex') {
+                if (e.key === 'Escape') closeModal();
+                if (e.key === 'ArrowLeft') showImage(currentIndex - 1);
+                if (e.key === 'ArrowRight') showImage(currentIndex + 1);
+            }
+        });
+    });
+</script>

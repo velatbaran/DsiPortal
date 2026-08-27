@@ -22,6 +22,7 @@ namespace DsiPortal.WebUI.Controllers
         }
         public async Task<IActionResult> Index()
         {
+            ViewBag.TotalCount = _serviceWorksConducteds.GetQueryable().Where(x => x.IsMainImage == true).ToList().Count();
             return View(await _serviceWorksConducteds.GetQueryable().OrderByDescending(x=>x.CreatedDate).ToListAsync());
         }
 

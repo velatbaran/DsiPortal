@@ -1,56 +1,122 @@
 ﻿@model List<FormDepartmentsViewModel>
 
 @{
-    ViewData["Title"] = "Formlar";
+    ViewData["Title"] = "Formlar ve Dokümanlar";
     Layout = "_LayoutHomePage";
 }
 
-<div class="container-fluid mt-5 pt-3">
+<link href="~/css/forms-theme.css" rel="stylesheet" />
+<div class="forms-page-wrapper py-5">
     <div class="container">
-        <div class="row">
-            @foreach (var department in Model)
-            {
-                <div class="col-lg-12">
-                    <div class="section-title mt-2">
-                        <h4 class="m-0 text-uppercase font-weight-bold">@department.DepartmentName (@department.Count)</h4>
-                    </div>
-                    @foreach (var item in department.Forms)
-                    {
-                        <p class="mt-2">
-                            @if (item.FileType == ".pdf")
-                            {
-                                <a href="@Url.Action("ViewPdfForm", "Home", new { id = item.Id })" target="_blank" class="btn btn-warning btn-sm">
-                                    <i class="fa-solid fa-file-pdf"></i> @item.Name
-                                </a>
-                            }
-                            else @if (item.FileType == ".xls")
-                            {
-                                <a href="@Url.Action("DownloadForm", "Home", new { id = item.Id })" target="_blank" class="btn btn-warning btn-sm">
-                                    <i class="fa-regular fa-file-excel"></i> @item.Name
-                                </a>
-                            }
-                            else @if (item.FileType == ".xlsx")
-                            {
-                                <a href="@Url.Action("DownloadForm", "Home", new { id = item.Id })" target="_blank" class="btn btn-warning btn-sm">
-                                    <i class="fa-regular fa-file-excel"></i> @item.Name
-                                </a>
-                            }
-                            else @if (item.FileType == ".docx")
-                            {
-                                <a href="@Url.Action("DownloadForm", "Home", new { id = item.Id })" target="_blank" class="btn btn-warning btn-sm">
-                                    <i class="fa-regular fa-file-word"></i> @item.Name
-                                </a>
-                            }
-                            else @if (item.FileType == ".doc")
-                            {
-                                <a href="@Url.Action("DownloadForm", "Home", new { id = item.Id })" target="_blank" class="btn btn-warning btn-sm">
-                                    <i class="fa-regular fa-file-word"></i> @item.Name
-                                </a>
-                            }
-                        </p>
-                    }
-                </div>
-            }
+        <!-- Sayfa Başlık Alanı -->
+        <div class="d-flex align-items-center justify-content-between mb-4 pb-2 border-bottom">
+            <div>
+                <h4 class="m-0 fw-bold text-uppercase text-dark">
+                    <i class="fa-solid fa-folder-open me-2 text-primary"></i>Formlar ve Dokümanlar
+                </h4>
+                <small class="text-muted">Birim bazlı güncel başvuru ve talep formları</small>
+            </div>
+            <span class="badge bg-primary text-uppercase text-dark rounded-pill px-3 py-2 fs-6">
+                <i class="fa-solid fa-layer-group me-1"></i> Toplam: @(Model?.Count ?? 0) Birim
+            </span>
         </div>
+
+        @if (Model != null && Model.Any())
+        {
+            <div class="row">
+                @foreach (var department in Model)
+                {
+                    <div class="col-lg-12">
+                        <div class="dept-card">
+                            <!-- Birim Başlığı -->
+                            <div class="dept-header d-flex align-items-center justify-content-between">
+                                <h5 class="m-0 fw-bold text-dark d-flex align-items-center">
+                                    <i class="fa-solid fa-building-user text-secondary me-2"></i>
+                                    @department.DepartmentName
+                                </h5>
+                                <span class="badge bg-light text-dark border px-2.5 py-1.5 rounded-pill fs-7">
+                                    @department.Count Form
+                                </span>
+                            </div>
+
+                            <!-- Birim Form Listesi -->
+                            <div class="p-3">
+                                @if (department.Forms != null && department.Forms.Any())
+                                {
+                                    <div class="row g-3">
+                                        @foreach (var item in department.Forms)
+                                        {
+                                            var fileExt = (item.FileType ?? "").ToLower();
+                                            var isPdf = fileExt == ".pdf";
+                                            var actionName = isPdf ? "ViewPdfForm" : "DownloadForm";
+
+                                            string iconClass = "fa-file";
+                                            string themeClass = "file-default";
+                                            string badgeText = "İndir";
+
+                                            switch (fileExt)
+                                            {
+                                                case ".pdf":
+                                                    iconClass = "fa-file-pdf";
+                                                    themeClass = "file-pdf";
+                                                    badgeText = "Görüntüle";
+                                                    break;
+                                                case ".xls":
+                                                case ".xlsx":
+                                                    iconClass = "fa-file-excel";
+                                                    themeClass = "file-excel";
+                                                    badgeText = "Excel İndir";
+                                                    break;
+                                                case ".doc":
+                                                case ".docx":
+                                                    iconClass = "fa-file-word";
+                                                    themeClass = "file-word";
+                                                    badgeText = "Word İndir";
+                                                    break;
+                                            }
+
+                                            <div class="col-md-6 col-lg-4">
+                                                <a href="@Url.Action(actionName, "Home", new { id = item.Id })" target="_blank" class="form-item">
+                                                    <div class="d-flex align-items-center me-2 overflow-hidden">
+                                                        <div class="icon-box @themeClass me-3">
+                                                            <i class="fa-solid @iconClass"></i>
+                                                        </div>
+                                                        <div class="text-truncate">
+                                                            <span class="d-block fw-bold text-dark text-truncate" title="@item.Name">@item.Name</span>
+                                                            <small class="text-muted">@fileExt.Replace(".", "").ToUpper() Dokümanı</small>
+                                                        </div>
+                                                    </div>
+                                                    <span class="badge @themeClass download-badge ms-2">
+                                                        @badgeText
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="text-center py-3 text-muted fs-7">
+                                        <i class="fa-regular fa-folder-open me-1"></i> Bu birime ait kayıtlı form bulunmamaktadır.
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="dept-card p-5 text-center">
+                <i class="fa-solid fa-folder-minus fs-1 text-muted mb-3"></i>
+                <h6 class="fw-bold text-secondary">Sistemde kayıtlı herhangi bir form kategorisi bulunamadı.</h6>
+            </div>
+        }
     </div>
 </div>
+
+@section Scripts {
+    <!-- FontAwesome (İkonlar için) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+}

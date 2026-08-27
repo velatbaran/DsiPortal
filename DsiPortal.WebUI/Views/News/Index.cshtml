@@ -4,8 +4,6 @@
     ViewData["Title"] = "Yapılan Haberler";
 }
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
-
 <style>
     :root {
         --wc-primary: #4f46e5;
@@ -233,7 +231,7 @@
     <div class="wc-title">
         <i class="fa-solid fa-newspaper" style="color:var(--wc-primary)"></i>
         Toplam Haber Sayısı
-        <span class="badge">@Model.GroupBy(m => m.WorkingName).Count() kayıt</span>
+        <span class="badge">@ViewBag.TotalCount</span>
     </div>
     <a asp-action="Create" class="btn btn-wc-primary" title="Yeni Çalışma Ekle">
         <i class="fa-solid fa-plus"></i> Yeni Çalışma Ekle
