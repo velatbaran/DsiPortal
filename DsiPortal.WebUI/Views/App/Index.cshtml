@@ -4,101 +4,434 @@
     ViewData["Title"] = "Uygulamalar-Kısayollar";
 }
 
-<p>
-    <a asp-action="Create" class="btn btn-outline-primary" title="Yeni Uygulama-Kısayol Ekle"><i class="fa-solid fa-plus"></i> Yeni Uygulama-Kısayol Ekle</a>
-</p>
+<link rel="stylesheet" href="~/css/apps.css" />
 
-<table class="table table-striped table-bordered" id="myTable">
-    <thead class="thead-dark">
-        <tr>
-            <th>Adı</th>
-            <th>Link</th>
-            <th>Resim</th>
-            <th>Kaydeden</th>
-            <th>Kayıt Tarihi</th>
-            <th>İşlemler</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                <td>@Html.DisplayFor(modelItem => item.Link)</td>
-                <td>
-                    <img src="@Url.Action("ViewImage", new { id = item.Id })" class="card-img-top" alt="@item.Name" width="25" height="25">
-                </td>
-                <td>@Html.DisplayFor(modelItem => item.Created)</td>
-                <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
-                <td>
-                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                            data-file-id="@item.Id" data-file-name="@item.Name" title="Sil">
-                        <i class="fa-solid fa-trash"></i> Sil
-                    </button>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="apps-page">
 
-<!-- Delete Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form method="post" asp-action="Delete">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Silme Onayı</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <strong id="fileName"></strong> silmek istediğine emin misin?
-                    <input type="hidden" name="id" id="fileId" />
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i> İptal</button>
-                    <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Sil</button>
-                </div>
-            </form>
+    <!-- Sayfa Başlığı -->
+    <div class="apps-header">
+        <div class="apps-title-area">
+            <div class="apps-title-icon">
+                <i class="fa-solid fa-grid-2"></i>
+            </div>
+
+            <div>
+                <h2>Uygulamalar-Kısayollar</h2>
+                <p>Sistemde kayıtlı uygulama ve kısayolları yönetin.</p>
+            </div>
+        </div>
+
+        <a asp-action="Create" class="apps-add-button">
+            <i class="fa-solid fa-plus"></i>
+            <span>Yeni Uygulama Ekle</span>
+        </a>
+    </div>
+
+
+    <!-- İstatistik -->
+    <div class="apps-info-card">
+        <div class="apps-info-icon">
+            <i class="fa-solid fa-layer-group"></i>
+        </div>
+
+        <div>
+            <span class="apps-info-label">Toplam Uygulama</span>
+            <strong>@Model.Count()</strong>
         </div>
     </div>
+
+
+    <!-- Tablo -->
+    <div class="apps-table-card">
+
+        <div class="apps-table-wrapper">
+
+            <table class="apps-table" id="appsTable">
+
+                <thead>
+
+                    <!-- Başlık -->
+                    <tr class="apps-main-header">
+                        <th>Adı</th>
+                        <th>Link</th>
+                        <th>Resim</th>
+                        <th>Kaydeden</th>
+                        <th>Kayıt Tarihi</th>
+                        <th class="apps-action-column">İşlemler</th>
+                    </tr>
+
+                    <!-- Filtre -->
+                    <tr class="apps-filter-row">
+
+                        <th>
+                            <div class="apps-filter-box">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text"
+                                       class="column-filter"
+                                       placeholder="Ad ara..."
+                                       data-column="0" />
+                            </div>
+                        </th>
+
+                        <th>
+                            <div class="apps-filter-box">
+                                <i class="fa-solid fa-link"></i>
+                                <input type="text"
+                                       class="column-filter"
+                                       placeholder="Link ara..."
+                                       data-column="1" />
+                            </div>
+                        </th>
+
+                        <th>
+                            <div class="apps-filter-disabled">
+                                <i class="fa-solid fa-image"></i>
+                                Resim
+                            </div>
+                        </th>
+
+                        <th>
+                            <div class="apps-filter-box">
+                                <i class="fa-solid fa-user"></i>
+                                <input type="text"
+                                       class="column-filter"
+                                       placeholder="Kaydeden ara..."
+                                       data-column="3" />
+                            </div>
+                        </th>
+
+                        <th>
+                            <div class="apps-filter-box">
+                                <i class="fa-regular fa-calendar"></i>
+                                <input type="text"
+                                       class="column-filter"
+                                       placeholder="Tarih ara..."
+                                       data-column="4" />
+                            </div>
+                        </th>
+
+                        <th>
+                            <button type="button"
+                                    id="clearAppsFilters"
+                                    class="apps-clear-filter"
+                                    title="Filtreleri Temizle">
+                                <i class="fa-solid fa-filter-circle-xmark"></i>
+                                Temizle
+                            </button>
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <!-- Ad -->
+                            <td>
+                                <div class="apps-name-cell">
+
+                                    <div class="apps-name-icon">
+                                        <i class="fa-solid fa-window-maximize"></i>
+                                    </div>
+
+                                    <div class="apps-name-content">
+                                        <strong>@item.Name</strong>
+                                    </div>
+
+                                </div>
+                            </td>
+
+
+                            <!-- Link -->
+                            <td>
+                                <div class="apps-link-cell">
+
+                                    <i class="fa-solid fa-link"></i>
+
+                                    <a href="@item.Link"
+                                       target="_blank"
+                                       rel="noopener noreferrer"
+                                       title="@item.Link">
+
+                                        @item.Link
+
+                                    </a>
+
+                                </div>
+                            </td>
+
+
+                            <!-- Resim -->
+                            <td>
+                                <div class="apps-image-wrapper">
+
+                                    <img src="@Url.Action("ViewImage", new { id = item.Id })"
+                                         alt="@item.Name"
+                                         class="apps-image"
+                                         loading="lazy" />
+
+                                </div>
+                            </td>
+
+
+                            <!-- Kaydeden -->
+                            <td>
+                                <div class="apps-user-cell">
+                                    <div class="apps-user-icon">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
+
+                                    <span>@item.Created</span>
+                                </div>
+                            </td>
+
+
+                            <!-- Tarih -->
+                            <td>
+                                <div class="apps-date-cell">
+
+                                    <i class="fa-regular fa-calendar-days"></i>
+
+                                    <span>
+                                        @item.CreatedDate
+                                    </span>
+
+                                </div>
+                            </td>
+
+
+                            <!-- İşlemler -->
+                            <td>
+
+                                <div class="apps-actions">
+
+                                    <button type="button"
+                                            class="apps-delete-button"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal"
+                                            data-file-id="@item.Id"
+                                            data-file-name="@item.Name"
+                                            title="Sil">
+
+                                        <i class="fa-solid fa-trash"></i>
+
+                                    </button>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
 </div>
 
-<script>
-    const deleteModal = document.getElementById('deleteModal');
-    deleteModal.addEventListener('show.bs.modal', function (event) {
-        const button = event.relatedTarget;
-        const fileId = button.getAttribute('data-file-id');
-        const fileName = button.getAttribute('data-file-name');
 
-        document.getElementById('fileId').value = fileId;
-        document.getElementById('fileName').textContent = fileName;
-    });
-</script>
+<!-- ========================= -->
+<!-- DELETE MODAL -->
+<!-- ========================= -->
+
+<div class="modal fade apps-delete-modal"
+     id="deleteModal"
+     tabindex="-1"
+     aria-labelledby="deleteModalLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <form method="post" asp-action="Delete">
+
+                <div class="modal-header">
+
+                    <div class="apps-modal-icon">
+                        <i class="fa-solid fa-trash"></i>
+                    </div>
+
+                    <div>
+                        <h5 class="modal-title" id="deleteModalLabel">
+                            Silme Onayı
+                        </h5>
+
+                        <small>
+                            Bu işlem geri alınamaz.
+                        </small>
+                    </div>
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal">
+                    </button>
+
+                </div>
+
+
+                <div class="modal-body">
+
+                    <p>
+                        <strong id="fileName"></strong>
+                        uygulamasını silmek istediğinize emin misiniz?
+                    </p>
+
+                    <input type="hidden"
+                           name="id"
+                           id="fileId" />
+
+                </div>
+
+
+                <div class="modal-footer">
+
+                    <button type="button"
+                            class="apps-modal-cancel"
+                            data-bs-dismiss="modal">
+
+                        <i class="fa-solid fa-xmark"></i>
+
+                        Vazgeç
+
+                    </button>
+
+
+                    <button type="submit"
+                            class="apps-modal-delete">
+
+                        <i class="fa-solid fa-trash"></i>
+
+                        Sil
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
 
 @section Scripts {
+
     <script src="~/admin/vendor/jquery/jquery.js"></script>
+
     <link href="~/datatable/datatables.min.css" rel="stylesheet" />
-    <link href="~/datatable/datatables.css" rel="stylesheet" />
-    <script src="~/datatable/datatables.js"></script>
+
     <script src="~/datatable/datatables.min.js"></script>
+
+
     <script>
-        cument).ready(function() {
-            // DataTable başlat
-            var table = $('#myTable').DataTable({
-                ordering: false,
-                responsive: {
-                    details: { type: 'column', target: 0 }
-                },
-                columnDefs: [
-                    { className: 'control', orderable: false, targets: 0 },
-                    { orderable: false, targets: -1 }
+
+        $(document).ready(function () {
+
+            const table = $('#appsTable').DataTable({
+
+                ordering: true,
+
+                order: [],
+
+                responsive: true,
+
+                pageLength: 10,
+
+                lengthMenu: [
+                    [10, 25, 50, 100, -1],
+                    [10, 25, 50, 100, "Tümü"]
                 ],
-                language: { url: '/datatable/tr.json' }
+
+                columnDefs: [
+                    {
+                        orderable: false,
+                        targets: [2, 5]
+                    }
+                ],
+
+                language: {
+                    url: '/datatable/tr.json'
+                }
+
             });
 
-            // 🔹 Input değişince sadece draw çağır
-            $('#myTable thead tr:eq(1) th input').on('keyup change clear', function () {
-                table.draw();
+
+            // ========================================
+            // SÜTUN FİLTRELERİ
+            // ========================================
+
+            $('.column-filter').on('keyup change', function () {
+
+                const columnIndex = $(this).data('column');
+
+                table
+                    .column(columnIndex)
+                    .search(this.value)
+                    .draw();
+
             });
+
+
+            // ========================================
+            // FİLTRELERİ TEMİZLE
+            // ========================================
+
+            $('#clearAppsFilters').on('click', function () {
+
+                $('.column-filter').val('');
+
+                table
+                    .columns()
+                    .search('')
+                    .draw();
+
+            });
+
+
+            // ========================================
+            // DELETE MODAL
+            // ========================================
+
+            const deleteModal =
+                document.getElementById('deleteModal');
+
+
+            deleteModal.addEventListener(
+                'show.bs.modal',
+                function (event) {
+
+                    const button = event.relatedTarget;
+
+                    const fileId =
+                        button.getAttribute('data-file-id');
+
+                    const fileName =
+                        button.getAttribute('data-file-name');
+
+
+                    document.getElementById('fileId').value =
+                        fileId;
+
+                    document.getElementById('fileName').textContent =
+                        fileName;
+
+                }
+            );
+
+        });
+
     </script>
+
 }

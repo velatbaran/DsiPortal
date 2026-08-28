@@ -1,49 +1,239 @@
 ﻿@model BenefitLinkViewModel
+
 @{
-    ViewData["Title"] = "Faydalı link Ekle";
+    ViewData["Title"] = "Faydalı Link Ekle";
 }
+<link href="~/css/benefit-links.css" rel="stylesheet" />
+<div class="benefit-links-page">
 
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="Create" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+    <!-- Başlık -->
+    <div class="benefit-links-header">
+
+        <div class="benefit-links-title-area">
+
+            <div class="benefit-links-title-icon">
+                <i class="fa-solid fa-link"></i>
             </div>
-            <div class="form-group">
-                <label asp-for="Link" class="control-label"></label>
-                <input asp-for="Link" class="form-control" />
-                <span asp-validation-for="Link" class="text-danger"></span>
+
+            <div>
+                <h2>Yeni Faydalı Link</h2>
+                <p>Sisteme yeni bir faydalı bağlantı ekleyin.</p>
             </div>
-            <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <div class="custom-file">
-                    <input asp-for="Image" class="custom-file-input" id="customFile" accept="image/*">
-                    <label class="custom-file-label" for="customFile">Resim seçiniz</label>
-                </div>
-                <span asp-validation-for="Image" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <button type="submit" value="Kaydet" class="btn btn-primary" title="Kaydet"><i class="fa-solid fa-floppy-disk"></i> Kaydet</button>
-            </div>
-        </form>
+
+        </div>
+
+        <a asp-action="Index"
+           class="benefit-links-back-btn">
+
+            <i class="fa-solid fa-arrow-left"></i>
+            Listeye Dön
+
+        </a>
+
     </div>
+
+
+    <!-- Form Kartı -->
+    <div class="benefit-links-form-card">
+
+        <div class="benefit-links-form-header">
+
+            <div class="benefit-links-form-header-icon">
+                <i class="fa-solid fa-plus"></i>
+            </div>
+
+            <div>
+                <h3>Link Bilgileri</h3>
+                <p>
+                    Faydalı bağlantının bilgilerini giriniz.
+                </p>
+            </div>
+
+        </div>
+
+
+        <form asp-action="Create"
+              enctype="multipart/form-data"
+              class="benefit-links-form">
+
+            <div asp-validation-summary="ModelOnly"
+                 class="benefit-links-validation">
+            </div>
+
+
+            <!-- Ad -->
+            <div class="benefit-links-field">
+
+                <label asp-for="Name">
+
+                    <i class="fa-solid fa-heading"></i>
+
+                    Link Adı
+
+                </label>
+
+                <div class="benefit-links-input-wrapper">
+
+                    <i class="fa-solid fa-link"></i>
+
+                    <input asp-for="Name"
+                           placeholder="Örn. E-Devlet"
+                           autocomplete="off" />
+
+                </div>
+
+                <span asp-validation-for="Name"
+                      class="benefit-links-field-error">
+                </span>
+
+            </div>
+
+
+            <!-- Link -->
+            <div class="benefit-links-field">
+
+                <label asp-for="Link">
+
+                    <i class="fa-solid fa-globe"></i>
+
+                    Web Adresi
+
+                </label>
+
+                <div class="benefit-links-input-wrapper">
+
+                    <i class="fa-solid fa-earth-europe"></i>
+
+                    <input asp-for="Link"
+                           type="url"
+                           placeholder="https://www.example.com"
+                           autocomplete="url" />
+
+                </div>
+
+                <span asp-validation-for="Link"
+                      class="benefit-links-field-error">
+                </span>
+
+            </div>
+
+
+            <!-- Resim -->
+            <div class="benefit-links-field">
+
+                <label asp-for="Image">
+
+                    <i class="fa-solid fa-image"></i>
+
+                    Link Resmi
+
+                </label>
+
+
+                <div class="benefit-links-upload">
+
+                    <input asp-for="Image"
+                           type="file"
+                           id="customFile"
+                           accept="image/*" />
+
+                    <div class="benefit-links-upload-content">
+
+                        <div class="benefit-links-upload-icon">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Resim seçmek için tıklayın
+                            </strong>
+
+                            <span>
+                                PNG, JPG veya WEBP
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div id="benefitLinksFileName"
+                     class="benefit-links-selected-file">
+                </div>
+
+
+                <span asp-validation-for="Image"
+                      class="benefit-links-field-error">
+                </span>
+
+            </div>
+
+
+            <!-- Butonlar -->
+            <div class="benefit-links-form-footer">
+
+                <a asp-action="Index"
+                   class="benefit-links-cancel-btn">
+
+                    <i class="fa-solid fa-xmark"></i>
+                    İptal
+
+                </a>
+
+                <button type="submit"
+                        class="benefit-links-save-btn">
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Kaydet
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
 </div>
 
-<div>
-    <a asp-action="Index"><i class="fa-solid fa-backward"></i> Geri Dön</a>
-</div>
 
 @section Scripts {
+
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
     <script>
-        $(".custom-file-input").on("change", function() {
-            var fileName = $(this).val().split("\\").pop();
-            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+
+        const fileInput =
+            document.getElementById("customFile");
+
+        const fileName =
+            document.getElementById("benefitLinksFileName");
+
+        fileInput.addEventListener("change", function () {
+
+            if (this.files && this.files.length > 0) {
+
+                fileName.innerHTML =
+                    '<i class="fa-solid fa-file-image"></i> ' +
+                    this.files[0].name;
+
+                fileName.classList.add("show");
+
+            }
+            else {
+
+                fileName.innerHTML = "";
+                fileName.classList.remove("show");
+
+            }
+
         });
+
     </script>
+
 }

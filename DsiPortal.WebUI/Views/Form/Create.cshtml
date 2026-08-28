@@ -1,57 +1,509 @@
-﻿@model FormViewModel
+﻿
+@model FormViewModel
+
 @{
     ViewData["Title"] = "Form Ekle";
     var subeler = ViewBag.Birimler as List<string>;
 }
 
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="Create" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Department" class="control-label"></label>
-                @* <input asp-for="Department" class="form-control" /> *@
-                <select name="Department" class="form-control">
-                    @foreach (var birim in subeler)
-                    {
-                        <option>@birim</option> <!-- Value olmadan sadece text -->
-                    }
-                </select>
-                <span asp-validation-for="Department" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <label style="color:red;font-style:italic">Not: Sadece .pdf dosyalarınız için geçerlidir. Görüntü sağlayıcısının .pdf dosyalarınızı düzgün görüntüleyebilmesi için <strong>Adı</strong> alanında lütfen <strong>Türkçe</strong> karakter kullanmayınız!</label>
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="File" class="control-label"></label>
-                <div class="custom-file">
-                    <input asp-for="File" class="custom-file-input" id="customFile">
-                    <label class="custom-file-label" for="customFile">Dosya seçiniz</label>
+<link rel="stylesheet" href="~/css/forms.css" />
+
+<div class="forms-page">
+
+    <div class="forms-create">
+
+        <!-- HEADER -->
+        <div class="forms-header">
+
+            <div class="forms-header-left">
+
+                <div class="forms-header-icon">
+
+                    <i class="fa-solid fa-file-circle-plus"></i>
+
                 </div>
-                <span asp-validation-for="File" class="text-danger"></span>
+
+                <div class="forms-header-text">
+
+                    <h2>Yeni Form</h2>
+
+                    <p>
+                        Sisteme yeni bir form dosyası ekleyin.
+                    </p>
+
+                </div>
+
             </div>
-            <div class="form-group">
-                <button type="submit" value="Kaydet" class="btn btn-primary" title="Kaydet"><i class="fa-solid fa-floppy-disk"></i> Kaydet</button>
-            </div>
-        </form>
+
+        </div>
+
+
+        <!-- CARD -->
+        <div class="forms-create-card">
+
+            <form asp-action="Create"
+                  method="post"
+                  enctype="multipart/form-data"
+                  id="formsCreateForm">
+
+                <div asp-validation-summary="ModelOnly"
+                     class="alert alert-danger"
+                     role="alert">
+                </div>
+
+
+                <div class="row g-4">
+
+
+                    <!-- BİRİM -->
+                    <div class="col-md-6">
+
+                        <div class="forms-form-group">
+
+                            <label asp-for="Department"
+                                   class="forms-form-label">
+
+                                Birim
+
+                            </label>
+
+
+                            <select name="Department"
+                                    class="forms-select"
+                                    required>
+
+                                <option value="">
+                                    Birim seçiniz
+                                </option>
+
+                                @if (subeler != null)
+                                {
+                                    foreach (var birim in subeler)
+                                    {
+                                        <option value="@birim">
+                                            @birim
+                                        </option>
+                                    }
+                                }
+
+                            </select>
+
+
+                            <span asp-validation-for="Department"
+                                  class="text-danger small">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- FORM ADI -->
+                    <div class="col-md-6">
+
+                        <div class="forms-form-group">
+
+                            <label asp-for="Name"
+                                   class="forms-form-label">
+
+                                Form Adı
+
+                            </label>
+
+
+                            <input asp-for="Name"
+                                   class="forms-form-control"
+                                   placeholder="Örn. İzin Formu"
+                                   autocomplete="off" />
+
+
+                            <span asp-validation-for="Name"
+                                  class="text-danger small">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PDF UYARI -->
+                    <div class="col-12">
+
+                        <div class="forms-pdf-note">
+
+                            <i class="fa-solid fa-circle-info"></i>
+
+                            <span>
+
+                                Bu uyarı yalnızca
+                                <strong>PDF</strong> dosyaları için
+                                geçerlidir.
+
+                                PDF görüntüleyicisinin dosyayı
+                                düzgün gösterebilmesi için
+                                <strong>Form Adı</strong> alanında
+                                Türkçe karakter kullanmamanız
+                                önerilir.
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- DOSYA -->
+                    <div class="col-12">
+
+                        <div class="forms-form-group">
+
+                            <label asp-for="File"
+                                   class="forms-form-label">
+
+                                Form Dosyası
+
+                            </label>
+
+
+                            <div class="forms-upload"
+                                 id="formsUploadArea">
+
+
+                                <input asp-for="File"
+                                       type="file"
+                                       id="formsFileInput"
+                                       hidden />
+
+
+                                <div class="forms-upload-icon">
+
+                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+
+                                </div>
+
+
+                                <div class="forms-upload-title">
+
+                                    Dosyanızı buraya sürükleyin
+
+                                </div>
+
+
+                                <div class="forms-upload-description">
+
+                                    veya bilgisayarınızdan bir dosya seçin
+
+                                </div>
+
+
+                                <span class="forms-upload-button">
+
+                                    <i class="fa-solid fa-folder-open"></i>
+
+                                    Dosya Seç
+
+                                </span>
+
+
+                                <!-- PREVIEW -->
+
+                                <div class="forms-file-preview"
+                                     id="formsFilePreview">
+
+                                    <div class="forms-preview-content">
+
+                                        <div class="forms-preview-icon"
+                                             id="formsPreviewIcon">
+
+                                            <i class="fa-solid fa-file"></i>
+
+                                        </div>
+
+
+                                        <div class="forms-preview-info">
+
+                                            <span class="forms-preview-name"
+                                                  id="formsFileNamePreview">
+                                            </span>
+
+                                            <span class="forms-preview-status">
+
+                                                <i class="fa-solid fa-circle-check me-1"></i>
+
+                                                Dosya seçildi
+
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <span asp-validation-for="File"
+                                  class="text-danger small">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ACTIONS -->
+
+                <div class="forms-form-actions">
+
+                    <a asp-action="Index"
+                       class="btn btn-light forms-form-button">
+
+                        <i class="fa-solid fa-arrow-left"></i>
+
+                        Geri Dön
+
+                    </a>
+
+
+                    <button type="submit"
+                            class="btn btn-primary forms-form-button forms-save-button"
+                            id="formsSaveButton">
+
+                        <i class="fa-solid fa-floppy-disk"></i>
+
+                        <span id="formsSaveButtonText">
+
+                            Kaydet
+
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
     </div>
+
 </div>
 
-<div>
-    <a asp-action="Index"><i class="fa-solid fa-backward"></i> Geri Dön</a>
-</div>
 
 @section Scripts {
+
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+
     <script>
-        $(".custom-file-input").on("change", function() {
-            var fileName = $(this).val().split("\\").pop();
-            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-        });
+
+        const formsUploadArea =
+            document.getElementById("formsUploadArea");
+
+        const formsFileInput =
+            document.getElementById("formsFileInput");
+
+        const formsFilePreview =
+            document.getElementById("formsFilePreview");
+
+        const formsFileNamePreview =
+            document.getElementById("formsFileNamePreview");
+
+        const formsPreviewIcon =
+            document.getElementById("formsPreviewIcon");
+
+
+        /* =========================================
+           DOSYA ALANINA TIKLAMA
+           ========================================= */
+
+        formsUploadArea.addEventListener(
+            "click",
+            function () {
+
+                formsFileInput.click();
+
+            }
+        );
+
+
+        /* =========================================
+           DOSYA SEÇİLDİ
+           ========================================= */
+
+        formsFileInput.addEventListener(
+            "change",
+            function () {
+
+                if (
+                    this.files &&
+                    this.files.length > 0
+                ) {
+
+                    showFormsFile(
+                        this.files[0]
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =========================================
+           DRAG OVER
+           ========================================= */
+
+        formsUploadArea.addEventListener(
+            "dragover",
+            function (event) {
+
+                event.preventDefault();
+
+                formsUploadArea.classList.add(
+                    "dragover"
+                );
+
+            }
+        );
+
+
+        /* =========================================
+           DRAG LEAVE
+           ========================================= */
+
+        formsUploadArea.addEventListener(
+            "dragleave",
+            function () {
+
+                formsUploadArea.classList.remove(
+                    "dragover"
+                );
+
+            }
+        );
+
+
+        /* =========================================
+           DROP
+           ========================================= */
+
+        formsUploadArea.addEventListener(
+            "drop",
+            function (event) {
+
+                event.preventDefault();
+
+                formsUploadArea.classList.remove(
+                    "dragover"
+                );
+
+
+                if (
+                    event.dataTransfer.files.length > 0
+                ) {
+
+                    formsFileInput.files =
+                        event.dataTransfer.files;
+
+                    showFormsFile(
+                        event.dataTransfer.files[0]
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =========================================
+           DOSYA GÖSTER
+           ========================================= */
+
+        function showFormsFile(file) {
+
+            formsFileNamePreview.textContent =
+                file.name;
+
+
+            const extension =
+                file.name
+                    .split(".")
+                    .pop()
+                    .toLowerCase();
+
+
+            let icon = "fa-file";
+
+
+            if (extension === "pdf") {
+
+                icon = "fa-file-pdf";
+
+            }
+            else if (
+                extension === "doc" ||
+                extension === "docx"
+            ) {
+
+                icon = "fa-file-word";
+
+            }
+            else if (
+                extension === "xls" ||
+                extension === "xlsx"
+            ) {
+
+                icon = "fa-file-excel";
+
+            }
+
+
+            formsPreviewIcon.innerHTML =
+                `<i class="fa-regular ${icon}"></i>`;
+
+
+            formsFilePreview.style.display =
+                "block";
+
+        }
+
+
+        /* =========================================
+           FORM GÖNDERİLİYOR
+           ========================================= */
+
+        document
+            .getElementById("formsCreateForm")
+            .addEventListener(
+                "submit",
+                function () {
+
+                    const button =
+                        document.getElementById(
+                            "formsSaveButton"
+                        );
+
+                    const text =
+                        document.getElementById(
+                            "formsSaveButtonText"
+                        );
+
+
+                    button.disabled = true;
+
+                    text.textContent =
+                        "Kaydediliyor...";
+
+                }
+            );
+
     </script>
+
 }
+

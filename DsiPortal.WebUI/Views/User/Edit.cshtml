@@ -1,51 +1,311 @@
 ﻿@model Users
+
 @{
     ViewData["Title"] = "Kullanıcı Güncelle";
 }
 
-<div class="row">
-    <div class="col-md-6">
+<link href="~/css/users.css" rel="stylesheet" />
+
+<div class="users-page">
+
+    <!-- Başlık -->
+    <div class="users-page-header">
+
+        <div class="users-title-area">
+
+            <div class="users-title-icon users-edit-title-icon">
+                <i class="fa-solid fa-user-pen"></i>
+            </div>
+
+            <div>
+                <h2>Kullanıcı Güncelle</h2>
+                <p>Kullanıcı bilgilerini ve yetkilerini düzenleyin.</p>
+            </div>
+
+        </div>
+
+        <a asp-action="Index" class="users-back-btn">
+            <i class="fa-solid fa-arrow-left"></i>
+            Kullanıcı Listesine Dön
+        </a>
+
+    </div>
+
+
+    <!-- Form -->
+    <div class="users-form-card">
+
+        <div class="users-form-header">
+
+            <div class="users-form-icon users-form-edit-icon">
+                <i class="fa-solid fa-user-pen"></i>
+            </div>
+
+            <div>
+                <h4>Kullanıcı Bilgileri</h4>
+                <span>
+                    Kullanıcı hesabına ait bilgileri güncelleyin.
+                </span>
+            </div>
+
+        </div>
+
+
         <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div asp-validation-summary="ModelOnly"
+                 class="users-validation-summary">
+            </div>
+
+
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="CreatedDate" />
             <input type="hidden" asp-for="Created" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+
+
+            <div class="users-form-grid">
+
+                <!-- Ad -->
+                <div class="users-form-group">
+
+                    <label asp-for="Name">
+                        <i class="fa-solid fa-user"></i>
+                        Adı
+                    </label>
+
+                    <div class="users-input-wrapper">
+
+                        <i class="fa-solid fa-user"></i>
+
+                        <input asp-for="Name"
+                               class="users-input"
+                               placeholder="Ad..." />
+
+                    </div>
+
+                    <span asp-validation-for="Name"
+                          class="users-validation">
+                    </span>
+
+                </div>
+
+
+                <!-- Soyad -->
+                <div class="users-form-group">
+
+                    <label asp-for="Surname">
+                        <i class="fa-solid fa-user"></i>
+                        Soyadı
+                    </label>
+
+                    <div class="users-input-wrapper">
+
+                        <i class="fa-solid fa-user"></i>
+
+                        <input asp-for="Surname"
+                               class="users-input"
+                               placeholder="Soyad..." />
+
+                    </div>
+
+                    <span asp-validation-for="Surname"
+                          class="users-validation">
+                    </span>
+
+                </div>
+
+
+                <!-- Username -->
+                <div class="users-form-group">
+
+                    <label asp-for="Username">
+                        <i class="fa-solid fa-at"></i>
+                        Kullanıcı Adı
+                    </label>
+
+                    <div class="users-input-wrapper">
+
+                        <i class="fa-solid fa-at"></i>
+
+                        <input asp-for="Username"
+                               class="users-input"
+                               autocomplete="username"
+                               placeholder="Kullanıcı adı..." />
+
+                    </div>
+
+                    <span asp-validation-for="Username"
+                          class="users-validation">
+                    </span>
+
+                </div>
+
+
+                <!-- Password -->
+                <div class="users-form-group">
+
+                    <label asp-for="Password">
+                        <i class="fa-solid fa-lock"></i>
+                        Şifre
+                    </label>
+
+                    <div class="users-input-wrapper">
+
+                        <i class="fa-solid fa-lock"></i>
+
+                        <input asp-for="Password"
+                               type="text"
+                               class="users-input"
+                               autocomplete="new-password"
+                               placeholder="Şifre..." />
+
+                        <button type="button"
+                                class="users-password-toggle"
+                                onclick="togglePassword(this)">
+
+                            <i class="fa-solid fa-eye"></i>
+
+                        </button>
+
+                    </div>
+
+                    <span asp-validation-for="Password"
+                          class="users-validation">
+                    </span>
+
+                </div>
+
             </div>
-            <div class="form-group">
-                <label asp-for="Surname" class="control-label"></label>
-                <input asp-for="Surname" class="form-control" />
-                <span asp-validation-for="Surname" class="text-danger"></span>
+
+
+            <!-- Yetki ve Durum -->
+            <div class="users-settings-section">
+
+                <div class="users-settings-title">
+
+                    <i class="fa-solid fa-sliders"></i>
+
+                    <div>
+                        <strong>Hesap Ayarları</strong>
+                        <span>Kullanıcının yetki ve erişim durumunu belirleyin.</span>
+                    </div>
+
+                </div>
+
+
+                <div class="users-settings-grid">
+
+                    <!-- Admin -->
+                    <label class="users-setting-card">
+
+                        <div class="users-setting-icon admin">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+
+                        <div class="users-setting-content">
+
+                            <strong>Yönetici Yetkisi</strong>
+
+                            <span>
+                                Kullanıcı yönetici yetkilerine sahip olsun.
+                            </span>
+
+                        </div>
+
+                        <input asp-for="IsAdmin"
+                               class="users-switch" />
+
+                    </label>
+
+
+                    <!-- Aktif -->
+                    <label class="users-setting-card">
+
+                        <div class="users-setting-icon active">
+                            <i class="fa-solid fa-user-check"></i>
+                        </div>
+
+                        <div class="users-setting-content">
+
+                            <strong>Aktif Kullanıcı</strong>
+
+                            <span>
+                                Kullanıcı sisteme giriş yapabilsin.
+                            </span>
+
+                        </div>
+
+                        <input asp-for="IsActive"
+                               class="users-switch" />
+
+                    </label>
+
+                </div>
+
             </div>
-            <div class="form-group">
-                <label asp-for="Username" class="control-label"></label>
-                <input asp-for="Username" class="form-control" />
-                <span asp-validation-for="Username" class="text-danger"></span>
+
+
+            <div class="users-form-footer">
+
+                <a asp-action="Index"
+                   class="users-cancel-btn">
+
+                    <i class="fa-solid fa-xmark"></i>
+                    İptal
+
+                </a>
+
+                <button type="submit"
+                        class="users-update-btn">
+
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    Değişiklikleri Kaydet
+
+                </button>
+
             </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsAdmin" /> @Html.DisplayNameFor(model => model.IsAdmin)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
-                </label>
-            </div>
-            <div class="form-group">
-                <button type="submit" value="Güncelle" class="btn btn-success" title="Güncelle"><i class="fa-solid fa-pen-to-square"></i> Güncelle</button>
-            </div>
+
         </form>
+
     </div>
+
 </div>
-<div>
-    <a asp-action="Index"><i class="fa-solid fa-backward"></i> Geri Dön</a>
-</div>
+
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+
+        function togglePassword(button) {
+
+            const input = button
+                .closest(".users-input-wrapper")
+                .querySelector("input");
+
+            const icon = button.querySelector("i");
+
+            if (input.type === "password") {
+
+                input.type = "text";
+
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+
+            } else {
+
+                input.type = "password";
+
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+
+            }
+
+        }
+
+    </script>
+
+}

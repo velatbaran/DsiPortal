@@ -4,72 +4,389 @@
     ViewData["Title"] = "Güvenlik Kameralarımız";
 }
 
-<p>
-    <a asp-action="Create" class="btn btn-outline-primary" title="Yeni Kamera Ekle"><i class="fa-solid fa-plus"></i> Yeni Kamera Ekle</a>
-</p>
+<link rel="stylesheet" href="~/css/cameras.css" />
 
-<table class="table table-striped table-bordered">
-    <thead class="thead-dark">
-        <tr>
-            <th>Adı</th>
-            <th>Link</th>
-            <th>Password</th>
-            <th>Kaydeden</th>
-            <th>Kayıt Tarihi</th>
-            <th>İşlemler</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                <td>@Html.DisplayFor(modelItem => item.Link)</td>
-                <td>@Html.DisplayFor(modelItem => item.Password)</td>
-                <td>@Html.DisplayFor(modelItem => item.Created)</td>
-                <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
-                <td>
-                    <a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@item.Id" title="Güncelle"><i class="fa-solid fa-pen-to-square"></i> Güncelle</a>
-                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                            data-file-id="@item.Id" data-file-name="@item.Name" title="Sil">
-                        <i class="fa-solid fa-trash"></i> Sil
-                    </button>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="cameras-page">
 
-<!-- Delete Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form method="post" asp-action="Delete">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Silme Onayı</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <strong id="fileName"></strong> silmek istediğine emin misin?
-                    <input type="hidden" name="id" id="fileId" />
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i> İptal</button>
-                    <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Sil</button>
-                </div>
-            </form>
+    ```
+    <!-- Sayfa Başlığı -->
+    <div class="camera-page-header">
+        <div class="camera-header-content">
+            <div class="camera-header-icon">
+                <i class="fa-solid fa-video"></i>
+            </div>
+
+            <div>
+                <h1>Güvenlik Kameraları</h1>
+                <p>DSİ 24. Bölge Müdürlüğü güvenlik kamera bağlantıları</p>
+            </div>
         </div>
+
+        <a asp-action="Create" class="camera-add-btn">
+            <i class="fa-solid fa-plus"></i>
+            <span>Yeni Kamera Ekle</span>
+        </a>
     </div>
+
+
+    <!-- Kamera Tablosu -->
+    <div class="camera-card">
+
+        <div class="camera-card-header">
+            <div>
+                <h5>
+                    <i class="fa-solid fa-shield-halved"></i>
+                    Kamera Listesi
+                </h5>
+
+                <span>
+                    Sistemde kayıtlı güvenlik kameraları
+                </span>
+            </div>
+
+            <div class="camera-count">
+                <i class="fa-solid fa-camera"></i>
+                <span>@Model.Count() Kamera</span>
+            </div>
+        </div>
+
+
+        <div class="camera-table-wrapper">
+
+            <table class="camera-table">
+
+                <thead>
+                    <tr>
+                        <th>Adı</th>
+                        <th>Bağlantı</th>
+                        <th>Şifre</th>
+                        <th>Kaydeden</th>
+                        <th>Kayıt Tarihi</th>
+                        <th class="camera-actions-column">İşlemler</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <!-- Kamera Adı -->
+                            <td>
+                                <div class="camera-name">
+
+                                    <div class="camera-name-icon">
+                                        <i class="fa-solid fa-video"></i>
+                                    </div>
+
+                                    <div>
+                                        <strong>@item.Name</strong>
+                                        <small>Güvenlik Kamerası</small>
+                                    </div>
+
+                                </div>
+                            </td>
+
+
+                            <!-- Link -->
+                            <td>
+                                <div class="camera-link">
+
+                                    <i class="fa-solid fa-link"></i>
+
+                                    <span title="@item.Link">
+                                        @item.Link
+                                    </span>
+
+                                </div>
+                            </td>
+
+
+                            <!-- Şifre -->
+                            <td>
+                                <div class="camera-password">
+
+                                    <i class="fa-solid fa-lock"></i>
+
+                                    <span class="password-value">
+                                        ••••••••
+                                    </span>
+
+                                    <button type="button"
+                                            class="password-toggle"
+                                            data-password="@item.Password"
+                                            title="Şifreyi göster">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+
+                                </div>
+                            </td>
+
+
+                            <!-- Kaydeden -->
+                            <td>
+                                <div class="camera-user">
+
+                                    <div class="camera-user-icon">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
+
+                                    <span>
+                                        @item.Created
+                                    </span>
+
+                                </div>
+                            </td>
+
+
+                            <!-- Tarih -->
+                            <td>
+                                <div class="camera-date">
+                                    <i class="fa-regular fa-calendar"></i>
+                                    @item.CreatedDate
+                                </div>
+                            </td>
+
+
+                            <!-- İşlemler -->
+                            <td>
+
+                                <div class="camera-actions">
+
+                                    <a asp-action="Edit"
+                                       asp-route-id="@item.Id"
+                                       class="camera-action-edit"
+                                       title="Kamerayı Güncelle">
+
+                                        <i class="fa-solid fa-pen-to-square"></i>
+
+                                        <span>Güncelle</span>
+
+                                    </a>
+
+
+                                    <button type="button"
+                                            class="camera-action-delete"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal"
+                                            data-file-id="@item.Id"
+                                            data-file-name="@item.Name"
+                                            title="Kamerayı Sil">
+
+                                        <i class="fa-solid fa-trash"></i>
+
+                                        <span>Sil</span>
+
+                                    </button>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+    ```
+
 </div>
 
-<script>
-    const deleteModal = document.getElementById('deleteModal');
-    deleteModal.addEventListener('show.bs.modal', function (event) {
-        const button = event.relatedTarget;
-        const fileId = button.getAttribute('data-file-id');
-        const fileName = button.getAttribute('data-file-name');
+<!-- ============================= -->
+<!-- SİLME MODALI -->
+<!-- ============================= -->
 
-        document.getElementById('fileId').value = fileId;
-        document.getElementById('fileName').textContent = fileName;
-    });
-</script>
+<div class="modal fade camera-delete-modal"
+     id="deleteModal"
+     tabindex="-1"
+     aria-labelledby="deleteModalLabel"
+     aria-hidden="true">
+
+    ```
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <form method="post" asp-action="Delete">
+
+                <div class="camera-modal-header">
+
+                    <div class="camera-modal-icon">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+
+                    <div>
+                        <h5 id="deleteModalLabel">
+                            Kamera Silinecek
+                        </h5>
+
+                        <span>
+                            Bu işlem geri alınamaz.
+                        </span>
+                    </div>
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal">
+                    </button>
+
+                </div>
+
+
+                <div class="camera-modal-body">
+
+                    <p>
+                        Aşağıdaki kamerayı silmek istediğinize emin misiniz?
+                    </p>
+
+                    <div class="camera-delete-item">
+
+                        <div class="camera-delete-item-icon">
+                            <i class="fa-solid fa-video"></i>
+                        </div>
+
+                        <strong id="fileName"></strong>
+
+                    </div>
+
+                    <input type="hidden"
+                           name="id"
+                           id="fileId" />
+
+                </div>
+
+
+                <div class="camera-modal-footer">
+
+                    <button type="button"
+                            class="camera-cancel-btn"
+                            data-bs-dismiss="modal">
+
+                        <i class="fa-solid fa-xmark"></i>
+                        Vazgeç
+
+                    </button>
+
+                    <button type="submit"
+                            class="camera-confirm-delete-btn">
+
+                        <i class="fa-solid fa-trash"></i>
+                        Kamerayı Sil
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+    ```
+
+</div>
+
+@section Scripts {
+
+    ```
+    <script>
+
+        /* ==========================
+           SİLME MODALI
+        ========================== */
+
+        const deleteModal =
+            document.getElementById('deleteModal');
+
+        deleteModal.addEventListener(
+            'show.bs.modal',
+            function (event) {
+
+                const button =
+                    event.relatedTarget;
+
+                const fileId =
+                    button.getAttribute('data-file-id');
+
+                const fileName =
+                    button.getAttribute('data-file-name');
+
+                document.getElementById('fileId').value =
+                    fileId;
+
+                document.getElementById('fileName').textContent =
+                    fileName;
+            }
+        );
+
+
+        /* ==========================
+           ŞİFRE GÖSTER / GİZLE
+        ========================== */
+
+        document
+            .querySelectorAll('.password-toggle')
+            .forEach(function (button) {
+
+                button.addEventListener(
+                    'click',
+                    function () {
+
+                        const password =
+                            this.getAttribute('data-password');
+
+                        const value =
+                            this.parentElement
+                                .querySelector('.password-value');
+
+                        const icon =
+                            this.querySelector('i');
+
+
+                        if (value.textContent === '••••••••') {
+
+                            value.textContent = password;
+
+                            icon.classList.remove(
+                                'fa-eye'
+                            );
+
+                            icon.classList.add(
+                                'fa-eye-slash'
+                            );
+
+                            this.title =
+                                'Şifreyi gizle';
+
+                        }
+                        else {
+
+                            value.textContent =
+                                '••••••••';
+
+                            icon.classList.remove(
+                                'fa-eye-slash'
+                            );
+
+                            icon.classList.add(
+                                'fa-eye'
+                            );
+
+                            this.title =
+                                'Şifreyi göster';
+                        }
+
+                    });
+
+            });
+
+    </script>
+
+
+}

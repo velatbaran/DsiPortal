@@ -1,49 +1,365 @@
 ﻿@model AppViewModel
+
 @{
     ViewData["Title"] = "Uygulama-Kısayol Ekle";
 }
 
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="Create" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+<link rel="stylesheet" href="~/css/apps.css" />
+
+
+<div class="apps-form-page">
+
+    <!-- Başlık -->
+    <div class="apps-form-header">
+
+        <div class="apps-title-area">
+
+            <div class="apps-title-icon">
+                <i class="fa-solid fa-square-plus"></i>
             </div>
-            <div class="form-group">
-                <label asp-for="Link" class="control-label"></label>
-                <input asp-for="Link" class="form-control" />
-                <span asp-validation-for="Link" class="text-danger"></span>
+
+            <div>
+
+                <h2>Yeni Uygulama-Kısayol</h2>
+
+                <p>
+                    Sisteme yeni bir uygulama veya kısayol ekleyin.
+                </p>
+
             </div>
-            <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <div class="custom-file">
-                    <input asp-for="Image" class="custom-file-input" id="customFile" accept="image/*">
-                    <label class="custom-file-label" for="customFile">Resim seçiniz</label>
-                </div>
-                <span asp-validation-for="Image" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <button type="submit" value="Kaydet" class="btn btn-primary" title="Kaydet"><i class="fa-solid fa-floppy-disk"></i> Kaydet</button>
-            </div>
-        </form>
+
+        </div>
+
+        <a asp-action="Index"
+           class="apps-back-button">
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+            Geri Dön
+
+        </a>
+
     </div>
+
+
+    <!-- Form Kartı -->
+    <div class="apps-form-card">
+
+        <form asp-action="Create"
+              enctype="multipart/form-data">
+
+            <div asp-validation-summary="ModelOnly"
+                 class="apps-validation-summary">
+            </div>
+
+
+            <!-- Uygulama Adı -->
+            <div class="apps-form-group">
+
+                <label asp-for="Name">
+
+                    <i class="fa-solid fa-heading"></i>
+
+                    Uygulama Adı
+
+                </label>
+
+                <div class="apps-input-wrapper">
+
+                    <i class="fa-solid fa-window-maximize"></i>
+
+                    <input asp-for="Name"
+                           class="apps-input"
+                           placeholder="Uygulama adını giriniz..." />
+
+                </div>
+
+                <span asp-validation-for="Name"
+                      class="apps-validation">
+                </span>
+
+            </div>
+
+
+            <!-- Link -->
+            <div class="apps-form-group">
+
+                <label asp-for="Link">
+
+                    <i class="fa-solid fa-link"></i>
+
+                    Uygulama Linki
+
+                </label>
+
+                <div class="apps-input-wrapper">
+
+                    <i class="fa-solid fa-globe"></i>
+
+                    <input asp-for="Link"
+                           class="apps-input"
+                           type="url"
+                           placeholder="https://ornek.com" />
+
+                </div>
+
+                <small class="apps-help-text">
+
+                    <i class="fa-solid fa-circle-info"></i>
+
+                    Uygulamanın açılacağı web adresini giriniz.
+
+                </small>
+
+                <span asp-validation-for="Link"
+                      class="apps-validation">
+                </span>
+
+            </div>
+
+
+            <!-- Resim -->
+            <div class="apps-form-group">
+
+                <label asp-for="Image">
+
+                    <i class="fa-solid fa-image"></i>
+
+                    Uygulama Resmi
+
+                </label>
+
+
+                <div class="apps-upload-area"
+                     id="appsUploadArea">
+
+                    <input asp-for="Image"
+                           class="apps-file-input"
+                           id="customFile"
+                           accept="image/*" />
+
+
+                    <label for="customFile"
+                           class="apps-upload-label">
+
+                        <div class="apps-upload-icon">
+
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+
+                        </div>
+
+                        <strong>
+                            Resim seçmek için tıklayın
+                        </strong>
+
+                        <span>
+                            PNG, JPG, JPEG veya WEBP
+                        </span>
+
+                    </label>
+
+                </div>
+
+
+                <div id="appsFileName"
+                     class="apps-file-name">
+                </div>
+
+
+                <span asp-validation-for="Image"
+                      class="apps-validation">
+                </span>
+
+            </div>
+
+
+            <!-- Önizleme -->
+            <div id="appsImagePreview"
+                 class="apps-image-preview">
+
+                <div class="apps-preview-title">
+
+                    <i class="fa-solid fa-eye"></i>
+
+                    Resim Önizleme
+
+                </div>
+
+                <img id="appsPreviewImage"
+                     src=""
+                     alt="Önizleme" />
+
+            </div>
+
+
+            <!-- Butonlar -->
+            <div class="apps-form-actions">
+
+                <a asp-action="Index"
+                   class="apps-form-cancel">
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                    İptal
+
+                </a>
+
+
+                <button type="submit"
+                        class="apps-form-save">
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+
+                    Kaydet
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
 </div>
 
-<div>
-    <a asp-action="Index"><i class="fa-solid fa-backward"></i> Geri Dön</a>
-</div>
 
 @section Scripts {
+
     @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        await Html.RenderPartialAsync(
+            "_ValidationScriptsPartial"
+        );
     }
+
+
     <script>
-        $(".custom-file-input").on("change", function() {
-            var fileName = $(this).val().split("\\").pop();
-            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-        });
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                const fileInput =
+                    document.getElementById("customFile");
+
+                const fileName =
+                    document.getElementById("appsFileName");
+
+                const preview =
+                    document.getElementById("appsImagePreview");
+
+                const previewImage =
+                    document.getElementById("appsPreviewImage");
+
+                const uploadArea =
+                    document.getElementById("appsUploadArea");
+
+
+                fileInput.addEventListener(
+                    "change",
+                    function () {
+
+                        const file =
+                            this.files[0];
+
+
+                        if (!file) {
+
+                            fileName.textContent = "";
+
+                            preview.style.display = "none";
+
+                            return;
+
+                        }
+
+
+                        fileName.innerHTML =
+                            '<i class="fa-solid fa-file-image"></i> '
+                            + file.name;
+
+
+                        // Önizleme
+                        if (file.type.startsWith("image/")) {
+
+                            const reader =
+                                new FileReader();
+
+
+                            reader.onload =
+                                function (e) {
+
+                                    previewImage.src =
+                                        e.target.result;
+
+                                    preview.style.display =
+                                        "block";
+
+                                };
+
+
+                            reader.readAsDataURL(file);
+
+                        }
+
+                    }
+                );
+
+
+                // Drag & Drop
+                uploadArea.addEventListener(
+                    "dragover",
+                    function (e) {
+
+                        e.preventDefault();
+
+                        uploadArea.classList.add(
+                            "apps-upload-drag"
+                        );
+
+                    }
+                );
+
+
+                uploadArea.addEventListener(
+                    "dragleave",
+                    function () {
+
+                        uploadArea.classList.remove(
+                            "apps-upload-drag"
+                        );
+
+                    }
+                );
+
+
+                uploadArea.addEventListener(
+                    "drop",
+                    function (e) {
+
+                        e.preventDefault();
+
+                        uploadArea.classList.remove(
+                            "apps-upload-drag"
+                        );
+
+
+                        if (e.dataTransfer.files.length > 0) {
+
+                            fileInput.files =
+                                e.dataTransfer.files;
+
+                            fileInput.dispatchEvent(
+                                new Event("change")
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
     </script>
+
 }

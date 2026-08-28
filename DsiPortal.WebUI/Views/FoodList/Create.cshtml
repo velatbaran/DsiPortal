@@ -1,45 +1,495 @@
-﻿@model FoodListViewModel
+﻿
+@model FoodListViewModel
+
 @{
     ViewData["Title"] = "Yemek Listesi Ekle";
 }
 
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="Create" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <label style="color:red;font-style:italic">Not: Sadece .pdf dosyalarınız için geçerlidir. Görüntü sağlayıcısının .pdf dosyalarınızı düzgün görüntüleyebilmesi için <strong>Adı</strong> alanında lütfen <strong>Türkçe</strong> karakter kullanmayınız!</label>
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="File" class="control-label"></label>
-                <div class="custom-file">
-                    <input asp-for="File" class="custom-file-input" id="customFile">
-                    <label class="custom-file-label" for="customFile">Dosya seçiniz</label>
+<link rel="stylesheet" href="~/css/foodlist.css" />
+
+
+<div class="foodlist-page">
+
+    <div class="foodlist-create">
+
+
+        <!-- HEADER -->
+
+        <div class="foodlist-header">
+
+            <div class="foodlist-header-left">
+
+                <div class="foodlist-header-icon">
+
+                    <i class="fa-solid fa-utensils"></i>
+
                 </div>
-                <span asp-validation-for="File" class="text-danger"></span>
+
+
+                <div class="foodlist-header-text">
+
+                    <h2>
+                        Yeni Yemek Listesi
+                    </h2>
+
+                    <p>
+                        Sisteme yeni bir yemek listesi yükleyin.
+                    </p>
+
+                </div>
+
             </div>
-            <div class="form-group">
-                <button type="submit" value="Kaydet" class="btn btn-primary" title="Kaydet"><i class="fa-solid fa-floppy-disk"></i> Kaydet</button>
-            </div>
-        </form>
+
+        </div>
+
+
+        <!-- CARD -->
+
+        <div class="foodlist-create-card">
+
+            <form asp-action="Create"
+                  method="post"
+                  enctype="multipart/form-data"
+                  id="foodlistCreateForm">
+
+
+                <div asp-validation-summary="ModelOnly"
+                     class="alert alert-danger"
+                     role="alert">
+                </div>
+
+
+                <div class="row g-4">
+
+
+                    <!-- DOSYA ADI -->
+
+                    <div class="col-12">
+
+                        <div class="foodlist-form-group">
+
+                            <label asp-for="Name"
+                                   class="foodlist-label">
+
+                                Yemek Listesi Adı
+
+                            </label>
+
+
+                            <input asp-for="Name"
+                                   class="foodlist-control"
+                                   placeholder="Örn. Ağustos 2026 Yemek Listesi"
+                                   autocomplete="off" />
+
+
+                            <span asp-validation-for="Name"
+                                  class="text-danger small">
+                            </span>
+
+
+                            <div class="foodlist-pdf-note">
+
+                                <i class="fa-solid fa-circle-info"></i>
+
+                                <span>
+
+                                    Bu uyarı yalnızca
+                                    <strong>PDF</strong> dosyaları
+                                    için geçerlidir.
+
+                                    PDF görüntüleyicisinin dosyayı
+                                    düzgün gösterebilmesi için
+                                    <strong>Yemek Listesi Adı</strong>
+                                    alanında Türkçe karakter
+                                    kullanmamanız önerilir.
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- DOSYA -->
+
+                    <div class="col-12">
+
+                        <div class="foodlist-form-group">
+
+                            <label asp-for="File"
+                                   class="foodlist-label">
+
+                                Yemek Listesi Dosyası
+
+                            </label>
+
+
+                            <div class="foodlist-upload"
+                                 id="foodlistUploadArea">
+
+
+                                <input asp-for="File"
+                                       type="file"
+                                       id="foodlistFileInput"
+                                       hidden />
+
+
+                                <div class="foodlist-upload-icon">
+
+                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+
+                                </div>
+
+
+                                <div class="foodlist-upload-title">
+
+                                    Dosyanızı buraya sürükleyin
+
+                                </div>
+
+
+                                <div class="foodlist-upload-description">
+
+                                    veya bilgisayarınızdan bir dosya seçin
+
+                                </div>
+
+
+                                <span class="foodlist-upload-button">
+
+                                    <i class="fa-solid fa-folder-open"></i>
+
+                                    Dosya Seç
+
+                                </span>
+
+
+                                <!-- ÖNİZLEME -->
+
+                                <div class="foodlist-file-preview"
+                                     id="foodlistFilePreview">
+
+                                    <div class="foodlist-preview-content">
+
+                                        <div class="foodlist-preview-icon"
+                                             id="foodlistPreviewIcon">
+
+                                            <i class="fa-solid fa-file"></i>
+
+                                        </div>
+
+
+                                        <div>
+
+                                            <span class="foodlist-preview-name"
+                                                  id="foodlistFileNamePreview">
+                                            </span>
+
+
+                                            <span class="foodlist-preview-status">
+
+                                                <i class="fa-solid fa-circle-check me-1"></i>
+
+                                                Dosya seçildi
+
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <span asp-validation-for="File"
+                                  class="text-danger small">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BUTONLAR -->
+
+                <div class="foodlist-form-actions">
+
+
+                    <a asp-action="Index"
+                       class="btn btn-light foodlist-form-button">
+
+                        <i class="fa-solid fa-arrow-left"></i>
+
+                        Geri Dön
+
+                    </a>
+
+
+                    <button type="submit"
+                            class="btn btn-success foodlist-form-button foodlist-save-button"
+                            id="foodlistSaveButton">
+
+                        <i class="fa-solid fa-floppy-disk"></i>
+
+                        <span id="foodlistSaveButtonText">
+
+                            Kaydet
+
+                        </span>
+
+                    </button>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
     </div>
+
 </div>
 
-<div>
-    <a asp-action="Index"><i class="fa-solid fa-backward"></i> Geri Dön</a>
-</div>
 
 @section Scripts {
+
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+
     <script>
-        $(".custom-file-input").on("change", function() {
-            var fileName = $(this).val().split("\\").pop();
-            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-        });
+
+        /* =====================================================
+           ELEMENTLER
+           ===================================================== */
+
+        const foodlistUploadArea =
+            document.getElementById(
+                "foodlistUploadArea"
+            );
+
+
+        const foodlistFileInput =
+            document.getElementById(
+                "foodlistFileInput"
+            );
+
+
+        const foodlistFilePreview =
+            document.getElementById(
+                "foodlistFilePreview"
+            );
+
+
+        const foodlistFileNamePreview =
+            document.getElementById(
+                "foodlistFileNamePreview"
+            );
+
+
+        const foodlistPreviewIcon =
+            document.getElementById(
+                "foodlistPreviewIcon"
+            );
+
+
+        /* =====================================================
+           DOSYA ALANINA TIKLAMA
+           ===================================================== */
+
+        foodlistUploadArea.addEventListener(
+            "click",
+            function () {
+
+                foodlistFileInput.click();
+
+            }
+        );
+
+
+        /* =====================================================
+           DOSYA SEÇİLDİ
+           ===================================================== */
+
+        foodlistFileInput.addEventListener(
+            "change",
+            function () {
+
+                if (
+                    this.files &&
+                    this.files.length > 0
+                ) {
+
+                    showFoodListFile(
+                        this.files[0]
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           DRAG OVER
+           ===================================================== */
+
+        foodlistUploadArea.addEventListener(
+            "dragover",
+            function (event) {
+
+                event.preventDefault();
+
+                foodlistUploadArea.classList.add(
+                    "dragover"
+                );
+
+            }
+        );
+
+
+        /* =====================================================
+           DRAG LEAVE
+           ===================================================== */
+
+        foodlistUploadArea.addEventListener(
+            "dragleave",
+            function () {
+
+                foodlistUploadArea.classList.remove(
+                    "dragover"
+                );
+
+            }
+        );
+
+
+        /* =====================================================
+           DROP
+           ===================================================== */
+
+        foodlistUploadArea.addEventListener(
+            "drop",
+            function (event) {
+
+                event.preventDefault();
+
+                foodlistUploadArea.classList.remove(
+                    "dragover"
+                );
+
+
+                if (
+                    event.dataTransfer.files.length > 0
+                ) {
+
+                    foodlistFileInput.files =
+                        event.dataTransfer.files;
+
+
+                    showFoodListFile(
+                        event.dataTransfer.files[0]
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           DOSYA ÖNİZLEME
+           ===================================================== */
+
+        function showFoodListFile(file) {
+
+            foodlistFileNamePreview.textContent =
+                file.name;
+
+
+            const extension =
+                file.name
+                    .split(".")
+                    .pop()
+                    .toLowerCase();
+
+
+            let icon = "fa-file";
+
+
+            if (extension === "pdf") {
+
+                icon = "fa-file-pdf";
+
+            }
+            else if (
+                extension === "doc" ||
+                extension === "docx"
+            ) {
+
+                icon = "fa-file-word";
+
+            }
+            else if (
+                extension === "xls" ||
+                extension === "xlsx"
+            ) {
+
+                icon = "fa-file-excel";
+
+            }
+
+
+            foodlistPreviewIcon.innerHTML =
+                `<i class="fa-regular ${icon}"></i>`;
+
+
+            foodlistFilePreview.style.display =
+                "block";
+
+        }
+
+
+        /* =====================================================
+           FORM GÖNDERİLİYOR
+           ===================================================== */
+
+        document
+            .getElementById(
+                "foodlistCreateForm"
+            )
+            .addEventListener(
+                "submit",
+                function () {
+
+                    const button =
+                        document.getElementById(
+                            "foodlistSaveButton"
+                        );
+
+
+                    const text =
+                        document.getElementById(
+                            "foodlistSaveButtonText"
+                        );
+
+
+                    button.disabled = true;
+
+                    text.textContent =
+                        "Kaydediliyor...";
+
+                }
+            );
+
     </script>
+
 }
+

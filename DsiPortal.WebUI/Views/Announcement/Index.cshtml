@@ -1,100 +1,404 @@
-﻿@model IEnumerable<Announcements>
+﻿
+@model IEnumerable<Announcements>
 
 @{
     ViewData["Title"] = "Duyurular";
 }
 
-<p>
-    <a asp-action="Create" class="btn btn-outline-primary" title="Yeni Duyuru Ekle"><i class="fa-solid fa-plus"></i> Yeni Duyuru Ekle</a>
-</p>
+<link rel="stylesheet" href="~/css/management-pages.css" />
 
-<table class="table table-striped table-bordered">
-    <thead class="thead-dark">
-        <tr>
-            <th>Dosya Adı</th>
-            <th>Tür</th>
-            <th>Kaydeden</th>
-            <th>Kayıt Tarihi</th>
-            <th>İşlemler</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                <td>
-                    @if (item.FileType == ".docx")
-                    {
-                        <i class="fa-regular fa-file-word"></i>
-                    }
-                    else @if (item.FileType == ".doc")
-                    {
-                        <i class="fa-regular fa-file-word"></i>
-                    }
-                    else @if (item.FileType == ".pdf")
-                    {
-                        <i class="fa-regular fa-file-pdf"></i>
-                    }
-                    else @if (item.FileType == ".xlsx")
-                    {
-                        <i class="fa-regular fa-file-excel"></i>
-                    }
-                    else @if (item.FileType == ".xls")
-                    {
-                        <i class="fa-regular fa-file-excel"></i>
-                    }
-                </td>
-                <td>@Html.DisplayFor(modelItem => item.Created)</td>
-                <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
-                <td>
-                    <a asp-action="Download" asp-route-id="@item.Id" class="btn btn-primary btn-sm" title="İndir"><i class="fa-solid fa-download"></i> İndir</a>
-                    @if (item.FileType == ".pdf")
-                    {
-                        <a href="@Url.Action("ViewPdf", "Announcement", new { id = item.Id })" target="_blank" class="btn btn-info btn-sm">
-                            <i class="fa-solid fa-eye"></i> Görüntüle
-                        </a>
-                    }
-                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                            data-file-id="@item.Id" data-file-name="@item.Name" title="Sil">
-                        <i class="fa-solid fa-trash"></i> Sil
-                    </button>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="management-page">
 
-<!-- Delete Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form method="post" asp-action="Delete">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Silme Onayı</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <strong id="fileName"></strong> silmek istediğine emin misin?
-                    <input type="hidden" name="id" id="fileId" />
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" title="İptal"><i class="fa-solid fa-xmark"></i> İptal</button>
-                    <button type="submit" class="btn btn-danger" title="Sil"><i class="fa-solid fa-trash"></i> Sil</button>
-                </div>
-            </form>
+    <!-- HEADER -->
+    <div class="management-header">
+
+        <div class="management-title">
+
+            <div class="management-title-icon">
+                <i class="fa-solid fa-bullhorn"></i>
+            </div>
+
+            <div>
+                <h2>Duyurular</h2>
+
+                <p>
+                    Sistemde yayınlanan duyuruları yönetin.
+                </p>
+            </div>
+
         </div>
+
+
+        <a asp-action="Create"
+           class="btn btn-primary management-add-btn">
+
+            <i class="fa-solid fa-plus"></i>
+
+            Yeni Duyuru
+
+        </a>
+
     </div>
+
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="management-card">
+
+            <div class="management-table-wrapper">
+
+                <table class="management-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Dosya</th>
+
+                            <th>Tür</th>
+
+                            <th>Kaydeden</th>
+
+                            <th>Kayıt Tarihi</th>
+
+                            <th class="text-end">İşlemler</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            string fileIcon = "fa-file";
+                            string fileClass = "default";
+
+                            if (item.FileType == ".pdf")
+                            {
+                                fileIcon = "fa-file-pdf";
+                                fileClass = "pdf";
+                            }
+                            else if (item.FileType == ".doc" ||
+                            item.FileType == ".docx")
+                            {
+                                fileIcon = "fa-file-word";
+                                fileClass = "word";
+                            }
+                            else if (item.FileType == ".xls" ||
+                            item.FileType == ".xlsx")
+                            {
+                                fileIcon = "fa-file-excel";
+                                fileClass = "excel";
+                            }
+
+                            <tr>
+
+                                <!-- DOSYA -->
+                                <td data-label="Dosya">
+
+                                    <div class="management-file">
+
+                                        <div class="management-file-icon @fileClass">
+
+                                            <i class="fa-regular @fileIcon"></i>
+
+                                        </div>
+
+
+                                        <div class="management-file-info">
+
+                                            <span class="management-file-name"
+                                                  title="@item.Name">
+
+                                                @item.Name
+
+                                            </span>
+
+                                            <span class="management-file-type">
+
+                                                @item.FileType
+
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- TÜR -->
+                                <td data-label="Tür">
+
+                                    <span class="management-badge">
+
+                                        <i class="fa-regular @fileIcon"></i>
+
+                                        @item.FileType.ToUpper()
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- KAYDEDEN -->
+                                <td data-label="Kaydeden">
+
+                                    <div class="management-meta">
+
+                                        <div class="management-meta-icon">
+
+                                            <i class="fa-solid fa-user"></i>
+
+                                        </div>
+
+                                        <span class="management-meta-text">
+
+                                            @item.Created
+
+                                        </span>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- TARİH -->
+                                <td data-label="Kayıt Tarihi">
+
+                                    <div class="management-meta">
+
+                                        <div class="management-meta-icon">
+
+                                            <i class="fa-regular fa-calendar"></i>
+
+                                        </div>
+
+                                        <span class="management-meta-text">
+
+                                            @item.CreatedDate
+
+                                        </span>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- İŞLEMLER -->
+                                <td data-label="İşlemler">
+
+                                    <div class="management-actions">
+
+                                        <!-- DOWNLOAD -->
+                                        <a asp-action="Download"
+                                           asp-route-id="@item.Id"
+                                           class="btn btn-outline-primary management-action-btn"
+                                           title="İndir">
+
+                                            <i class="fa-solid fa-download"></i>
+
+                                            <span>İndir</span>
+
+                                        </a>
+
+
+                                        <!-- PDF VIEW -->
+                                        @if (item.FileType == ".pdf")
+                                        {
+                                            <a href="@Url.Action("ViewPdf", "Announcement", new { id = item.Id })"
+                                               target="_blank"
+                                               class="btn btn-outline-info management-action-btn"
+                                               title="Görüntüle">
+
+                                                <i class="fa-solid fa-eye"></i>
+
+                                                <span>Görüntüle</span>
+
+                                            </a>
+                                        }
+
+
+                                        <!-- DELETE -->
+                                        <button type="button"
+                                                class="btn btn-outline-danger management-action-btn"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal"
+                                                data-file-id="@item.Id"
+                                                data-file-name="@item.Name"
+                                                title="Sil">
+
+                                            <i class="fa-solid fa-trash"></i>
+
+                                            <span>Sil</span>
+
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <!-- EMPTY -->
+        <div class="management-card">
+
+            <div class="management-empty">
+
+                <div class="management-empty-icon">
+
+                    <i class="fa-solid fa-bullhorn"></i>
+
+                </div>
+
+                <h5>
+                    Henüz duyuru bulunmuyor
+                </h5>
+
+                <p>
+                    Sisteme henüz herhangi bir duyuru eklenmemiş.
+                </p>
+
+                <a asp-action="Create"
+                   class="btn btn-primary rounded-pill px-4">
+
+                    <i class="fa-solid fa-plus me-1"></i>
+
+                    İlk Duyuruyu Ekle
+
+                </a>
+
+            </div>
+
+        </div>
+    }
+
 </div>
 
-<script>
-    const deleteModal = document.getElementById('deleteModal');
-    deleteModal.addEventListener('show.bs.modal', function (event) {
-        const button = event.relatedTarget;
-        const fileId = button.getAttribute('data-file-id');
-        const fileName = button.getAttribute('data-file-name');
 
-        document.getElementById('fileId').value = fileId;
-        document.getElementById('fileName').textContent = fileName;
-    });
-</script>
+<!-- DELETE MODAL -->
+<div class="modal fade management-modal"
+     id="deleteModal"
+     tabindex="-1"
+     aria-labelledby="deleteModalLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <form method="post"
+                  asp-action="Delete">
+
+                <div class="modal-body text-center p-4">
+
+                    <div class="management-delete-icon">
+
+                        <i class="fa-solid fa-trash"></i>
+
+                    </div>
+
+
+                    <h5 class="fw-bold mb-2">
+
+                        Duyuruyu Sil
+
+                    </h5>
+
+
+                    <p class="text-muted mb-0">
+
+                        <span id="fileName"
+                              class="management-delete-name">
+                        </span>
+
+                        adlı duyuru silinecek.
+
+                    </p>
+
+
+                    <input type="hidden"
+                           name="id"
+                           id="fileId" />
+
+                </div>
+
+
+                <div class="modal-footer border-0 justify-content-center pb-4">
+
+                    <button type="button"
+                            class="btn btn-light rounded-pill px-4"
+                            data-bs-dismiss="modal">
+
+                        <i class="fa-solid fa-xmark me-1"></i>
+
+                        Vazgeç
+
+                    </button>
+
+
+                    <button type="submit"
+                            class="btn btn-danger rounded-pill px-4">
+
+                        <i class="fa-solid fa-trash me-1"></i>
+
+                        Duyuruyu Sil
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <script>
+
+        const deleteModal =
+            document.getElementById('deleteModal');
+
+        deleteModal.addEventListener(
+            'show.bs.modal',
+            function (event) {
+
+                const button =
+                    event.relatedTarget;
+
+                const fileId =
+                    button.getAttribute('data-file-id');
+
+                const fileName =
+                    button.getAttribute('data-file-name');
+
+                document.getElementById('fileId').value =
+                    fileId;
+
+                document.getElementById('fileName').textContent =
+                    fileName;
+
+            });
+
+    </script>
+
+}
+

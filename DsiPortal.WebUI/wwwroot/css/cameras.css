@@ -1,0 +1,882 @@
+﻿/* =========================================================
+GÜVENLİK KAMERALARI
+Sadece Cameras sayfaları için
+========================================================= */
+
+.cameras-page {
+    width: 100%;
+    padding: 8px 4px 30px;
+    color: #1f2937;
+}
+
+/* =========================================================
+SAYFA BAŞLIĞI
+========================================================= */
+
+.camera-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 22px;
+    padding: 22px 26px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.05);
+}
+
+.camera-header-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.camera-header-icon {
+    width: 54px;
+    height: 54px;
+    min-width: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #ffffff;
+    font-size: 21px;
+    box-shadow: 0 7px 16px rgba(37, 99, 235, 0.22);
+}
+
+.camera-edit-header-icon {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    box-shadow: 0 7px 16px rgba(245, 158, 11, 0.22);
+}
+
+.camera-header-content h1 {
+    margin: 0 0 4px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.camera-header-content p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+/* =========================================================
+BUTONLAR
+========================================================= */
+
+.camera-add-btn,
+.camera-back-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 42px;
+    padding: 0 17px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all .2s ease;
+}
+
+.camera-add-btn {
+    color: #ffffff;
+    background: #2563eb;
+    box-shadow: 0 5px 13px rgba(37, 99, 235, .18);
+}
+
+    .camera-add-btn:hover {
+        color: #ffffff;
+        background: #1d4ed8;
+        transform: translateY(-1px);
+    }
+
+.camera-back-btn {
+    color: #374151;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+}
+
+    .camera-back-btn:hover {
+        color: #2563eb;
+        background: #eff6ff;
+        border-color: #bfdbfe;
+    }
+
+/* =========================================================
+ANA KART
+========================================================= */
+
+.camera-card {
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.05);
+}
+
+.camera-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 23px;
+    border-bottom: 1px solid #edf0f3;
+}
+
+    .camera-card-header h5 {
+        margin: 0 0 4px;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        color: #111827;
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+        .camera-card-header h5 i {
+            color: #2563eb;
+        }
+
+    .camera-card-header span {
+        font-size: 12px;
+        color: #9ca3af;
+    }
+
+.camera-count {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 12px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* =========================================================
+TABLO
+========================================================= */
+
+.camera-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.camera-table {
+    width: 100%;
+    min-width: 950px;
+    margin: 0;
+    border-collapse: collapse;
+}
+
+    .camera-table thead th {
+        padding: 14px 17px;
+        background: #f8fafc;
+        border-bottom: 1px solid #e5e7eb;
+        color: #6b7280;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+        white-space: nowrap;
+    }
+
+    .camera-table tbody td {
+        padding: 14px 17px;
+        border-bottom: 1px solid #f1f5f9;
+        vertical-align: middle;
+        color: #374151;
+        font-size: 13px;
+    }
+
+    .camera-table tbody tr {
+        transition: background .18s ease;
+    }
+
+        .camera-table tbody tr:hover {
+            background: #f8fbff;
+        }
+
+        .camera-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+.camera-actions-column {
+    width: 190px;
+    text-align: right;
+}
+
+/* =========================================================
+KAMERA ADI
+========================================================= */
+
+.camera-name {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.camera-name-icon {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 10px;
+}
+
+.camera-name strong {
+    display: block;
+    margin-bottom: 2px;
+    color: #1f2937;
+    font-size: 13px;
+    font-weight: 650;
+}
+
+.camera-name small {
+    display: block;
+    color: #9ca3af;
+    font-size: 10px;
+}
+
+/* =========================================================
+LINK
+========================================================= */
+
+.camera-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 260px;
+    color: #475569;
+}
+
+    .camera-link i {
+        color: #64748b;
+        font-size: 12px;
+    }
+
+    .camera-link span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+/* =========================================================
+ŞİFRE
+========================================================= */
+
+.camera-password {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 9px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+}
+
+    .camera-password > i {
+        color: #64748b;
+        font-size: 11px;
+    }
+
+.password-value {
+    min-width: 70px;
+    color: #475569;
+    font-family: monospace;
+    font-size: 12px;
+}
+
+.password-toggle {
+    width: 25px;
+    height: 25px;
+    padding: 0;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: #64748b;
+    cursor: pointer;
+    transition: all .18s ease;
+}
+
+    .password-toggle:hover {
+        background: #e2e8f0;
+        color: #2563eb;
+    }
+
+/* =========================================================
+KULLANICI
+========================================================= */
+
+.camera-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.camera-user-icon {
+    width: 27px;
+    height: 27px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    color: #64748b;
+    border-radius: 50%;
+    font-size: 10px;
+}
+
+.camera-user span {
+    white-space: nowrap;
+}
+
+/* =========================================================
+TARİH
+========================================================= */
+
+.camera-date {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #64748b;
+    white-space: nowrap;
+}
+
+    .camera-date i {
+        color: #94a3b8;
+    }
+
+/* =========================================================
+İŞLEMLER
+========================================================= */
+
+.camera-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 7px;
+}
+
+.camera-action-edit,
+.camera-action-delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 34px;
+    padding: 0 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all .18s ease;
+}
+
+.camera-action-edit {
+    color: #b45309;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+}
+
+    .camera-action-edit:hover {
+        color: #92400e;
+        background: #fef3c7;
+    }
+
+.camera-action-delete {
+    color: #dc2626;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+}
+
+    .camera-action-delete:hover {
+        color: #b91c1c;
+        background: #fee2e2;
+    }
+
+/* =========================================================
+FORM KARTI
+========================================================= */
+
+.camera-form-card {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    box-shadow: 0 5px 22px rgba(15, 23, 42, 0.06);
+}
+
+.camera-form-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 22px 25px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.camera-form-header-icon {
+    width: 43px;
+    height: 43px;
+    min-width: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 11px;
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.camera-form-header h4 {
+    margin: 0 0 3px;
+    color: #111827;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.camera-form-header p {
+    margin: 0;
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+.camera-form-card form {
+    padding: 26px;
+}
+
+/* =========================================================
+FORM ALANLARI
+========================================================= */
+
+.camera-form-group {
+    margin-bottom: 21px;
+}
+
+    .camera-form-group > label {
+        display: block;
+        margin-bottom: 8px;
+        color: #374151;
+        font-size: 12px;
+        font-weight: 650;
+    }
+
+        .camera-form-group > label i {
+            width: 17px;
+            margin-right: 3px;
+            color: #2563eb;
+        }
+
+.camera-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+    .camera-input-wrapper > i {
+        position: absolute;
+        left: 14px;
+        z-index: 2;
+        color: #94a3b8;
+        font-size: 13px;
+        pointer-events: none;
+    }
+
+.camera-input {
+    width: 100%;
+    height: 45px;
+    padding: 0 14px 0 39px;
+    background: #ffffff;
+    border: 1px solid #dbe1e8;
+    border-radius: 9px;
+    outline: none;
+    color: #1f2937;
+    font-size: 13px;
+    transition: all .2s ease;
+}
+
+    .camera-input::placeholder {
+        color: #b0b7c3;
+    }
+
+    .camera-input:focus {
+        border-color: #60a5fa;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, .08);
+    }
+
+    .camera-input:hover {
+        border-color: #b8c2cf;
+    }
+
+/* =========================================================
+PASSWORD INPUT
+========================================================= */
+
+.camera-password-input .camera-input {
+    padding-right: 48px;
+}
+
+.camera-password-button {
+    position: absolute;
+    right: 7px;
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 7px;
+    background: transparent;
+    color: #64748b;
+    cursor: pointer;
+    transition: all .18s ease;
+}
+
+    .camera-password-button:hover {
+        background: #f1f5f9;
+        color: #2563eb;
+    }
+
+/* =========================================================
+YARDIM METNİ
+========================================================= */
+
+.camera-help {
+    display: block;
+    margin-top: 7px;
+    color: #94a3b8;
+    font-size: 10px;
+}
+
+/* =========================================================
+VALIDATION
+========================================================= */
+
+.camera-validation {
+    display: block;
+    margin-top: 6px;
+    color: #dc2626;
+    font-size: 11px;
+}
+
+.camera-validation-summary {
+    margin-bottom: 18px;
+    padding: 11px 13px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    color: #b91c1c;
+    font-size: 12px;
+}
+
+/* =========================================================
+FORM FOOTER
+========================================================= */
+
+.camera-form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 9px;
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid #edf0f3;
+}
+
+.camera-form-cancel {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 42px;
+    padding: 0 15px;
+    color: #64748b;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 9px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all .18s ease;
+}
+
+    .camera-form-cancel:hover {
+        color: #334155;
+        background: #f1f5f9;
+    }
+
+.camera-save-btn,
+.camera-update-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 42px;
+    padding: 0 18px;
+    border: none;
+    border-radius: 9px;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 650;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+.camera-save-btn {
+    background: #2563eb;
+    box-shadow: 0 5px 12px rgba(37, 99, 235, .18);
+}
+
+    .camera-save-btn:hover {
+        background: #1d4ed8;
+        transform: translateY(-1px);
+    }
+
+.camera-update-btn {
+    background: #16a34a;
+    box-shadow: 0 5px 12px rgba(22, 163, 74, .16);
+}
+
+    .camera-update-btn:hover {
+        background: #15803d;
+        transform: translateY(-1px);
+    }
+
+/* =========================================================
+SİLME MODALI
+========================================================= */
+
+.camera-delete-modal .modal-content {
+    overflow: hidden;
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, .18);
+}
+
+.camera-modal-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 21px 23px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.camera-modal-icon {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 11px;
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.camera-modal-header h5 {
+    margin: 0 0 3px;
+    color: #111827;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.camera-modal-header span {
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+.camera-modal-header .btn-close {
+    position: absolute;
+    right: 18px;
+    top: 18px;
+    font-size: 11px;
+}
+
+.camera-modal-body {
+    padding: 22px 23px;
+}
+
+    .camera-modal-body p {
+        margin: 0 0 15px;
+        color: #64748b;
+        font-size: 12px;
+    }
+
+.camera-delete-item {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 12px 14px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+}
+
+.camera-delete-item-icon {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.camera-delete-item strong {
+    color: #1f2937;
+    font-size: 13px;
+}
+
+.camera-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 15px 23px;
+    background: #f8fafc;
+    border-top: 1px solid #edf0f3;
+}
+
+.camera-cancel-btn,
+.camera-confirm-delete-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 38px;
+    padding: 0 14px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.camera-cancel-btn {
+    color: #475569;
+    background: #ffffff;
+    border: 1px solid #dbe1e8;
+}
+
+    .camera-cancel-btn:hover {
+        background: #f1f5f9;
+    }
+
+.camera-confirm-delete-btn {
+    color: #ffffff;
+    background: #dc2626;
+    border: 1px solid #dc2626;
+}
+
+    .camera-confirm-delete-btn:hover {
+        background: #b91c1c;
+        border-color: #b91c1c;
+    }
+
+/* =========================================================
+RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    ```
+    .cameras-page {
+        padding: 5px 0 20px;
+    }
+
+    .camera-page-header {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 18px;
+    }
+
+    .camera-add-btn,
+    .camera-back-btn {
+        width: 100%;
+    }
+
+    .camera-header-content {
+        width: 100%;
+    }
+
+    .camera-card-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .camera-count {
+        align-self: flex-start;
+    }
+
+    .camera-form-card {
+        border-radius: 12px;
+    }
+
+        .camera-form-card form {
+            padding: 20px;
+        }
+
+    .camera-form-footer {
+        flex-direction: column-reverse;
+    }
+
+    .camera-form-cancel,
+    .camera-save-btn,
+    .camera-update-btn {
+        width: 100%;
+    }
+
+    .camera-modal-footer {
+        flex-direction: column-reverse;
+    }
+
+    .camera-cancel-btn,
+    .camera-confirm-delete-btn {
+        width: 100%;
+    }
+
+    ```
+}
+
+/* =========================================================
+ÇOK KÜÇÜK EKRAN
+========================================================= */
+
+@media (max-width: 480px) {
+
+    ```
+    .camera-header-icon {
+        width: 46px;
+        height: 46px;
+        min-width: 46px;
+    }
+
+    .camera-header-content h1 {
+        font-size: 18px;
+    }
+
+    .camera-header-content p {
+        font-size: 11px;
+    }
+
+    .camera-form-header {
+        padding: 18px;
+    }
+
+    .camera-form-card form {
+        padding: 17px;
+    }
+
+    ```
+}

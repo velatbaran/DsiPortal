@@ -22,7 +22,7 @@ namespace DsiPortal.WebUI.Controllers
 
         public IActionResult Index()
         {
-            return View(_serviceUser.GetAll(x=>x.IsActive == true).OrderByDescending(x => x.CreatedDate));
+            return View(_serviceUser.GetAll().OrderByDescending(x => x.CreatedDate));
         }
 
         [HttpGet]

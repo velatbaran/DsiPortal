@@ -1,50 +1,361 @@
-﻿@model RegionalManagerViewModel
+﻿
+@model RegionalManagerViewModel
+
 @{
     ViewData["Title"] = "Bölge Müdürü Ekle";
 }
 
-<div class="row">
-    <label style="color:red;font-style:italic">Not: <strong>Yeni Bölge Müdürünü</strong> eklemek için <strong>eski Bölge Müdürün</strong> kaydını silmeniz gerekiyor. </label>
-    <div class="col-md-6">
-        <form asp-action="Create" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <div class="custom-file">
-                    <input asp-for="Image" class="custom-file-input" id="customFile" accept="image/*">
-                    <label class="custom-file-label" for="customFile">Resim seçiniz</label>
-                </div>
-                <span asp-validation-for="Image" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <button type="submit" value="Kaydet" class="btn btn-primary" title="Kaydet"><i class="fa-solid fa-floppy-disk"></i> Kaydet</button>
-            </div>
-        </form>
+
+<link href="~/css/relational-manager-theme.css" rel="stylesheet" />
+<div class="create-manager-page">
+
+    <!-- HEADER -->
+    <div class="create-header">
+
+        <div class="create-header-icon">
+            <i class="fa-solid fa-user-plus"></i>
+        </div>
+
+        <div>
+
+            <h2>Yeni Bölge Müdürü</h2>
+
+            <p>
+                Bölge müdürü bilgilerini sisteme ekleyin.
+            </p>
+
+        </div>
+
     </div>
+
+
+    <div class="create-card">
+
+        <!-- WARNING -->
+        <div class="warning-box">
+
+            <div class="warning-icon">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+
+            <div>
+
+                <strong>Önemli Bilgi</strong>
+
+                <div class="small mt-1">
+
+                    Sistemde yalnızca bir bölge müdürü kaydı
+                    tutulmaktadır. Yeni bir bölge müdürü eklemeden
+                    önce mevcut kaydı silmeniz gerekmektedir.
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <form asp-action="Create"
+              method="post"
+              enctype="multipart/form-data"
+              id="managerForm">
+
+            <div asp-validation-summary="ModelOnly"
+                 class="alert alert-danger"
+                 role="alert">
+            </div>
+
+
+            <div class="row g-4">
+
+                <!-- NAME -->
+                <div class="col-md-6">
+
+                    <label asp-for="Name"
+                           class="form-label">
+
+                        Adı Soyadı
+
+                    </label>
+
+                    <input asp-for="Name"
+                           class="form-control"
+                           placeholder="Örn. Ahmet Yılmaz"
+                           autocomplete="name" />
+
+                    <span asp-validation-for="Name"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+
+                <!-- TITLE -->
+                <div class="col-md-6">
+
+                    <label asp-for="Title"
+                           class="form-label">
+
+                        Unvanı
+
+                    </label>
+
+                    <input asp-for="Title"
+                           class="form-control"
+                           placeholder="Örn. Bölge Müdürü" />
+
+                    <span asp-validation-for="Title"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+
+                <!-- IMAGE -->
+                <div class="col-12">
+
+                    <label asp-for="Image"
+                           class="form-label">
+
+                        Bölge Müdürü Fotoğrafı
+
+                    </label>
+
+
+                    <div class="upload-area"
+                         id="uploadArea">
+
+                        <input asp-for="Image"
+                               type="file"
+                               id="imageInput"
+                               accept="image/jpeg,image/png,image/webp"
+                               hidden />
+
+
+                        <div class="upload-icon">
+
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+
+                        </div>
+
+
+                        <div class="upload-title">
+
+                            Fotoğraf yükleyin
+
+                        </div>
+
+
+                        <div class="upload-description">
+
+                            JPG, PNG veya WEBP formatında
+                            bir fotoğraf seçin.
+
+                        </div>
+
+
+                        <span class="upload-button">
+
+                            <i class="fa-solid fa-folder-open me-1"></i>
+                            Dosya Seç
+
+                        </span>
+
+
+                        <div id="imagePreviewContainer">
+
+                            <img id="imagePreview"
+                                 class="image-preview"
+                                 alt="Fotoğraf önizleme" />
+
+                            <div id="selectedFile"
+                                 class="selected-file">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <span asp-validation-for="Image"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+            <div class="form-actions">
+
+                <a asp-action="Index"
+                   class="btn btn-light action-btn">
+
+                    <i class="fa-solid fa-arrow-left me-1"></i>
+                    Geri Dön
+
+                </a>
+
+
+                <button type="submit"
+                        class="btn btn-primary action-btn save-btn"
+                        id="saveButton">
+
+                    <i class="fa-solid fa-floppy-disk me-1"></i>
+
+                    <span id="saveButtonText">
+                        Kaydet
+                    </span>
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
 </div>
 
-<div>
-    <a asp-action="Index"><i class="fa-solid fa-backward"></i> Geri Dön</a>
-</div>
 
 @section Scripts {
+
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+
     <script>
-        $(".custom-file-input").on("change", function() {
-            var fileName = $(this).val().split("\\").pop();
-            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+
+        const uploadArea =
+            document.getElementById("uploadArea");
+
+        const imageInput =
+            document.getElementById("imageInput");
+
+        const previewContainer =
+            document.getElementById("imagePreviewContainer");
+
+        const imagePreview =
+            document.getElementById("imagePreview");
+
+        const selectedFile =
+            document.getElementById("selectedFile");
+
+
+        // Upload alanına tıklama
+        uploadArea.addEventListener("click", function () {
+
+            imageInput.click();
+
         });
+
+
+        // Dosya seçildi
+        imageInput.addEventListener("change", function () {
+
+            if (this.files && this.files.length > 0) {
+
+                showPreview(this.files[0]);
+
+            }
+
+        });
+
+
+        // Drag & Drop
+        uploadArea.addEventListener(
+            "dragover",
+            function (event) {
+
+                event.preventDefault();
+
+                uploadArea.classList.add("dragover");
+
+            }
+        );
+
+
+        uploadArea.addEventListener(
+            "dragleave",
+            function () {
+
+                uploadArea.classList.remove("dragover");
+
+            }
+        );
+
+
+        uploadArea.addEventListener(
+            "drop",
+            function (event) {
+
+                event.preventDefault();
+
+                uploadArea.classList.remove("dragover");
+
+                if (event.dataTransfer.files.length > 0) {
+
+                    imageInput.files =
+                        event.dataTransfer.files;
+
+                    showPreview(event.dataTransfer.files[0]);
+
+                }
+
+            }
+        );
+
+
+        // Önizleme
+        function showPreview(file) {
+
+            if (!file.type.startsWith("image/")) {
+
+                return;
+
+            }
+
+            const reader =
+                new FileReader();
+
+            reader.onload = function (event) {
+
+                imagePreview.src =
+                    event.target.result;
+
+                previewContainer.style.display =
+                    "block";
+
+                selectedFile.textContent =
+                    file.name;
+
+            };
+
+            reader.readAsDataURL(file);
+
+        }
+
+
+        // Form gönderiliyor
+        document.getElementById("managerForm")
+            .addEventListener("submit", function () {
+
+                const button =
+                    document.getElementById("saveButton");
+
+                const text =
+                    document.getElementById("saveButtonText");
+
+                button.disabled = true;
+
+                text.textContent =
+                    "Kaydediliyor...";
+
+            });
+
     </script>
+
 }
+```

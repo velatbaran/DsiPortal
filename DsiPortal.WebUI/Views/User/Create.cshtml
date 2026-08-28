@@ -1,38 +1,238 @@
 ﻿@model UserViewModel
+
 @{
     ViewData["Title"] = "Kullanıcı Ekle";
 }
 
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+<link href="~/css/users.css" rel="stylesheet" />
+<div class="users-page">
+
+    <!-- Başlık -->
+    <div class="users-page-header">
+
+        <div class="users-title-area">
+
+            <div class="users-title-icon">
+                <i class="fa-solid fa-user-plus"></i>
             </div>
-            <div class="form-group">
-                <label asp-for="Surname" class="control-label"></label>
-                <input asp-for="Surname" class="form-control" />
-                <span asp-validation-for="Surname" class="text-danger"></span>
+
+            <div>
+                <h2>Yeni Kullanıcı</h2>
+                <p>Sisteme yeni bir kullanıcı hesabı ekleyin.</p>
             </div>
-            <div class="form-group">
-                <label asp-for="Username" class="control-label"></label>
-                <input asp-for="Username" class="form-control" />
-                <span asp-validation-for="Username" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <button type="submit" value="Kaydet" class="btn btn-primary" title="Kaydet"><i class="fa-solid fa-floppy-disk"></i> Kaydet</button>
-            </div>
-        </form>
+
+        </div>
+
+        <a asp-action="Index" class="users-back-btn">
+            <i class="fa-solid fa-arrow-left"></i>
+            Kullanıcı Listesine Dön
+        </a>
+
     </div>
+
+
+    <!-- Form Kartı -->
+    <div class="users-form-card">
+
+        <div class="users-form-header">
+
+            <div class="users-form-icon">
+                <i class="fa-solid fa-user-plus"></i>
+            </div>
+
+            <div>
+                <h4>Kullanıcı Bilgileri</h4>
+                <span>
+                    Kullanıcı hesabı için gerekli bilgileri giriniz.
+                </span>
+            </div>
+
+        </div>
+
+
+        <form asp-action="Create">
+
+            <div asp-validation-summary="ModelOnly"
+                 class="users-validation-summary">
+            </div>
+
+
+            <div class="users-form-grid">
+
+                <!-- Ad -->
+                <div class="users-form-group">
+
+                    <label asp-for="Name">
+                        <i class="fa-solid fa-user"></i>
+                        Adı
+                    </label>
+
+                    <div class="users-input-wrapper">
+
+                        <i class="fa-solid fa-user"></i>
+
+                        <input asp-for="Name"
+                               class="users-input"
+                               placeholder="Kullanıcının adını giriniz..." />
+
+                    </div>
+
+                    <span asp-validation-for="Name"
+                          class="users-validation">
+                    </span>
+
+                </div>
+
+
+                <!-- Soyad -->
+                <div class="users-form-group">
+
+                    <label asp-for="Surname">
+                        <i class="fa-solid fa-user"></i>
+                        Soyadı
+                    </label>
+
+                    <div class="users-input-wrapper">
+
+                        <i class="fa-solid fa-user"></i>
+
+                        <input asp-for="Surname"
+                               class="users-input"
+                               placeholder="Kullanıcının soyadını giriniz..." />
+
+                    </div>
+
+                    <span asp-validation-for="Surname"
+                          class="users-validation">
+                    </span>
+
+                </div>
+
+
+                <!-- Kullanıcı Adı -->
+                <div class="users-form-group">
+
+                    <label asp-for="Username">
+                        <i class="fa-solid fa-at"></i>
+                        Kullanıcı Adı
+                    </label>
+
+                    <div class="users-input-wrapper">
+
+                        <i class="fa-solid fa-at"></i>
+
+                        <input asp-for="Username"
+                               class="users-input"
+                               autocomplete="username"
+                               placeholder="Kullanıcı adı..." />
+
+                    </div>
+
+                    <span asp-validation-for="Username"
+                          class="users-validation">
+                    </span>
+
+                </div>
+
+
+                <!-- Şifre -->
+                <div class="users-form-group">
+
+                    <label asp-for="Password">
+                        <i class="fa-solid fa-lock"></i>
+                        Şifre
+                    </label>
+
+                    <div class="users-input-wrapper">
+
+                        <i class="fa-solid fa-lock"></i>
+
+                        <input asp-for="Password"
+                               type="password"
+                               class="users-input"
+                               autocomplete="new-password"
+                               placeholder="Şifre..." />
+
+                        <button type="button"
+                                class="users-password-toggle"
+                                onclick="togglePassword(this)">
+
+                            <i class="fa-solid fa-eye"></i>
+
+                        </button>
+
+                    </div>
+
+                    <span asp-validation-for="Password"
+                          class="users-validation">
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="users-form-footer">
+
+                <a asp-action="Index"
+                   class="users-cancel-btn">
+
+                    <i class="fa-solid fa-xmark"></i>
+                    İptal
+
+                </a>
+
+                <button type="submit"
+                        class="users-save-btn">
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Kullanıcıyı Kaydet
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
 </div>
-<div>
-    <a asp-action="Index"><i class="fa-solid fa-backward"></i> Geri Dön</a>
-</div>
+
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+
+        function togglePassword(button) {
+
+            const input = button
+                .closest(".users-input-wrapper")
+                .querySelector("input");
+
+            const icon = button.querySelector("i");
+
+            if (input.type === "password") {
+
+                input.type = "text";
+
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+
+            } else {
+
+                input.type = "password";
+
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+
+            }
+
+        }
+
+    </script>
+
+}

@@ -1,34 +1,153 @@
-﻿@model UserEmails
+﻿
+@model UserEmails
+
 @{
     ViewData["Title"] = "Eposta Güncelle";
-
 }
 
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="CreatedDate" />
-            <input type="hidden" asp-for="Created" />
-            <div class="form-group">
-                <label asp-for="Eposta" class="control-label"></label>
-                <input asp-for="Eposta" class="form-control" />
-                <span asp-validation-for="Eposta" class="text-danger"></span>
+<link rel="stylesheet" href="~/css/user-emails.css" />
+
+<div class="ue-page">
+
+    <!-- Sayfa Başlığı -->
+    <div class="ue-header">
+
+        <div class="ue-header-left">
+
+            <div class="ue-title-icon ue-edit-title-icon">
+                <i class="fa-solid fa-pen-to-square"></i>
             </div>
-            <div class="form-group">
-                <button type="submit" value="Güncelle" class="btn btn-warning" title="Güncelle"><i class="fa-solid fa-pen-to-square"></i> Güncelle</button>
+
+            <div>
+                <h2>Eposta Güncelle</h2>
+                <p>Kullanıcı eposta adresini güncelleyin.</p>
             </div>
-        </form>
+
+        </div>
+
+        <a asp-action="Index" class="ue-back-btn">
+            <i class="fa-solid fa-arrow-left"></i>
+            Eposta Listesine Dön
+        </a>
+
     </div>
+
+
+    <!-- Form -->
+    <div class="ue-form-wrapper">
+
+        <div class="ue-form-card">
+
+            <div class="ue-form-header">
+
+                <div class="ue-form-icon ue-edit-form-icon">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </div>
+
+                <div>
+                    <h4>Eposta Bilgileri</h4>
+                    <span>
+                        Kayıtlı eposta adresini düzenleyin.
+                    </span>
+                </div>
+
+            </div>
+
+
+            <form asp-action="Edit">
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger ue-validation-summary">
+                </div>
+
+
+                <input type="hidden" asp-for="Id" />
+
+                <input type="hidden"
+                       asp-for="CreatedDate" />
+
+                <input type="hidden"
+                       asp-for="Created" />
+
+
+                <div class="ue-form-group">
+
+                    <label asp-for="Eposta">
+
+                        <i class="fa-solid fa-at"></i>
+
+                        Eposta Adresi
+
+                    </label>
+
+
+                    <div class="ue-input-wrapper">
+
+                        <i class="fa-solid fa-envelope"></i>
+
+                        <input asp-for="Eposta"
+                               class="ue-input"
+                               type="email"
+                               placeholder="ornek@dsi.gov.tr"
+                               autocomplete="email" />
+
+                    </div>
+
+
+                    <span asp-validation-for="Eposta"
+                          class="text-danger ue-validation">
+                    </span>
+
+                </div>
+
+
+                <div class="ue-form-info">
+
+                    <i class="fa-solid fa-circle-info"></i>
+
+                    <span>
+                        Eposta adresini değiştirdikten sonra
+                        güncelleme işlemini kaydediniz.
+                    </span>
+
+                </div>
+
+
+                <div class="ue-form-buttons">
+
+                    <a asp-action="Index"
+                       class="ue-cancel-btn">
+
+                        <i class="fa-solid fa-arrow-left"></i>
+                        Vazgeç
+
+                    </a>
+
+
+                    <button type="submit"
+                            class="ue-update-btn">
+
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        Güncelle
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
 </div>
 
-<div>
-    <a asp-action="Index"><i class="fa-solid fa-backward"></i> Geri Dön</a>
-</div>
 
 @section Scripts {
+
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
 }
+

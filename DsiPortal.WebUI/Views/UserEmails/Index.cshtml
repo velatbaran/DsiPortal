@@ -1,88 +1,295 @@
-﻿@model IEnumerable<UserEmails>
+﻿
+@model IEnumerable<UserEmails>
 
 @{
     ViewData["Title"] = "Kullanıcı Epostaları";
 }
 
-<p>
-    <a asp-action="Create" class="btn btn-outline-primary" title="Yeni Eposta Ekle"><i class="fa-solid fa-plus"></i> Yeni Eposta Ekle</a>
-</p>
+<link rel="stylesheet" href="~/css/user-emails.css" />
 
-<table class="table table-striped table-bordered" id="myTable">
-    <thead class="thead-dark">
-        <tr>
-            <th>Eposta</th>
-            <th>Kaydeden</th>
-            <th>Kayıt Tarihi</th>
-            <th>İşlemler</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.Eposta)</td>              
-                <td>@Html.DisplayFor(modelItem => item.Created)</td>
-                <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
-                <td>
-                    <a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@item.Id" title="Güncelle"><i class="fa-solid fa-pen-to-square"></i> Güncelle</a>
-                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                            data-file-id="@item.Id" data-file-name="@item.Eposta" title="Sil">
-                        <i class="fa-solid fa-trash"></i> Sil
-                    </button>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="ue-page">
 
-<!-- Delete Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form method="post" asp-action="Delete">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Silme Onayı</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <strong id="fileName"></strong> silmek istediğine emin misin?
-                    <input type="hidden" name="id" id="fileId" />
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" title="İptal"><i class="fa-solid fa-xmark"></i> İptal</button>
-                    <button type="submit" class="btn btn-danger" title="Sil"><i class="fa-solid fa-trash"></i> Sil</button>
-                </div>
-            </form>
+    <!-- Üst Başlık -->
+    <div class="ue-header">
+        <div class="ue-header-left">
+            <div class="ue-title-icon">
+                <i class="fa-solid fa-envelope"></i>
+            </div>
+
+            <div>
+                <h2>Kullanıcı Epostaları</h2>
+                <p>Sistemde kayıtlı kullanıcı eposta adreslerini yönetin.</p>
+            </div>
+        </div>
+
+        <a asp-action="Create" class="ue-add-btn">
+            <i class="fa-solid fa-plus"></i>
+            <span>Yeni Eposta Ekle</span>
+        </a>
+    </div>
+
+
+    <!-- İstatistik -->
+    <div class="ue-summary">
+        <div class="ue-summary-icon">
+            <i class="fa-solid fa-envelope-open-text"></i>
+        </div>
+
+        <div>
+            <span class="ue-summary-label">Toplam Eposta</span>
+            <strong>@Model.Count()</strong>
         </div>
     </div>
+
+
+    <!-- Tablo Kartı -->
+    <div class="ue-table-card">
+
+        <div class="ue-table-header">
+            <div>
+                <h5>
+                    <i class="fa-solid fa-list"></i>
+                    Eposta Listesi
+                </h5>
+
+                <span>
+                    Kayıtlı kullanıcı eposta adresleri
+                </span>
+            </div>
+        </div>
+
+
+        <div class="ue-table-wrapper">
+
+            <table class="ue-table" id="userEmailTable">
+
+                <thead>
+                    <tr>
+                        <th>Eposta</th>
+                        <th>Kaydeden</th>
+                        <th>Kayıt Tarihi</th>
+                        <th class="ue-actions-column">İşlemler</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>
+                                <div class="ue-email-cell">
+
+                                    <div class="ue-email-icon">
+                                        <i class="fa-solid fa-envelope"></i>
+                                    </div>
+
+                                    <span>
+                                        @Html.DisplayFor(modelItem => item.Eposta)
+                                    </span>
+
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="ue-user-cell">
+                                    <div class="ue-user-icon">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
+
+                                    <span>
+                                        @Html.DisplayFor(modelItem => item.Created)
+                                    </span>
+                                </div>
+                            </td>
+
+                            <td>
+                                <span class="ue-date">
+                                    <i class="fa-regular fa-calendar"></i>
+                                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                                </span>
+                            </td>
+
+                            <td>
+
+                                <div class="ue-actions">
+
+                                    <a asp-action="Edit"
+                                       asp-route-id="@item.Id"
+                                       class="ue-action-btn ue-edit"
+                                       title="Güncelle">
+
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                        <span>Güncelle</span>
+
+                                    </a>
+
+
+                                    <button type="button"
+                                            class="ue-action-btn ue-delete"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal"
+                                            data-file-id="@item.Id"
+                                            data-file-name="@item.Eposta"
+                                            title="Sil">
+
+                                        <i class="fa-solid fa-trash"></i>
+                                        <span>Sil</span>
+
+                                    </button>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
 </div>
 
+
+<!-- Silme Modal -->
+<div class="modal fade ue-modal"
+     id="deleteModal"
+     tabindex="-1"
+     aria-labelledby="deleteModalLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content ue-delete-modal">
+
+            <form method="post" asp-action="Delete">
+
+                <div class="ue-modal-icon">
+                    <i class="fa-solid fa-trash"></i>
+                </div>
+
+                <div class="modal-body text-center">
+
+                    <h4 id="deleteModalLabel">
+                        Epostayı Sil
+                    </h4>
+
+                    <p>
+                        Bu eposta adresini silmek istediğinize emin misiniz?
+                    </p>
+
+                    <div class="ue-delete-target">
+                        <i class="fa-solid fa-envelope"></i>
+                        <strong id="fileName"></strong>
+                    </div>
+
+                    <input type="hidden"
+                           name="id"
+                           id="fileId" />
+
+                </div>
+
+                <div class="ue-modal-footer">
+
+                    <button type="button"
+                            class="ue-modal-cancel"
+                            data-bs-dismiss="modal">
+
+                        <i class="fa-solid fa-xmark"></i>
+                        Vazgeç
+
+                    </button>
+
+                    <button type="submit"
+                            class="ue-modal-delete">
+
+                        <i class="fa-solid fa-trash"></i>
+                        Epostayı Sil
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 @section Scripts {
+
     <script src="~/admin/vendor/jquery/jquery.js"></script>
+
     <link href="~/datatable/datatables.min.css" rel="stylesheet" />
-    <link href="~/datatable/datatables.css" rel="stylesheet" />
-    <script src="~/datatable/datatables.js"></script>
+
     <script src="~/datatable/datatables.min.js"></script>
+
     <script>
-        $(document).ready(function() {
-            $('#myTable').DataTable({
+
+        $(document).ready(function () {
+
+            $('#userEmailTable').DataTable({
+
+                ordering: true,
+
+                responsive: true,
+
+                pageLength: 10,
+
+                lengthMenu: [
+                    [10, 25, 50, 100, -1],
+                    [10, 25, 50, 100, "Tümü"]
+                ],
+
                 language: {
                     url: '/datatable/tr.json'
-                }
+                },
+
+                columnDefs: [
+                    {
+                        orderable: false,
+                        targets: -1
+                    }
+                ]
+
             });
-        });
-    </script>
 
-    <script>
-        const deleteModal = document.getElementById('deleteModal');
-        deleteModal.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget;
-            const fileId = button.getAttribute('data-file-id');
-            const fileName = button.getAttribute('data-file-name');
-
-            document.getElementById('fileId').value = fileId;
-            document.getElementById('fileName').textContent = fileName;
         });
+
+
+        const deleteModal =
+            document.getElementById('deleteModal');
+
+        deleteModal.addEventListener(
+            'show.bs.modal',
+            function (event) {
+
+                const button = event.relatedTarget;
+
+                const fileId =
+                    button.getAttribute('data-file-id');
+
+                const fileName =
+                    button.getAttribute('data-file-name');
+
+                document.getElementById('fileId').value =
+                    fileId;
+
+                document.getElementById('fileName').textContent =
+                    fileName;
+
+            }
+        );
+
     </script>
 }
+

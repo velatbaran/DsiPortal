@@ -3,74 +3,333 @@
 @{
     ViewData["Title"] = "Faydalı Linkler";
 }
+<link href="~/css/benefit-links.css" rel="stylesheet" />
+<div class="benefit-links-page">
 
-<p>
-    <a asp-action="Create" class="btn btn-outline-primary" title="Yeni Faydalı Link Ekle"><i class="fa-solid fa-plus"></i> Yeni Faydalı Link Ekle</a>
-</p>
+    <!-- Üst Başlık -->
+    <div class="benefit-links-header">
+        <div class="benefit-links-title-area">
+            <div class="benefit-links-title-icon">
+                <i class="fa-solid fa-link"></i>
+            </div>
 
-<table class="table table-striped table-bordered">
-    <thead class="thead-dark">
-        <tr>
-            <th>Adı</th>
-            <th>Link</th>
-            <th>Resim</th>
-            <th>Kaydeden</th>
-            <th>Kayıt Tarihi</th>
-            <th>İşlemler</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                <td>@Html.DisplayFor(modelItem => item.Link)</td>
-                <td>
-                    <img src="@Url.Action("ViewImage", new { id = item.Id })" class="card-img-top" alt="@item.Name" width="25" height="25">
-                </td>
-                <td>@Html.DisplayFor(modelItem => item.Created)</td>
-                <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
-                <td>
-                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                            data-file-id="@item.Id" data-file-name="@item.Name" title="Sil">
-                        <i class="fa-solid fa-trash"></i> Sil
-                    </button>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+            <div>
+                <h2>Faydalı Linkler</h2>
+                <p>Personel için faydalı bağlantıları yönetin.</p>
+            </div>
+        </div>
 
-<!-- Delete Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form method="post" asp-action="Delete">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Silme Onayı</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <strong id="fileName"></strong> silmek istediğine emin misin?
-                    <input type="hidden" name="id" id="fileId" />
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i> İptal</button>
-                    <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Sil</button>
-                </div>
-            </form>
+        <a asp-action="Create"
+           class="benefit-links-add-btn">
+            <i class="fa-solid fa-plus"></i>
+            <span>Yeni Faydalı Link</span>
+        </a>
+    </div>
+
+
+    <!-- İstatistik -->
+    <div class="benefit-links-info">
+        <div class="benefit-links-info-icon">
+            <i class="fa-solid fa-link"></i>
+        </div>
+
+        <div>
+            <span class="benefit-links-info-label">Toplam Link</span>
+            <strong>@Model.Count()</strong>
         </div>
     </div>
+
+
+    <!-- Tablo -->
+    <div class="benefit-links-card">
+
+        <div class="benefit-links-table-wrapper">
+
+            <table class="benefit-links-table">
+
+                <thead>
+                    <tr>
+                        <th>Adı</th>
+                        <th>Link</th>
+                        <th>Resim</th>
+                        <th>Kaydeden</th>
+                        <th>Kayıt Tarihi</th>
+                        <th class="benefit-links-actions-column">
+                            İşlemler
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <!-- Ad -->
+                            <td>
+                                <div class="benefit-links-name">
+
+                                    <div class="benefit-links-name-icon">
+                                        <i class="fa-solid fa-globe"></i>
+                                    </div>
+
+                                    <div>
+                                        <strong>@item.Name</strong>
+                                    </div>
+
+                                </div>
+                            </td>
+
+
+                            <!-- Link -->
+                            <td>
+
+                                @if (!string.IsNullOrWhiteSpace(item.Link))
+                                {
+                                    <a href="@item.Link"
+                                       target="_blank"
+                                       rel="noopener noreferrer"
+                                       class="benefit-links-url"
+                                       title="Linki yeni sekmede aç">
+
+                                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                                        <span>
+                                            @item.Link
+                                        </span>
+
+                                    </a>
+                                }
+                                else
+                                {
+                                    <span class="benefit-links-empty">
+                                        Link bulunmuyor
+                                    </span>
+                                }
+
+                            </td>
+
+
+                            <!-- Resim -->
+                            <td>
+
+                                <div class="benefit-links-image">
+
+                                    <img src="@Url.Action("ViewImage", new { id = item.Id })"
+                                         alt="@item.Name"
+                                         loading="lazy" />
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- Kaydeden -->
+                            <td>
+                                <div class="benefit-links-user">
+                                    <div class="benefit-links-user-icon">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
+
+                                    <span>
+                                        @item.Created
+                                    </span>
+                                </div>
+                            </td>
+
+
+                            <!-- Tarih -->
+                            <td>
+
+                                <div class="benefit-links-date">
+
+                                    <i class="fa-regular fa-calendar"></i>
+
+                                    <span>
+                                        @item.CreatedDate
+                                    </span>
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- İşlemler -->
+                            <td>
+
+                                <div class="benefit-links-actions">
+
+                                    @if (!string.IsNullOrWhiteSpace(item.Link))
+                                    {
+                                        <a href="@item.Link"
+                                           target="_blank"
+                                           rel="noopener noreferrer"
+                                           class="benefit-links-action-btn benefit-links-open"
+                                           title="Linki Aç">
+
+                                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                                        </a>
+                                    }
+
+                                    <button type="button"
+                                            class="benefit-links-action-btn benefit-links-delete"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal"
+                                            data-file-id="@item.Id"
+                                            data-file-name="@item.Name"
+                                            title="Sil">
+
+                                        <i class="fa-solid fa-trash"></i>
+
+                                    </button>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                    @if (!Model.Any())
+                    {
+                        <tr>
+                            <td colspan="6">
+
+                                <div class="benefit-links-empty-state">
+
+                                    <div class="benefit-links-empty-icon">
+                                        <i class="fa-solid fa-link-slash"></i>
+                                    </div>
+
+                                    <h4>Henüz faydalı link bulunmuyor</h4>
+
+                                    <p>
+                                        Sisteme ilk faydalı linki eklemek için
+                                        aşağıdaki butonu kullanabilirsiniz.
+                                    </p>
+
+                                    <a asp-action="Create"
+                                       class="benefit-links-empty-btn">
+
+                                        <i class="fa-solid fa-plus"></i>
+                                        Link Ekle
+
+                                    </a>
+
+                                </div>
+
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
 </div>
 
-<script>
-    const deleteModal = document.getElementById('deleteModal');
-    deleteModal.addEventListener('show.bs.modal', function (event) {
-        const button = event.relatedTarget;
-        const fileId = button.getAttribute('data-file-id');
-        const fileName = button.getAttribute('data-file-name');
 
-        document.getElementById('fileId').value = fileId;
-        document.getElementById('fileName').textContent = fileName;
-    });
-</script>
+<!-- ===================================================== -->
+<!-- DELETE MODAL -->
+<!-- ===================================================== -->
+
+<div class="modal fade"
+     id="deleteModal"
+     tabindex="-1"
+     aria-labelledby="deleteModalLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content benefit-links-delete-modal">
+
+            <form method="post" asp-action="Delete">
+
+                <div class="benefit-links-delete-icon">
+                    <i class="fa-solid fa-trash"></i>
+                </div>
+
+                <h4 id="deleteModalLabel">
+                    Link Silinecek
+                </h4>
+
+                <p>
+
+                    <strong id="fileName"></strong>
+
+                    adlı faydalı linki silmek istediğinize
+                    emin misiniz?
+
+                </p>
+
+                <input type="hidden"
+                       name="id"
+                       id="fileId" />
+
+                <div class="benefit-links-modal-actions">
+
+                    <button type="button"
+                            class="benefit-links-modal-cancel"
+                            data-bs-dismiss="modal">
+
+                        <i class="fa-solid fa-xmark"></i>
+                        Vazgeç
+
+                    </button>
+
+                    <button type="submit"
+                            class="benefit-links-modal-delete">
+
+                        <i class="fa-solid fa-trash"></i>
+                        Linki Sil
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <script>
+
+        const deleteModal =
+            document.getElementById('deleteModal');
+
+        deleteModal.addEventListener(
+            'show.bs.modal',
+            function (event) {
+
+                const button =
+                    event.relatedTarget;
+
+                const fileId =
+                    button.getAttribute('data-file-id');
+
+                const fileName =
+                    button.getAttribute('data-file-name');
+
+                document.getElementById('fileId').value =
+                    fileId;
+
+                document.getElementById('fileName').textContent =
+                    fileName;
+
+            });
+
+    </script>
+
+}

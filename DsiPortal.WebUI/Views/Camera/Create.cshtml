@@ -1,40 +1,241 @@
 ﻿@model CamerasViewModel
+
 @{
     ViewData["Title"] = "Kamera Ekle";
 }
 
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Link" class="control-label"></label>
-                <input asp-for="Link" class="form-control" />
-                <span asp-validation-for="Link" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <button type="submit" value="Kaydet" class="btn btn-primary" title="Kaydet"><i class="fa-solid fa-floppy-disk"></i> Kaydet</button>
-            </div>
-        </form>
-    </div>
-</div>
+<link rel="stylesheet" href="~/css/cameras.css" />
 
-<div>
-    <a asp-action="Index"><i class="fa-solid fa-backward"></i> Geri Dön</a>
+<div class="cameras-page">
+
+    ```
+    <!-- Sayfa Başlığı -->
+    <div class="camera-page-header">
+
+        <div class="camera-header-content">
+
+            <div class="camera-header-icon">
+                <i class="fa-solid fa-video"></i>
+            </div>
+
+            <div>
+                <h1>Yeni Kamera Ekle</h1>
+                <p>Güvenlik kamera bilgilerini sisteme ekleyin</p>
+            </div>
+
+        </div>
+
+        <a asp-action="Index" class="camera-back-btn">
+            <i class="fa-solid fa-arrow-left"></i>
+            Kameralara Dön
+        </a>
+
+    </div>
+
+
+    <!-- Form -->
+    <div class="camera-form-card">
+
+        <div class="camera-form-header">
+
+            <div class="camera-form-header-icon">
+                <i class="fa-solid fa-camera"></i>
+            </div>
+
+            <div>
+                <h4>Kamera Bilgileri</h4>
+                <p>
+                    Kamera bağlantı bilgilerini eksiksiz giriniz.
+                </p>
+            </div>
+
+        </div>
+
+
+        <form asp-action="Create">
+
+            <div asp-validation-summary="ModelOnly"
+                 class="camera-validation-summary">
+            </div>
+
+
+            <!-- Kamera Adı -->
+            <div class="camera-form-group">
+
+                <label asp-for="Name">
+                    <i class="fa-solid fa-tag"></i>
+                    Kamera Adı
+                </label>
+
+                <div class="camera-input-wrapper">
+
+                    <i class="fa-solid fa-video"></i>
+
+                    <input asp-for="Name"
+                           class="camera-input"
+                           placeholder="Örn: Ana Bina Giriş Kamerası"
+                           autocomplete="off" />
+
+                </div>
+
+                <span asp-validation-for="Name"
+                      class="camera-validation">
+                </span>
+
+            </div>
+
+
+            <!-- Link -->
+            <div class="camera-form-group">
+
+                <label asp-for="Link">
+                    <i class="fa-solid fa-link"></i>
+                    Kamera Linki
+                </label>
+
+                <div class="camera-input-wrapper">
+
+                    <i class="fa-solid fa-globe"></i>
+
+                    <input asp-for="Link"
+                           class="camera-input"
+                           placeholder="https://..."
+                           autocomplete="off" />
+
+                </div>
+
+                <small class="camera-help">
+                    Kameraya erişim sağlayan bağlantı adresini giriniz.
+                </small>
+
+                <span asp-validation-for="Link"
+                      class="camera-validation">
+                </span>
+
+            </div>
+
+
+            <!-- Password -->
+            <div class="camera-form-group">
+
+                <label asp-for="Password">
+                    <i class="fa-solid fa-lock"></i>
+                    Kamera Şifresi
+                </label>
+
+                <div class="camera-input-wrapper camera-password-input">
+
+                    <i class="fa-solid fa-key"></i>
+
+                    <input asp-for="Password"
+                           class="camera-input"
+                           type="password"
+                           id="cameraPassword"
+                           placeholder="Kamera şifresi"
+                           autocomplete="new-password" />
+
+                    <button type="button"
+                            class="camera-password-button"
+                            id="togglePassword"
+                            title="Şifreyi göster">
+
+                        <i class="fa-solid fa-eye"></i>
+
+                    </button>
+
+                </div>
+
+                <span asp-validation-for="Password"
+                      class="camera-validation">
+                </span>
+
+            </div>
+
+
+            <!-- Form Footer -->
+            <div class="camera-form-footer">
+
+                <a asp-action="Index"
+                   class="camera-form-cancel">
+
+                    <i class="fa-solid fa-xmark"></i>
+                    İptal
+
+                </a>
+
+
+                <button type="submit"
+                        class="camera-save-btn">
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Kamerayı Kaydet
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+    ```
+
 </div>
 
 @section Scripts {
+
+    ```
     @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        await Html.RenderPartialAsync(
+            "_ValidationScriptsPartial"
+        );
     }
+
+    <script>
+
+        const passwordInput =
+            document.getElementById('cameraPassword');
+
+        const togglePassword =
+            document.getElementById('togglePassword');
+
+
+        togglePassword.addEventListener(
+            'click',
+            function () {
+
+                const icon =
+                    this.querySelector('i');
+
+                if (passwordInput.type === 'password') {
+
+                    passwordInput.type = 'text';
+
+                    icon.classList.remove(
+                        'fa-eye'
+                    );
+
+                    icon.classList.add(
+                        'fa-eye-slash'
+                    );
+
+                }
+                else {
+
+                    passwordInput.type = 'password';
+
+                    icon.classList.remove(
+                        'fa-eye-slash'
+                    );
+
+                    icon.classList.add(
+                        'fa-eye'
+                    );
+
+                }
+
+            });
+
+    </script>
+```
+
 }

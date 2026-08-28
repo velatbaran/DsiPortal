@@ -1,118 +1,517 @@
-﻿@model IEnumerable<FoodList>
+﻿
+@model IEnumerable<FoodList>
 
 @{
     ViewData["Title"] = "Yemek Listesi";
 }
 
-<p>
-    <a asp-action="Create" class="btn btn-outline-primary" title="Yeni Yemek Listesi Ekle"><i class="fa-solid fa-plus"></i> Yeni Yemek Listesi Ekle</a>
-</p>
-<p>@ViewBag.Mesaj</p>
-<table class="table table-striped table-bordered">
-    <thead class="thead-dark">
-        <tr>
-            <th>Dosya Adı</th>
-            <th>Tür</th>
-            <th>Kaydeden</th>
-            <th>Kayıt Tarihi</th>
-            <th>İşlemler</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                <td>
-                    @if (item.FileType == ".docx")
-                    {
-                        <i class="fa-regular fa-file-word"></i>
-                    }
-                    else @if (item.FileType == ".doc")
-                    {
-                        <i class="fa-regular fa-file-word"></i>
-                    }
-                    else @if (item.FileType == ".pdf")
-                    {
-                        <i class="fa-regular fa-file-pdf"></i>
-                    }
-                    else @if (item.FileType == ".xlsx")
-                    {
-                        <i class="fa-regular fa-file-excel"></i>
-                    }
-                    else @if (item.FileType == ".xls")
-                    {
-                        <i class="fa-regular fa-file-excel"></i>
-                    }
-                </td>
-                <td>@Html.DisplayFor(modelItem => item.Created)</td>
-                <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
-                <td>
-                    <div class="d-flex gap-2">
-                        <form method="post" enctype="multipart/form-data" asp-action="SendEposta" id="mailForm">
-                            <button type="submit" class="btn btn-success btn-sm" id="mailGonderBtn">
-                                <i class="fa-solid fa-paper-plane"></i> Mail Gönder
-                            </button>
-                        </form>
-                        <a asp-action="Download" asp-route-id="@item.Id" class="btn btn-primary btn-sm" title="İndir"><i class="fa-solid fa-download"></i> İndir</a>
-                        @if (item.FileType == ".pdf")
-                        {
-                            <a href="@Url.Action("ViewPdf", "FoodList", new { id = item.Id })" target="_blank" class="btn btn-info btn-sm">
-                                <i class="fa-solid fa-eye"></i> Görüntüle
-                            </a>
-                        }
-                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                data-file-id="@item.Id" data-file-name="@item.Name" title="Sil">
-                            <i class="fa-solid fa-trash"></i> Sil
-                        </button>
-                    </div>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<link rel="stylesheet" href="~/css/foodlist.css" />
 
-<!-- Delete Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form method="post" asp-action="Delete">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Silme Onayı</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <strong id="fileName"></strong> silmek istediğine emin misin?
-                    <input type="hidden" name="id" id="fileId" />
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" title="İptal"><i class="fa-solid fa-xmark"></i> İptal</button>
-                    <button type="submit" class="btn btn-danger" title="Sil"><i class="fa-solid fa-trash"></i> Sil</button>
-                </div>
-            </form>
+<div class="foodlist-page">
+
+    <!-- HEADER -->
+
+    <div class="foodlist-header">
+
+        <div class="foodlist-header-left">
+
+            <div class="foodlist-header-icon">
+
+                <i class="fa-solid fa-utensils"></i>
+
+            </div>
+
+            <div class="foodlist-header-text">
+
+                <h2>Yemek Listesi</h2>
+
+                <p>
+                    Kurum yemek listelerini yönetin ve yayınlayın.
+                </p>
+
+            </div>
+
         </div>
+
+
+        <a asp-action="Create"
+           class="btn btn-success foodlist-add-button"
+           title="Yeni Yemek Listesi Ekle">
+
+            <i class="fa-solid fa-plus"></i>
+
+            Yeni Yemek Listesi
+
+        </a>
+
     </div>
+
+
+    <!-- MESAJ -->
+    @if (!string.IsNullOrWhiteSpace(ViewBag.Mesaj))
+    {
+        <div class="foodlist-message">
+
+            <i class="fa-solid fa-circle-check"></i>
+
+            <span>
+                @ViewBag.Mesaj
+            </span>
+
+        </div>
+    }
+
+
+    <!-- TABLO -->
+    @if (Model != null && Model.Any())
+    {
+        <div class="foodlist-table-card">
+
+            <div class="foodlist-table-wrapper">
+
+                <table class="foodlist-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Dosya</th>
+
+                            <th>Tür</th>
+
+                            <th>Kaydeden</th>
+
+                            <th>Kayıt Tarihi</th>
+
+                            <th class="text-end">İşlemler</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            string fileIcon = "fa-file";
+                            string fileClass = "other";
+
+                            if (item.FileType == ".pdf")
+                            {
+                                fileIcon = "fa-file-pdf";
+                                fileClass = "pdf";
+                            }
+                            else if (
+                            item.FileType == ".doc" ||
+                            item.FileType == ".docx")
+                            {
+                                fileIcon = "fa-file-word";
+                                fileClass = "word";
+                            }
+                            else if (
+                            item.FileType == ".xls" ||
+                            item.FileType == ".xlsx")
+                            {
+                                fileIcon = "fa-file-excel";
+                                fileClass = "excel";
+                            }
+
+
+                            <tr>
+
+                                <!-- DOSYA -->
+
+                                <td data-label="Dosya">
+
+                                    <div class="foodlist-file">
+
+                                        <div class="foodlist-file-icon @fileClass">
+
+                                            <i class="fa-regular @fileIcon"></i>
+
+                                        </div>
+
+
+                                        <div class="foodlist-file-info">
+
+                                            <span class="foodlist-file-name"
+                                                  title="@item.Name">
+
+                                                @item.Name
+
+                                            </span>
+
+                                            <span class="foodlist-file-type">
+
+                                                @item.FileType
+
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- TÜR -->
+
+                                <td data-label="Tür">
+
+                                    <span class="foodlist-type">
+
+                                        <i class="fa-regular @fileIcon"></i>
+
+                                        @item.FileType.ToUpper()
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- KAYDEDEN -->
+
+                                <td data-label="Kaydeden">
+
+                                    <div class="foodlist-meta">
+
+                                        <div class="foodlist-meta-icon">
+
+                                            <i class="fa-solid fa-user"></i>
+
+                                        </div>
+
+                                        <span class="foodlist-meta-text">
+
+                                            @item.Created
+
+                                        </span>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- TARİH -->
+
+                                <td data-label="Kayıt Tarihi">
+
+                                    <div class="foodlist-meta">
+
+                                        <div class="foodlist-meta-icon">
+
+                                            <i class="fa-regular fa-calendar"></i>
+
+                                        </div>
+
+                                        <span class="foodlist-meta-text">
+
+                                            @item.CreatedDate
+
+                                        </span>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- İŞLEMLER -->
+
+                                <td data-label="İşlemler">
+
+                                    <div class="foodlist-actions">
+
+
+                                        <!-- MAIL -->
+
+                                        <form method="post"
+                                              enctype="multipart/form-data"
+                                              asp-action="SendEposta"
+                                              class="foodlist-mail-form">
+
+                                            <button type="submit"
+                                                    class="btn btn-outline-success foodlist-action foodlist-mail-button"
+                                                    title="Mail Gönder">
+
+                                                <i class="fa-solid fa-paper-plane"></i>
+
+                                                <span>Mail Gönder</span>
+
+                                            </button>
+
+                                        </form>
+
+
+                                        <!-- İNDİR -->
+
+                                        <a asp-action="Download"
+                                           asp-route-id="@item.Id"
+                                           class="btn btn-outline-primary foodlist-action"
+                                           title="İndir">
+
+                                            <i class="fa-solid fa-download"></i>
+
+                                            <span>İndir</span>
+
+                                        </a>
+
+
+                                        <!-- GÖRÜNTÜLE -->
+                                        @if (item.FileType == ".pdf")
+                                        {
+                                            <a href="@Url.Action("ViewPdf", "FoodList", new { id = item.Id })"
+                                               target="_blank"
+                                               class="btn btn-outline-info foodlist-action"
+                                               title="Görüntüle">
+
+                                                <i class="fa-solid fa-eye"></i>
+
+                                                <span>Görüntüle</span>
+
+                                            </a>
+                                        }
+
+
+                                        <!-- SİL -->
+
+                                        <button type="button"
+                                                class="btn btn-outline-danger foodlist-action"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#foodlistDeleteModal"
+                                                data-file-id="@item.Id"
+                                                data-file-name="@item.Name"
+                                                title="Sil">
+
+                                            <i class="fa-solid fa-trash"></i>
+
+                                            <span>Sil</span>
+
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <div class="foodlist-table-card">
+
+            <div class="foodlist-empty">
+
+                <div class="foodlist-empty-icon">
+
+                    <i class="fa-solid fa-utensils"></i>
+
+                </div>
+
+                <h5>
+                    Henüz yemek listesi bulunmuyor
+                </h5>
+
+                <p>
+                    Sisteme henüz bir yemek listesi eklenmemiş.
+                </p>
+
+                <a asp-action="Create"
+                   class="btn btn-success rounded-pill px-4">
+
+                    <i class="fa-solid fa-plus me-1"></i>
+
+                    Yemek Listesi Ekle
+
+                </a>
+
+            </div>
+
+        </div>
+    }
+
 </div>
 
-<script>
-    const deleteModal = document.getElementById('deleteModal');
-    deleteModal.addEventListener('show.bs.modal', function (event) {
-        const button = event.relatedTarget;
-        const fileId = button.getAttribute('data-file-id');
-        const fileName = button.getAttribute('data-file-name');
 
-        document.getElementById('fileId').value = fileId;
-        document.getElementById('fileName').textContent = fileName;
-    });
-</script>
-<script>
-    document.getElementById("mailForm").addEventListener("submit", function () {
-        var btn = document.getElementById("mailGonderBtn");
+<!-- =====================================================
+     DELETE MODAL
+     ===================================================== -->
 
-        // Butonu devre dışı bırak
-        btn.disabled = true;
+<div class="modal fade foodlist-modal"
+     id="foodlistDeleteModal"
+     tabindex="-1"
+     aria-labelledby="foodlistDeleteModalLabel"
+     aria-hidden="true">
 
-        // İçeriğini değiştir (örnek: spinner + metin)
-        btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Gönderiliyor...';
-    });
-</script>
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <form method="post"
+                  asp-action="Delete">
+
+                <div class="modal-body text-center p-4">
+
+                    <div class="foodlist-delete-icon">
+
+                        <i class="fa-solid fa-trash"></i>
+
+                    </div>
+
+                    <h5 class="fw-bold mb-2">
+
+                        Yemek Listesini Sil
+
+                    </h5>
+
+                    <p class="text-muted mb-0">
+
+                        <span id="foodlistFileName"
+                              class="foodlist-delete-name">
+                        </span>
+
+                        adlı dosya silinecek.
+
+                    </p>
+
+
+                    <input type="hidden"
+                           name="id"
+                           id="foodlistFileId" />
+
+                </div>
+
+
+                <div class="modal-footer border-0 justify-content-center pb-4">
+
+                    <button type="button"
+                            class="btn btn-light rounded-pill px-4"
+                            data-bs-dismiss="modal">
+
+                        <i class="fa-solid fa-xmark me-1"></i>
+
+                        Vazgeç
+
+                    </button>
+
+
+                    <button type="submit"
+                            class="btn btn-danger rounded-pill px-4">
+
+                        <i class="fa-solid fa-trash me-1"></i>
+
+                        Listeyi Sil
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <script>
+
+        /* =====================================================
+           SİLME MODALI
+           ===================================================== */
+
+        const foodlistDeleteModal =
+            document.getElementById(
+                'foodlistDeleteModal'
+            );
+
+
+        foodlistDeleteModal.addEventListener(
+            'show.bs.modal',
+            function (event) {
+
+                const button =
+                    event.relatedTarget;
+
+
+                const fileId =
+                    button.getAttribute(
+                        'data-file-id'
+                    );
+
+
+                const fileName =
+                    button.getAttribute(
+                        'data-file-name'
+                    );
+
+
+                document.getElementById(
+                    'foodlistFileId'
+                ).value = fileId;
+
+
+                document.getElementById(
+                    'foodlistFileName'
+                ).textContent = fileName;
+
+            }
+        );
+
+
+        /* =====================================================
+           MAIL GÖNDER
+           Her satırın kendi butonunu kontrol eder.
+           ===================================================== */
+
+        document
+            .querySelectorAll(
+                '.foodlist-mail-form'
+            )
+            .forEach(function (form) {
+
+                form.addEventListener(
+                    'submit',
+                    function () {
+
+                        const button =
+                            form.querySelector(
+                                '.foodlist-mail-button'
+                            );
+
+
+                        if (!button)
+                            return;
+
+
+                        button.disabled = true;
+
+                        button.classList.add(
+                            'loading'
+                        );
+
+
+                        button.innerHTML =
+                            '<i class="fa-solid fa-spinner fa-spin"></i>' +
+                            '<span>Gönderiliyor...</span>';
+
+                    }
+                );
+
+            });
+
+    </script>
+
+}
+

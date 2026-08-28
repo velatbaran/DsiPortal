@@ -1,45 +1,452 @@
-﻿@model AnnocumentViewModel
+﻿
+@model AnnocumentViewModel
+
 @{
     ViewData["Title"] = "Duyuru Ekle";
 }
 
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="Create" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <label style="color:red;font-style:italic">Not: Sadece .pdf dosyalarınız için geçerlidir. Görüntü sağlayıcısının .pdf dosyalarınızı düzgün görüntüleyebilmesi için <strong>Adı</strong> alanında lütfen <strong>Türkçe</strong> karakter kullanmayınız!</label>
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="File" class="control-label"></label>
-                <div class="custom-file">
-                    <input asp-for="File" class="custom-file-input" id="customFile">
-                    <label class="custom-file-label" for="customFile">Dosya seçiniz</label>
+<link rel="stylesheet" href="~/css/management-pages.css" />
+
+
+<div class="management-page">
+
+    <div class="management-create">
+
+        <!-- HEADER -->
+        <div class="management-header">
+
+            <div class="management-title">
+
+                <div class="management-title-icon">
+
+                    <i class="fa-solid fa-bullhorn"></i>
+
                 </div>
-                <span asp-validation-for="File" class="text-danger"></span>
+
+                <div>
+
+                    <h2>Yeni Duyuru</h2>
+
+                    <p>
+                        Sisteme yeni bir duyuru dosyası ekleyin.
+                    </p>
+
+                </div>
+
             </div>
-            <div class="form-group">
-                <button type="submit" value="Kaydet" class="btn btn-primary" title="Kaydet"><i class="fa-solid fa-floppy-disk"></i> Kaydet</button>
-            </div>
-        </form>
+
+        </div>
+
+
+        <!-- CARD -->
+        <div class="management-create-card">
+
+            <form asp-action="Create"
+                  method="post"
+                  enctype="multipart/form-data"
+                  id="announcementForm">
+
+
+                <!-- VALIDATION -->
+                <div asp-validation-summary="ModelOnly"
+                     class="alert alert-danger"
+                     role="alert">
+                </div>
+
+
+                <div class="row g-4">
+
+
+                    <!-- NAME -->
+                    <div class="col-12">
+
+                        <div class="management-form-group">
+
+                            <label asp-for="Name"
+                                   class="management-form-label">
+
+                                Duyuru Adı
+
+                            </label>
+
+
+                            <input asp-for="Name"
+                                   class="management-form-control"
+                                   placeholder="Örn. Personel Servis Güzergahları"
+                                   autocomplete="off" />
+
+
+                            <!-- PDF WARNING -->
+                            <div class="management-field-note">
+
+                                <i class="fa-solid fa-circle-info"></i>
+
+                                <span>
+
+                                    Bu uyarı yalnızca
+                                    <strong>PDF</strong> dosyaları için
+                                    geçerlidir.
+
+                                    PDF görüntüleyicisinin dosyayı
+                                    düzgün gösterebilmesi için
+                                    <strong>Adı</strong> alanında
+                                    Türkçe karakter kullanmamanız
+                                    önerilir.
+
+                                </span>
+
+                            </div>
+
+
+                            <span asp-validation-for="Name"
+                                  class="text-danger small">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- FILE -->
+                    <div class="col-12">
+
+                        <div class="management-form-group">
+
+                            <label asp-for="File"
+                                   class="management-form-label">
+
+                                Duyuru Dosyası
+
+                            </label>
+
+
+                            <!-- UPLOAD -->
+                            <div class="management-upload"
+                                 id="uploadArea">
+
+
+                                <input asp-for="File"
+                                       type="file"
+                                       id="fileInput"
+                                       hidden />
+
+
+                                <div class="management-upload-icon">
+
+                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+
+                                </div>
+
+
+                                <div class="management-upload-title">
+
+                                    Dosyanızı buraya sürükleyin
+
+                                </div>
+
+
+                                <div class="management-upload-description">
+
+                                    veya bilgisayarınızdan bir dosya seçin
+
+                                </div>
+
+
+                                <span class="management-upload-button">
+
+                                    <i class="fa-solid fa-folder-open"></i>
+
+                                    Dosya Seç
+
+                                </span>
+
+
+                                <!-- PREVIEW -->
+                                <div class="management-file-preview"
+                                     id="filePreview">
+
+                                    <div class="management-preview-content">
+
+                                        <div class="management-preview-icon"
+                                             id="previewIcon">
+
+                                            <i class="fa-solid fa-file"></i>
+
+                                        </div>
+
+
+                                        <div class="management-preview-info">
+
+                                            <span class="management-preview-name"
+                                                  id="fileNamePreview">
+
+                                            </span>
+
+                                            <span class="management-preview-status">
+
+                                                <i class="fa-solid fa-circle-check me-1"></i>
+
+                                                Dosya seçildi
+
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <span asp-validation-for="File"
+                                  class="text-danger small">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ACTIONS -->
+                <div class="management-form-actions">
+
+
+                    <a asp-action="Index"
+                       class="btn btn-light management-btn">
+
+                        <i class="fa-solid fa-arrow-left"></i>
+
+                        Geri Dön
+
+                    </a>
+
+
+                    <button type="submit"
+                            class="btn btn-primary management-btn management-save-btn"
+                            id="saveButton">
+
+                        <i class="fa-solid fa-floppy-disk"></i>
+
+                        <span id="saveButtonText">
+                            Kaydet
+                        </span>
+
+                    </button>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
     </div>
+
 </div>
 
-<div>
-    <a asp-action="Index"><i class="fa-solid fa-backward"></i> Geri Dön</a>
-</div>
 
 @section Scripts {
+
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+
     <script>
-        $(".custom-file-input").on("change", function() {
-            var fileName = $(this).val().split("\\").pop();
-            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-        });
+
+        const uploadArea =
+            document.getElementById("uploadArea");
+
+        const fileInput =
+            document.getElementById("fileInput");
+
+        const filePreview =
+            document.getElementById("filePreview");
+
+        const fileNamePreview =
+            document.getElementById("fileNamePreview");
+
+        const previewIcon =
+            document.getElementById("previewIcon");
+
+
+        // -------------------------------------------------
+        // UPLOAD AREA
+        // -------------------------------------------------
+
+        uploadArea.addEventListener(
+            "click",
+            function () {
+
+                fileInput.click();
+
+            }
+        );
+
+
+        // -------------------------------------------------
+        // FILE SELECT
+        // -------------------------------------------------
+
+        fileInput.addEventListener(
+            "change",
+            function () {
+
+                if (this.files &&
+                    this.files.length > 0) {
+
+                    showFile(this.files[0]);
+
+                }
+
+            }
+        );
+
+
+        // -------------------------------------------------
+        // DRAG OVER
+        // -------------------------------------------------
+
+        uploadArea.addEventListener(
+            "dragover",
+            function (event) {
+
+                event.preventDefault();
+
+                uploadArea.classList.add("dragover");
+
+            }
+        );
+
+
+        // -------------------------------------------------
+        // DRAG LEAVE
+        // -------------------------------------------------
+
+        uploadArea.addEventListener(
+            "dragleave",
+            function () {
+
+                uploadArea.classList.remove("dragover");
+
+            }
+        );
+
+
+        // -------------------------------------------------
+        // DROP
+        // -------------------------------------------------
+
+        uploadArea.addEventListener(
+            "drop",
+            function (event) {
+
+                event.preventDefault();
+
+                uploadArea.classList.remove("dragover");
+
+
+                if (event.dataTransfer.files.length > 0) {
+
+                    fileInput.files =
+                        event.dataTransfer.files;
+
+                    showFile(
+                        event.dataTransfer.files[0]
+                    );
+
+                }
+
+            }
+        );
+
+
+        // -------------------------------------------------
+        // SHOW FILE
+        // -------------------------------------------------
+
+        function showFile(file) {
+
+            fileNamePreview.textContent =
+                file.name;
+
+
+            const extension =
+                file.name
+                    .split(".")
+                    .pop()
+                    .toLowerCase();
+
+
+            let icon =
+                "fa-file";
+
+            let iconClass =
+                "fa-file";
+
+
+            if (extension === "pdf") {
+
+                icon = "fa-file-pdf";
+
+            }
+            else if (
+                extension === "doc" ||
+                extension === "docx"
+            ) {
+
+                icon = "fa-file-word";
+
+            }
+            else if (
+                extension === "xls" ||
+                extension === "xlsx"
+            ) {
+
+                icon = "fa-file-excel";
+
+            }
+
+
+            previewIcon.innerHTML =
+                `<i class="fa-regular ${icon}"></i>`;
+
+
+            filePreview.style.display =
+                "block";
+
+        }
+
+
+        // -------------------------------------------------
+        // FORM SUBMIT
+        // -------------------------------------------------
+
+        document
+            .getElementById("announcementForm")
+            .addEventListener(
+                "submit",
+                function () {
+
+                    const button =
+                        document.getElementById("saveButton");
+
+                    const text =
+                        document.getElementById("saveButtonText");
+
+
+                    button.disabled = true;
+
+                    text.textContent =
+                        "Kaydediliyor...";
+
+                }
+            );
+
     </script>
+
 }
+
