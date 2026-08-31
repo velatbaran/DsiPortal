@@ -5,6 +5,8 @@
 }
 
 <link href="~/css/index-theme.css" rel="stylesheet" />
+<link href="~/css/index-right-theme.css" rel="stylesheet" />
+
 
 <div class="container-fluid">
     <div class="row">
@@ -165,123 +167,105 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="mb-3">
-                    <div class="section-title mb-1">
-                        <h4 class="m-0 text-uppercase font-weight-bold">Duyurular</h4>
-                        <a class="text-right" href="/tumduyurular"><i class="fa-solid fa-globe"></i> Tümü</a>
+                <div class="mb-4">
+                    <div class="section-title mb-2 d-flex align-items-center justify-content-between">
+                        <span class="d-flex align-items-center">
+                            <i class="fa-solid fa-bullhorn text-primary mr-2"></i>
+                            <h4 class="m-0 text-uppercase font-weight-bold">Duyurular</h4>
+                        </span>
+                        <a class="news-see-all" href="/tumduyurular">Tümü <i class="fa-solid fa-arrow-right ml-1"></i></a>
                     </div>
-                    <div class="bg-white border border-top-0 p-3 info-panel">
+
+                    <div class="announce-list-modern">
                         @foreach (var item in Model.Announcements)
                         {
-                            @if (item.FileType == ".pdf")
+                            string action = item.FileType == ".pdf" ? "ViewPdfAnnocumentn" : "DownloadAnnouncement";
+                            string icon = item.FileType switch
                             {
-                                <a class="text-uppercase font-weight-semi-bold" href="@Url.Action("ViewPdfAnnocumentn", "Home", new { id = item.Id })" target="_blank" title="@item.Name">
-                                    <p class="mb-1" style="font-size:12px;font-style:italic">
-                                        <i class="fa-regular fa-file-pdf mr-2"></i>@item.Name
-                                    </p>
-                                </a>
-                            }
-                            else @if (item.FileType == ".docx")
+                                ".pdf" => "fa-file-pdf",
+                                ".docx" or ".docc" => "fa-file-word",
+                                ".xlsx" or ".xls" => "fa-file-excel",
+                                _ => "fa-file"
+                            };
+                            string iconColor = item.FileType switch
                             {
-                                <a class="text-uppercase font-weight-semi-bold" href="@Url.Action("DownloadAnnouncement", "Home", new { id = item.Id })" target="_blank" title="@item.Name">
-                                    <p class="mb-1" style="font-size:12px;font-style:italic">
-                                        <i class="fa-regular fa-file-word"></i>@item.Name
-                                    </p>
-                                </a>
-                            }
-                            else @if (item.FileType == ".docc")
-                            {
-                                <a class="text-uppercase font-weight-semi-bold" href="@Url.Action("DownloadAnnouncement", "Home", new { id = item.Id })" target="_blank" title="@item.Name">
-                                    <p class="mb-1" style="font-size:12px;font-style:italic">
-                                        <i class="fa-regular fa-file-word"></i>@item.Name
-                                    </p>
-                                </a>
-                            }
-                            else @if (item.FileType == ".xlsx")
-                            {
-                                <a class="text-uppercase font-weight-semi-bold" href="@Url.Action("DownloadAnnouncement", "Home", new { id = item.Id })" target="_blank" title="@item.Name">
-                                    <p class="mb-1" style="font-size:12px;font-style:italic">
-                                        <i class="fa-regular fa-file-excel"></i>@item.Name
-                                    </p>
-                                </a>
-                            }
-                            else @if (item.FileType == ".xls")
-                            {
-                                <a class="text-uppercase font-weight-semi-bold" href="@Url.Action("DownloadAnnouncement", "Home", new { id = item.Id })" target="_blank" title="@item.Name">
-                                    <p class="mb-1" style="font-size:12px;font-style:italic">
-                                        <i class="fa-regular fa-file-excel"></i>@item.Name
-                                    </p>
-                                </a>
-                            }
+                                ".pdf" => "announce-icon-pdf",
+                                ".docx" or ".docc" => "announce-icon-word",
+                                ".xlsx" or ".xls" => "announce-icon-excel",
+                                _ => ""
+                            };
+
+                            <a href="@Url.Action(action, "Home", new { id = item.Id })" target="_blank" title="@item.Name" class="announce-card">
+                                <span class="announce-icon @iconColor">
+                                    <i class="fa-regular @icon"></i>
+                                </span>
+                                <span class="announce-name">@item.Name</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square announce-ext"></i>
+                            </a>
                         }
                     </div>
                 </div>
-                <div class="mb-3">
+
+                <div class="mb-4">
 
                     @if (Model.ListMenuOfDayViewModel.Eat5 != null || Model.ListMenuOfDayViewModel.Eat6 != null)
                     {
-                        <div class="section-title mb-1">
+                        <div class="section-title mb-2 d-flex align-items-center">
+                            <i class="fa-solid fa-moon text-warning mr-2"></i>
                             <h4 class="m-0 text-uppercase font-weight-bold">Günün Ramazan Menüsü</h4>
                         </div>
-                        <div class="bg-white border border-top-0 p-3 info-panel">
+                        <div class="menu-card-dark">
                             @if (ViewData["FoodList"] != null)
                             {
-                                <p class="d-block w-100 text-white text-decoration-none mb-1 py-3 menu-row">
-                                    <i class="fa-solid fa-bowl-food text-center mr-3 ml-2"></i>Güncel Ramazan menü yemek listesini yükleyin.
-                                </p>
+                                <div class="menu-empty-dark">
+                                    <i class="fa-solid fa-bowl-food"></i>
+                                    <span>Güncel Ramazan menü yemek listesini yükleyin.</span>
+                                </div>
                             }
-                            <p class="d-block w-100 text-white text-decoration-none mb-1 py-3 menu-row">
-                                <i class="fa-solid fa-cookie-bite text-center mr-3 ml-2"></i>@Model.ListMenuOfDayViewModel.Eat1
-                            </p>
-                            <p class="d-block w-100 text-white text-decoration-none mb-1 py-3 menu-row">
-                                <i class="fa-solid fa-cookie-bite text-center mr-3 ml-2"></i>@Model.ListMenuOfDayViewModel.Eat2
-                            </p>
-                            <p class="d-block w-100 text-white text-decoration-none mb-1 py-3 menu-row">
-                                <i class="fa-solid fa-cookie-bite text-center mr-3 ml-2"></i>@Model.ListMenuOfDayViewModel.Eat3
-                            </p>
-                            <p class="d-block w-100 text-white text-decoration-none mb-1 py-3 menu-row">
-                                <i class="fa-solid fa-cookie-bite text-center mr-3 ml-2"></i>@Model.ListMenuOfDayViewModel.Eat4
-                            </p>
-                            <p class="d-block w-100 text-white text-decoration-none mb-1 py-3 menu-row">
-                                <i class="fa-solid fa-cookie-bite text-center mr-3 ml-2"></i>@Model.ListMenuOfDayViewModel.Eat5
-                            </p>
+                            <ul class="menu-list-dark list-unstyled m-0">
+                                <li><i class="fa-solid fa-cookie-bite"></i><span>@Model.ListMenuOfDayViewModel.Eat1</span></li>
+                                <li><i class="fa-solid fa-cookie-bite"></i><span>@Model.ListMenuOfDayViewModel.Eat2</span></li>
+                                <li><i class="fa-solid fa-cookie-bite"></i><span>@Model.ListMenuOfDayViewModel.Eat3</span></li>
+                                <li><i class="fa-solid fa-cookie-bite"></i><span>@Model.ListMenuOfDayViewModel.Eat4</span></li>
+                                <li><i class="fa-solid fa-cookie-bite"></i><span>@Model.ListMenuOfDayViewModel.Eat5</span></li>
+                            </ul>
                         </div>
                     }
-
                     else
                     {
-                        <div class="section-title mb-1">
+                        <div class="section-title mb-2 d-flex align-items-center">
+                            <i class="fa-solid fa-utensils text-primary mr-2"></i>
                             <h4 class="m-0 text-uppercase font-weight-bold">Günün Menüsü</h4>
                         </div>
-                        <div class="bg-white border border-top-0 p-3 info-panel">
+                        <div class="menu-card-dark">
                             @if (ViewData["FoodList"] != null)
                             {
-                                <p class="d-block w-100 text-white text-decoration-none mb-1 py-3 menu-row">
-                                    <i class="fa-solid fa-bowl-food text-center mr-3 ml-2"></i>Haftasonu yada güncel yemek listesini yükleyin.
-                                </p>
+                                <div class="menu-empty-dark">
+                                    <i class="fa-solid fa-bowl-food"></i>
+                                    <span>Haftasonu ya da güncel yemek listesini yükleyin.</span>
+                                </div>
                             }
-                            <p class="d-block w-100 text-white text-decoration-none mb-1 py-3 menu-row">
-                                <i class="fa-solid fa-cookie-bite text-center mr-3 ml-2"></i>@Model.ListMenuOfDayViewModel.Eat1
-                            </p>
-                            <p class="d-block w-100 text-white text-decoration-none mb-1 py-3 menu-row">
-                                <i class="fa-solid fa-cookie-bite text-center mr-3 ml-2"></i>@Model.ListMenuOfDayViewModel.Eat2
-                            </p>
-                            <p class="d-block w-100 text-white text-decoration-none mb-1 py-3 menu-row">
-                                <i class="fa-solid fa-cookie-bite text-center mr-3 ml-2"></i>@Model.ListMenuOfDayViewModel.Eat3
-                            </p>
-                            <p class="d-block w-100 text-white text-decoration-none mb-1 py-3 menu-row">
-                                <i class="fa-solid fa-cookie-bite text-center mr-3 ml-2"></i>@Model.ListMenuOfDayViewModel.Eat4
-                            </p>
+                            <ul class="menu-list-dark list-unstyled m-0">
+                                <li><i class="fa-solid fa-cookie-bite"></i><span>@Model.ListMenuOfDayViewModel.Eat1</span></li>
+                                <li><i class="fa-solid fa-cookie-bite"></i><span>@Model.ListMenuOfDayViewModel.Eat2</span></li>
+                                <li><i class="fa-solid fa-cookie-bite"></i><span>@Model.ListMenuOfDayViewModel.Eat3</span></li>
+                                <li><i class="fa-solid fa-cookie-bite"></i><span>@Model.ListMenuOfDayViewModel.Eat4</span></li>
+                            </ul>
                         </div>
                     }
 
                 </div>
-                <div class="mb-3">
-                    <div class="section-title mb-1">
-                        <h4 class="m-0 text-uppercase font-weight-bold">Geçmiş Haberler</h4>
-                        <a class="text-right" href="/tumhaberler"><i class="fa-solid fa-globe"></i> Tümü</a>
+
+                <div class="mb-4">
+                    <div class="section-title mb-2 d-flex align-items-center justify-content-between">
+                        <span class="d-flex align-items-center">
+                            <i class="fa-solid fa-clock-rotate-left text-primary mr-2"></i>
+                            <h4 class="m-0 text-uppercase font-weight-bold">Geçmiş Haberler</h4>
+                        </span>
+                        <a class="news-see-all" href="/tumhaberler">Tümü <i class="fa-solid fa-arrow-right ml-1"></i></a>
                     </div>
-                    <div class="bg-white border border-top-0 p-3 info-panel">
+
+                    <div class="news-list-modern">
                         @foreach (var item in Model.OldWorksConducteds)
                         {
                             var slug = item.WorkingName
@@ -295,29 +279,16 @@
                             .Replace("ş", "s")
                             .Replace("ü", "u");
 
-                            <div class="d-flex align-items-center bg-white mb-2 news-item">
-                                <div class="row w-100 m-0">
-                                    <div class="col-12 p-0 text-center">
-                                        <a href="@Url.Action("NewsDetail", new { slug = slug })" title="@item.WorkingName">
-                                            <div class="news-img-wrapper">
-                                                <img src="@Url.Action("ViewImageNews", new { Id = item.Id })"
-                                                     alt="@item.WorkingName"
-                                                     class="news-img" />
-                                            </div>
-                                        </a>
-                                    </div>
-
-                                    <div class="col-12 p-1">
-                                        <span class="badge badge-primary text-white">@item.CreatedDate</span><br />
-                                        <a href="@Url.Action("NewsDetail", new { slug = slug })"
-                                           title="@item.WorkingName"
-                                           class="news-title">
-                                            @item.WorkingName
-                                        </a>
-                                    </div>
+                            <a href="@Url.Action("NewsDetail", new { slug = slug })" title="@item.WorkingName" class="news-card-modern">
+                                <div class="news-thumb">
+                                    <img src="@Url.Action("ViewImageNews", new { Id = item.Id })" alt="@item.WorkingName" />
                                 </div>
-                            </div>
-                            <hr />
+                                <div class="news-body">
+                                    <span class="news-date-badge">@item.CreatedDate</span>
+                                    <p class="news-title-modern">@item.WorkingName</p>
+                                </div>
+                                <i class="fa-solid fa-chevron-right news-chevron"></i>
+                            </a>
                         }
                     </div>
                 </div>
