@@ -118,3 +118,50 @@ body {
     background-color: #ffffff;
     border-color: #e2e8f0;
 }
+
+
+.modern-add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 18px;
+    background: linear-gradient(135deg, #0B3350, #164D70);
+    color: #fff !important;
+    text-decoration: none !important;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .2px;
+    border: 1px solid rgba(255,255,255,.08);
+    box-shadow: 0 3px 8px rgba(11, 51, 80, .20);
+    transition: all .25s ease;
+}
+
+    .modern-add-btn i {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 25px;
+        height: 25px;
+        background: rgba(255,255,255,.15);
+        border-radius: 6px;
+        font-size: 12px;
+        transition: transform .25s ease, background .25s ease;
+    }
+
+    .modern-add-btn:hover {
+        background: linear-gradient(135deg, #164D70, #0B3350);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 14px rgba(11, 51, 80, .28);
+        color: #fff !important;
+    }
+
+        .modern-add-btn:hover i {
+            background: rgba(255,255,255,.22);
+            transform: rotate(90deg);
+        }
+
+    .modern-add-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 5px rgba(11, 51, 80, .20);
+    }
