@@ -1,4 +1,4 @@
-﻿/* =========================================================
+﻿users-page/* =========================================================
    USERS MANAGEMENT
    Sadece Kullanıcılar sayfasına aittir.
    ========================================================= */
@@ -374,7 +374,6 @@
 
 .users-form-card {
     max-width: 950px;
-    margin: 0 auto;
     background: #fff;
     border: 1px solid #e8ecf2;
     border-radius: 17px;

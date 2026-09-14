@@ -21,12 +21,14 @@ namespace DsiPortal.WebUI.Controllers
             _toastNotification = toastNotification;
         }
 
+        [Route("admin/kameralar")]
         public async Task<IActionResult> Index()
         {
             return View(await _serviceCameras.GetAllAsync());
         }
 
         [HttpGet]
+        [Route("admin/kameraekle")]
         public IActionResult Create()
         {
             return View();
@@ -34,6 +36,7 @@ namespace DsiPortal.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("admin/kameraekle")]
         public async Task<IActionResult> Create(CamerasViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -57,6 +60,7 @@ namespace DsiPortal.WebUI.Controllers
             return View(viewModel);
         }
 
+        [Route("admin/kameraguncelle/{id}")]
         public async Task<IActionResult> EditAsync(int id)
         {
             if (id == null)
@@ -74,6 +78,7 @@ namespace DsiPortal.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("admin/kameraguncelle/{id}")]
         public async Task<IActionResult> EditAsync(Cameras camera, int id)
         {
             if (ModelState.IsValid)

@@ -18,12 +18,15 @@ namespace Dsi24Portal.WebUI.Controllers
         {
             _serviceForms = serviceForms;
         }
+
+        [Route("admin/formlar")]
         public async Task<IActionResult> Index()
         {
             return View(await _serviceForms.GetAllAsync());
         }
 
         [HttpGet]
+        [Route("admin/formekle")]
         public IActionResult Create()
         {
             ViewBag.Birimler = new List<string>
@@ -55,6 +58,7 @@ namespace Dsi24Portal.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("admin/formekle")]
         public async Task<IActionResult> Create(FormViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -80,6 +84,8 @@ namespace Dsi24Portal.WebUI.Controllers
             }
             return View(viewModel);
         }
+
+        [Route("admin/formindir/{id}")]
         public async Task<IActionResult> Download(int? id)
         {
             if (id == null)
@@ -95,6 +101,8 @@ namespace Dsi24Portal.WebUI.Controllers
 
             return File(document.Content, GetMimeType(document.FileType), document.Name + document.FileType);
         }
+
+        [Route("admin/formpdfgoruntule/{id}")]
         public IActionResult ViewPdf(int id)
         {
             var document = _serviceForms.Find(id);

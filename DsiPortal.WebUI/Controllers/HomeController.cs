@@ -3,6 +3,7 @@ using DsiPortal.Core.Entities;
 using DsiPortal.Data;
 using DsiPortal.Service.Concrete;
 using DsiPortal.Service.IService;
+using DsiPortal.WebUI.ApiModels;
 using DsiPortal.WebUI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,7 @@ namespace DsiPortal.WebUI.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IHttpClientFactory _httpClientFactory;
         private readonly IService<Managemention> _serviceManagemention;
         private readonly IService<RegionalManagers> _serviceRegionalManagers;
         private readonly IService<WorksConducteds> _serviceWorksConducteds;
@@ -37,7 +39,7 @@ namespace DsiPortal.WebUI.Controllers
         private readonly IMenuofDay _menuofday;
         private readonly ExternalMyGuideService _service;
 
-        public HomeController(IService<Managemention> serviceManagemention, IService<RegionalManagers> serviceRegionalManagers, IService<WorksConducteds> serviceWorksConducteds, AppDbContext context, IService<Apps> serviceApps, IService<Announcements> serviceAnnouncementss, IService<Forms> serviceForms, IService<FoodList> serviceFoodList, IToastNotification toastNotification, IMenuofDay menuofday, IService<GuestFeeChart> serviceGuestFeeChart, IService<BenefitLinks> serviceBenefitLinks, IService<FoodPriceList> serviceFoodPriceList, IService<DepartmentManagers> serviceDepartmentManagers, IService<Cameras> serviceCameras, ExternalMyGuideService service)
+        public HomeController(IService<Managemention> serviceManagemention, IService<RegionalManagers> serviceRegionalManagers, IService<WorksConducteds> serviceWorksConducteds, AppDbContext context, IService<Apps> serviceApps, IService<Announcements> serviceAnnouncementss, IService<Forms> serviceForms, IService<FoodList> serviceFoodList, IToastNotification toastNotification, IMenuofDay menuofday, IService<GuestFeeChart> serviceGuestFeeChart, IService<BenefitLinks> serviceBenefitLinks, IService<FoodPriceList> serviceFoodPriceList, IService<DepartmentManagers> serviceDepartmentManagers, IService<Cameras> serviceCameras, ExternalMyGuideService service, IHttpClientFactory httpClientFactory)
         {
             _serviceManagemention = serviceManagemention;
             _serviceRegionalManagers = serviceRegionalManagers;
@@ -54,6 +56,7 @@ namespace DsiPortal.WebUI.Controllers
             _serviceDepartmentManagers = serviceDepartmentManagers;
             _serviceCameras = serviceCameras;
             _service = service;
+            _httpClientFactory = httpClientFactory;
         }
 
         [Route("anasayfa")]
@@ -78,7 +81,7 @@ namespace DsiPortal.WebUI.Controllers
             var listMenuOfDayViewModel = new ListMenuOfDayViewModel();
             if (eat1 == null || eat2 == null || eat3 == null || eat4 == null)
             {
-                ViewData["FoodList"] = "Güncel yemek listesi yükleyin";
+                ViewData["FoodList"] = "Güncel yemek listesini yükleyin";
                 listMenuOfDayViewModel = new ListMenuOfDayViewModel()
                 {
                     Eat1 = null,
@@ -522,8 +525,27 @@ namespace DsiPortal.WebUI.Controllers
             //    }
             //}
             //return View(list);
-            var myguide = await _service.GetAllDtoAsync();
-            return View(myguide);
+
+            // external db have been used
+            //var myguide = await _service.GetAllDtoAsync();
+
+
+            // api have been used
+            var client = _httpClientFactory.CreateClient();
+
+            var response = await client.GetAsync(
+                "http://172.20.124.11:8081/api/Guide");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return View(new List<MyGuideApiModel>());
+            }
+
+            var data = await response.Content
+                .ReadFromJsonAsync<List<MyGuideApiModel>>();
+
+            return View(data);
+
         }
 
     }

@@ -21,12 +21,14 @@ namespace DsiPortal.WebUI.Controllers
             _toastNotification = toastNotification;
         }
 
+        [Route("admin/faydalilinkler")]
         public async Task<IActionResult> Index()
         {
             return View(await _serviceBenefitLinks.GetAllAsync());
         }
 
         [HttpGet]
+        [Route("admin/faydalilinkekle")]
         public IActionResult Create()
         {
             return View();
@@ -34,6 +36,7 @@ namespace DsiPortal.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("admin/faydalilinkekle")]
         public async Task<IActionResult> Create(BenefitLinkViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -59,6 +62,7 @@ namespace DsiPortal.WebUI.Controllers
             }
             return View(viewModel);
         }
+
         public async Task<IActionResult> ViewImage(int id)
         {
             var image = await _serviceBenefitLinks.FindAsync(id);

@@ -20,13 +20,16 @@ namespace DsiPortal.WebUI.Controllers
             _serviceWorksConducteds = serviceWorksConducteds;
             _toastNotification = toastNotification;
         }
+
+        [Route("admin/haberler")]
         public async Task<IActionResult> Index()
         {
             ViewBag.TotalCount = _serviceWorksConducteds.GetQueryable().Where(x => x.IsMainImage == true).ToList().Count();
             return View(await _serviceWorksConducteds.GetQueryable().OrderByDescending(x=>x.CreatedDate).ToListAsync());
         }
-
+     
         [HttpGet]
+        [Route("admin/haberekle")]
         public IActionResult Create()
         {
             return View();
@@ -34,6 +37,7 @@ namespace DsiPortal.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("admin/haberekle")]
         public async Task<IActionResult> Create(WorksConductedViewModel viewModel)
         {
             if (ModelState.IsValid)

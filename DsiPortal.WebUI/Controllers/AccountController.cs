@@ -21,12 +21,14 @@ namespace DsiPortal.WebUI.Controllers
         }
 
         [Authorize]
+        [Route("admin/anasayfa")]
         public IActionResult Index()
         {
             return View();
         }
 
         [Authorize]
+        [Route("admin/profilim")]
         public async Task<IActionResult> MyProfileAsync()
         {
             Users user = await _serviceUser.GetAsync(x => x.UserGuid.ToString() == HttpContext.User.FindFirst("UserGuid").Value.ToString());
@@ -45,6 +47,7 @@ namespace DsiPortal.WebUI.Controllers
         }
 
         [HttpPost, Authorize]
+        [Route("admin/profilim")]
         public async Task<IActionResult> MyProfileAsync(MyProfileViewModel model,int id)
         {
             if (ModelState.IsValid)
@@ -78,12 +81,14 @@ namespace DsiPortal.WebUI.Controllers
         }
 
         [HttpGet]
+        [Route("giris")]
         public IActionResult Login()
         {
             return View();
         }
 
         [HttpGet]
+        [Route("sifremiunuttum")]
         public IActionResult ForgetPasswordAsync()
         {
             return View();
@@ -91,6 +96,7 @@ namespace DsiPortal.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("sifremiunuttum")]
         public async Task<IActionResult> ForgetPassword(ForgetPasswordViewModel model)
         {
 
@@ -124,6 +130,7 @@ namespace DsiPortal.WebUI.Controllers
         }
 
         [HttpGet, Authorize]
+        [Route("admin/sifremidegistir")]
         public IActionResult ChangePassword()
         {
             return View();
@@ -131,6 +138,7 @@ namespace DsiPortal.WebUI.Controllers
 
         [HttpPost, Authorize]
         [ValidateAntiForgeryToken]
+        [Route("admin/sifremidegistir")]
         public async Task<IActionResult> ChangePasswordAsync(ChangePasswordViewModel model)
         {
             if (ModelState.IsValid)
@@ -156,6 +164,7 @@ namespace DsiPortal.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("giris")]
         public async Task<IActionResult> LoginAsync(LoginViewModel model)
         {
             if (ModelState.IsValid)
@@ -185,7 +194,7 @@ namespace DsiPortal.WebUI.Controllers
                         ClaimsPrincipal userPrincipal = new ClaimsPrincipal(userIdentity);
                         await HttpContext.SignInAsync(userPrincipal);
                         _toastNotification.AddSuccessToastMessage("Giriş işlemi başarılı", new ToastrOptions { Title = "Başarılı" });
-                        return Redirect(string.IsNullOrEmpty(model.ReturnUrl) ? "/Account/Index" : model.ReturnUrl);
+                        return Redirect(string.IsNullOrEmpty(model.ReturnUrl) ? "admin/anasayfa" : model.ReturnUrl);
                     }
                 }
                 catch (Exception)
@@ -198,13 +207,15 @@ namespace DsiPortal.WebUI.Controllers
             return View(model);
         }
 
+        [Route("admin/cikis")]
         public async Task<IActionResult> LogOutAsync()
         {
             await HttpContext.SignOutAsync();
             _toastNotification.AddSuccessToastMessage("Çıkış işlemi başarılı", new ToastrOptions { Title = "Başarılı" });
             return RedirectToAction("Login");
         }
-        [Route("AccessDenied"), Authorize]
+
+        [Route("admin/AccessDenied"), Authorize]
         public IActionResult AccessDenied()
         {
             return View();

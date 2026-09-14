@@ -1,0 +1,530 @@
+﻿/* ============================================================
+   DSİ - DEPARTMENT MANAGER ORTAK TASARIM
+   Liste / Ekle / Güncelle
+   ============================================================ */
+
+:root {
+    --wc-primary: #0B3350;
+    --wc-primary-dark: #08283e;
+    --wc-primary-light: #eef4f8;
+    --wc-radius: 14px;
+    --wc-shadow: 0 4px 16px rgba(15, 23, 42, .06);
+}
+
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.wc-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.wc-title {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #0B3350;
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+}
+
+    .wc-title .badge {
+        font-size: .75rem;
+        background: var(--wc-primary-light);
+        color: var(--wc-primary);
+        font-weight: 600;
+        padding: .35rem .65rem;
+        border-radius: 8px;
+    }
+
+
+/* ============================================================
+   GERİ DÖN
+   ============================================================ */
+
+.wc-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    color: #64748b;
+    font-weight: 600;
+    font-size: .9rem;
+    text-decoration: none;
+    transition: all .15s ease;
+}
+
+    .wc-back-link:hover {
+        color: var(--wc-primary);
+        text-decoration: none;
+    }
+
+    .wc-back-link i {
+        transition: transform .15s ease;
+    }
+
+    .wc-back-link:hover i {
+        transform: translateX(-3px);
+    }
+
+
+/* ============================================================
+   ANA BUTON
+   ============================================================ */
+
+.btn-wc-primary,
+.wc-btn-save {
+    background: var(--wc-primary);
+    border: none;
+    color: #fff;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all .2s ease;
+    box-shadow: 0 2px 8px rgba(11, 51, 80, .25);
+}
+
+.btn-wc-primary {
+    padding: .55rem 1.1rem;
+}
+
+.wc-btn-save {
+    padding: .6rem 1.4rem;
+}
+
+    .btn-wc-primary:hover,
+    .wc-btn-save:hover {
+        background: var(--wc-primary-dark);
+        color: #fff;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 14px rgba(11, 51, 80, .35);
+    }
+
+    .btn-wc-primary:active,
+    .wc-btn-save:active {
+        transform: translateY(0);
+    }
+
+
+/* ============================================================
+   ANA CARD
+   ============================================================ */
+
+.wc-card {
+    background: #fff;
+    border-radius: var(--wc-radius);
+    box-shadow: var(--wc-shadow);
+    border: 1px solid #eef0f4;
+}
+
+.wc-card {
+    overflow: hidden;
+}
+
+.wc-card-form {
+    padding: 1.75rem;
+    max-width: 640px;
+}
+
+
+/* ============================================================
+   TOOLBAR / ARAMA
+   ============================================================ */
+
+.wc-toolbar {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid #f0f1f5;
+    background: #fafbff;
+}
+
+.wc-search-wrap {
+    max-width: 340px;
+}
+
+    .wc-search-wrap .input-group-text {
+        background: #fff;
+        border-right: none;
+        color: #94a3b8;
+    }
+
+    .wc-search-wrap input {
+        border-left: none;
+    }
+
+        .wc-search-wrap input:focus {
+            box-shadow: none;
+            border-color: #dfe3ea;
+        }
+
+
+/* ============================================================
+   FORM
+   ============================================================ */
+
+.wc-form-group {
+    margin-bottom: 1.3rem;
+}
+
+    .wc-form-group label {
+        display: block;
+        font-weight: 600;
+        font-size: .85rem;
+        color: #334155;
+        margin-bottom: .45rem;
+    }
+
+    .wc-form-group .form-control,
+    .wc-form-group select.form-control {
+        border: 1px solid #e2e5eb;
+        border-radius: 10px;
+        padding: .6rem .85rem;
+        font-size: .92rem;
+        transition: all .15s ease;
+    }
+
+        .wc-form-group .form-control:hover {
+            border-color: #cbd5e1;
+        }
+
+        .wc-form-group .form-control:focus,
+        .wc-form-group select.form-control:focus {
+            border-color: var(--wc-primary);
+            box-shadow: 0 0 0 3px var(--wc-primary-light);
+            outline: none;
+        }
+
+
+/* ============================================================
+   RESİM SEÇİMİ
+   ============================================================ */
+
+.wc-image-picker {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+}
+
+.wc-avatar-preview {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    border: 2px dashed #dfe3ea;
+    background: #f8f9fc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #b8bfcc;
+    font-size: 1.3rem;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+    .wc-avatar-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.wc-file-drop {
+    flex: 1;
+    position: relative;
+}
+
+    .wc-file-drop input[type="file"] {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+    }
+
+.wc-file-drop-label {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    border: 1px dashed #dfe3ea;
+    border-radius: 10px;
+    padding: .65rem .9rem;
+    font-size: .85rem;
+    color: #64748b;
+    background: #fafbff;
+    transition: all .15s ease;
+}
+
+    .wc-file-drop-label i {
+        color: var(--wc-primary);
+    }
+
+.wc-file-drop:hover .wc-file-drop-label {
+    border-color: var(--wc-primary);
+    background: var(--wc-primary-light);
+    color: var(--wc-primary);
+}
+
+
+/* ============================================================
+   TABLO
+   ============================================================ */
+
+table.wc-table {
+    margin-bottom: 0;
+}
+
+    table.wc-table thead th {
+        background: #f8f9fc;
+        color: #64748b;
+        font-size: .8rem;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+        font-weight: 700;
+        border-bottom: 1px solid #eef0f4;
+        padding: .9rem 1rem;
+        white-space: nowrap;
+    }
+
+    table.wc-table tbody tr.wc-row {
+        transition: background .15s ease;
+    }
+
+        table.wc-table tbody tr.wc-row:hover {
+            background: #f9fafe;
+        }
+
+    table.wc-table tbody td {
+        padding: .85rem 1rem;
+        vertical-align: middle;
+        border-bottom: 1px solid #f2f3f7;
+    }
+
+
+/* ============================================================
+   PERSONEL
+   ============================================================ */
+
+.wc-person {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+}
+
+.wc-avatar {
+    width: 42px;
+    height: 42px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #eef0f4;
+    flex-shrink: 0;
+}
+
+.wc-name {
+    font-weight: 600;
+    color: #1e293b;
+}
+
+
+/* ============================================================
+   UNVAN
+   ============================================================ */
+
+.wc-title-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .3rem .65rem;
+    border-radius: 8px;
+    font-size: .78rem;
+    font-weight: 600;
+    background: var(--wc-primary-light);
+    color: var(--wc-primary);
+}
+
+
+/* ============================================================
+   İLETİŞİM
+   ============================================================ */
+
+.wc-contact {
+    display: flex;
+    flex-direction: column;
+    gap: .15rem;
+    font-size: .85rem;
+    color: #475569;
+}
+
+    .wc-contact a {
+        color: #475569;
+        text-decoration: none;
+        transition: color .15s ease;
+    }
+
+        .wc-contact a:hover {
+            color: var(--wc-primary);
+        }
+
+
+/* ============================================================
+   İŞLEMLER
+   ============================================================ */
+
+.wc-actions {
+    display: flex;
+    gap: .4rem;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.btn-action {
+    border-radius: 9px;
+    font-weight: 600;
+    font-size: .8rem;
+    padding: .4rem .7rem;
+    border: none;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    transition: all .15s ease;
+}
+
+    .btn-action.btn-edit {
+        background: var(--wc-primary-light);
+        color: var(--wc-primary);
+    }
+
+        .btn-action.btn-edit:hover {
+            background: var(--wc-primary);
+            color: #fff;
+            text-decoration: none;
+        }
+
+.btn-icon-sm {
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    border: 1px solid #f1d3d3;
+    background: #fff5f5;
+    color: #e11d48;
+    transition: all .15s ease;
+    flex-shrink: 0;
+}
+
+    .btn-icon-sm:hover {
+        background: #e11d48;
+        color: #fff;
+    }
+
+
+/* ============================================================
+   BOŞ LİSTE
+   ============================================================ */
+
+.wc-empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #94a3b8;
+}
+
+
+/* ============================================================
+   VALIDATION
+   ============================================================ */
+
+.text-danger {
+    font-size: .8rem;
+}
+
+.validation-summary-errors ul {
+    margin-bottom: 0;
+    padding-left: 1.1rem;
+}
+
+
+/* ============================================================
+   DELETE MODAL
+   ============================================================ */
+
+#deleteModal .modal-content {
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+#deleteModal .modal-header {
+    background: #fff5f5;
+    border-bottom: none;
+}
+
+#deleteModal .modal-title {
+    color: #be123c;
+    font-weight: 700;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+    .wc-header {
+        align-items: flex-start;
+    }
+
+    .wc-title {
+        font-size: 1.3rem;
+    }
+
+    .wc-card-form {
+        padding: 1.25rem;
+    }
+
+    .wc-image-picker {
+        align-items: flex-start;
+    }
+
+    .wc-actions {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 575px) {
+
+    .wc-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-wc-primary {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .wc-title {
+        font-size: 1.2rem;
+    }
+
+    .wc-card-form {
+        padding: 1rem;
+    }
+
+    .wc-image-picker {
+        flex-direction: column;
+    }
+
+    .wc-avatar-preview {
+        width: 75px;
+        height: 75px;
+    }
+
+    .wc-file-drop {
+        width: 100%;
+    }
+}

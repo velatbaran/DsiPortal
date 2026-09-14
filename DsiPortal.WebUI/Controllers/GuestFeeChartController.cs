@@ -18,12 +18,14 @@ namespace Dsi24Portal.WebUI.Controllers
             _serviceGuestFeeChart = serviceGuestFeeChart;
         }
 
+        [Route("admin/misafirhaneyemekcizelgesi")]
         public async Task<IActionResult> Index()
         {
             return View(await _serviceGuestFeeChart.GetAllAsync());
         }
 
         [HttpGet]
+        [Route("admin/misafirhaneyemekcizelgesiekle")]
         public IActionResult Create()
         {
             return View();
@@ -31,6 +33,7 @@ namespace Dsi24Portal.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("admin/misafirhaneyemekcizelgesiekle")]
         public async Task<IActionResult> Create(GuestFeeChartViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -55,6 +58,8 @@ namespace Dsi24Portal.WebUI.Controllers
             }
             return View(viewModel);
         }
+
+        [Route("admin/misafirhaneyemekcizelgesiindir/{id}")]
         public async Task<IActionResult> Download(int? id)
         {
             if (id == null)
@@ -90,6 +95,7 @@ namespace Dsi24Portal.WebUI.Controllers
             }
         }
 
+        [Route("admin/misafirhaneyemekcizelgesipdfgoruntuule/{id}")]
         public IActionResult ViewPdf(int id)
         {
             var document = _serviceGuestFeeChart.Find(id);

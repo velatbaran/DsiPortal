@@ -20,12 +20,14 @@ namespace DsiPortal.WebUI.Controllers
             _toastNotification = toastNotification;
         }
 
+        [Route("admin/kullanicilar")]
         public IActionResult Index()
         {
             return View(_serviceUser.GetAll().OrderByDescending(x => x.CreatedDate));
         }
 
         [HttpGet]
+        [Route("admin/kullaniciekle")]
         public IActionResult Create()
         {
             return View();
@@ -33,6 +35,7 @@ namespace DsiPortal.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("admin/kullaniciekle")]
         public async Task<IActionResult> CreateAsync(UserViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -66,6 +69,7 @@ namespace DsiPortal.WebUI.Controllers
             return View(viewModel);
         }
 
+        [Route("admin/kullaniciguncelle/{id}")]
         public async Task<IActionResult> EditAsync(int id)
         {
             if (id == null)
@@ -83,6 +87,7 @@ namespace DsiPortal.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("admin/kullaniciguncelle/{id}")]
         public async Task<IActionResult> EditAsync(Users user,int id)
         {
             user.Created = HttpContext.User.FindFirst("Username").Value;

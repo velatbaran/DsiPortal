@@ -19,12 +19,14 @@ namespace DsiPortal.WebUI.Controllers
             _toastNotification = toastNotification;
         }
 
+        [Route("admin/epostalar")]
         public async Task<IActionResult> Index()
         {
             return View(await _serviceUserEmails.GetAllAsync());
         }
 
         [HttpGet]
+        [Route("admin/epostaekle")]
         public IActionResult Create()
         {
             return View();
@@ -32,6 +34,7 @@ namespace DsiPortal.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("admin/epostaekle")]
         public async Task<IActionResult> Create(UserEmailViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -50,6 +53,7 @@ namespace DsiPortal.WebUI.Controllers
             return View(viewModel);
         }
 
+        [Route("admin/epostaguncelle/{id}")]
         public async Task<IActionResult> Edit(int id)
         {
             if (id == null)
@@ -67,6 +71,7 @@ namespace DsiPortal.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("admin/epostaguncelle/{id}")]
         public async Task<IActionResult> EditAsync(UserEmails userEmails, int id)
         {
             userEmails.Created = HttpContext.User.FindFirst("Username").Value;

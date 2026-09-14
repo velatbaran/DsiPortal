@@ -8,7 +8,6 @@
 
 <div class="cameras-page">
 
-    ```
     <!-- Sayfa Başlığı -->
     <div class="camera-page-header">
 
@@ -132,7 +131,7 @@
 
                     <input asp-for="Password"
                            class="camera-input"
-                           type="password"
+                           type="text"
                            id="cameraPassword"
                            autocomplete="new-password" />
 
@@ -179,13 +178,11 @@
         </form>
 
     </div>
-    ```
 
 </div>
 
 @section Scripts {
 
-    ```
     @{
         await Html.RenderPartialAsync(
             "_ValidationScriptsPartial"
@@ -238,6 +235,5 @@
             });
 
     </script>
-```
 
 }

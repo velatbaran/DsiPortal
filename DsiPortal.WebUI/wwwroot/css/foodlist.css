@@ -1,13 +1,4 @@
-﻿```css
-/* =========================================================
-   DSİ PORTAL - YEMEK LİSTESİ
-   foodlist.css
-
-   Bu dosyadaki sınıflar yalnızca FoodList sayfası içindir.
-   ========================================================= */
-/* =========================================================
-   GENEL
-   ========================================================= */
+﻿
 .foodlist-page {
     padding: 10px 0 35px;
 }
@@ -19,10 +10,10 @@
 
 .foodlist-header {
     display: flex;
-    align-items: center;
+    foodlist-page align-items: center;
     justify-content: space-between;
     gap: 20px;
-    margin-bottom: 24px;
+    foodlist-page margin-bottom: 24px;
     flex-wrap: wrap;
 }
 
@@ -422,7 +413,6 @@
 
 .foodlist-create {
     max-width: 850px;
-    margin: 0 auto;
 }
 
 .foodlist-create-card {

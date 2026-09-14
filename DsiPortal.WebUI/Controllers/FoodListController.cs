@@ -29,11 +29,13 @@ namespace DsiPortal.WebUI.Controllers
             _serviceUserEmails = serviceUserEmails;
         }
 
+        [Route("admin/yemeklistesi")]
         public async Task<IActionResult> Index()
         {
             return View(await _serviceFoodList.GetQueryable().OrderByDescending(x=>x.CreatedDate).ToListAsync());
         }
 
+        [Route("admin/yemeklistesiekle")]
         public IActionResult Create()
         {
             return View();
@@ -41,6 +43,7 @@ namespace DsiPortal.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("admin/yemeklistesiekle")]
         public async Task<IActionResult> Create(FoodListViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -67,6 +70,7 @@ namespace DsiPortal.WebUI.Controllers
             return View(viewModel);
         }
 
+        [Route("admin/yemeklistesiindir/{id}")]
         public async Task<IActionResult> Download(int? id)
         {
             if (id == null)
@@ -83,6 +87,7 @@ namespace DsiPortal.WebUI.Controllers
             return File(document.Content, GetMimeType(document.FileType), document.Name + document.FileType);
         }
 
+        [Route("admin/yemeklistesipdfgoruntule/{id}")]
         public IActionResult ViewPdf(int id)
         {
             var document = _serviceFoodList.Find(id);

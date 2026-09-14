@@ -117,16 +117,47 @@
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa-solid fa-circle-info"></i>Hakkımızda</a>
                         <div class="dropdown-menu rounded-0 m-0">
                             <a href="/yonetim" class="dropdown-item"><i class="fa-solid fa-people-roof"></i> Yönetim</a>
-                            @if (organizaitonchart.FileType == ".pdf")
+                            @if (organizaitonchart != null)
                             {
-                                <a href="@Url.Action("ViewPdfOrganizationalChart", "Home", new { })" target="_blank" class="dropdown-item">
-                                    <i class="fa-solid fa-street-view"></i> Organizasyon Şeması
-                                </a>
+                                @if (organizaitonchart.FileType?.ToLower() == ".pdf")
+                                {
+                                    <a href="@Url.Action("ViewPdfOrganizationalChart", "Home")"
+                                       target="_blank"
+                                       class="dropdown-item">
+                                        <i class="fa-solid fa-street-view"></i>
+                                        Organizasyon Şeması
+                                    </a>
+                                }
+                                else if (organizaitonchart.FileType?.ToLower() == ".jpg" ||
+                                organizaitonchart.FileType?.ToLower() == ".jpeg" ||
+                                organizaitonchart.FileType?.ToLower() == ".png" ||
+                                organizaitonchart.FileType?.ToLower() == ".gif" ||
+                                organizaitonchart.FileType?.ToLower() == ".webp")
+                                {
+                                    <a href="@Url.Action("ViewImageOrganizationalChart", "Home")"
+                                       target="_blank"
+                                       class="dropdown-item">
+                                        <i class="fa-solid fa-street-view"></i>
+                                        Organizasyon Şeması
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a href="javascript:void(0);"
+                                       class="dropdown-item"
+                                       onclick="organizasyonSemasiUyari();">
+                                        <i class="fa-solid fa-street-view"></i>
+                                        Organizasyon Şeması
+                                    </a>
+                                }
                             }
                             else
                             {
-                                <a href="@Url.Action("ViewImageOrganizationalChart", "Home", new { })" target="_blank" class="dropdown-item">
-                                    <i class="fa-solid fa-street-view"></i> Organizasyon Şeması
+                                <a href="javascript:void(0);"
+                                   class="dropdown-item"
+                                   onclick="organizasyonSemasiUyari();">
+                                    <i class="fa-solid fa-street-view"></i>
+                                    Organizasyon Şeması
                                 </a>
                             }
                             <a href="/tarihcemiz" class="dropdown-item"><i class="fa-solid fa-landmark"></i> Tarihçemiz</a>
@@ -181,7 +212,7 @@
                     <a href="/iletisim" class="nav-item nav-link"><i class="fa-solid fa-address-card"></i>İletişim</a>
                 </div>
                 <div class="navbar-nav ml-auto py-0">
-                    <a href="/Account/Index" class="nav-item nav-link" target="_blank"><i class="fa-solid fa-user-shield"></i>Admin Paneli</a>
+                    <a href="/giris" class="nav-item nav-link" target="_blank"><i class="fa-solid fa-user-shield"></i>Admin Paneli</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa-solid fa-users-gear"></i>Yönetim Sistemleri</a>
                         <div class="dropdown-menu rounded-0 m-0 benefit-links-panel">
@@ -296,6 +327,11 @@
     <!-- Template Javascript -->
     <script src="~/homepage/js/main.js"></script>
     @RenderSection("Scripts", false)
+    <script>
+        function organizasyonSemasiUyari() {
+            alert("Organizasyon şeması henüz yüklenmemiş veya desteklenmeyen bir dosya formatındadır.");
+        }
+    </script>
 </body>
 
 </html>

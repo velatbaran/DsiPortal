@@ -16,12 +16,14 @@ namespace DsiPortal.WebUI.Controllers
             _serviceRegionalManagers = serviceRegionalManagers;
         }
 
+        [Route("admin/bolgemuduru")]
         public async Task<IActionResult> Index()
         {
             return View(await _serviceRegionalManagers.GetAllAsync());
         }
 
         [HttpGet]
+        [Route("admin/bolgemuduruekle")]
         public IActionResult Create()
         {
             return View();
@@ -29,6 +31,7 @@ namespace DsiPortal.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("admin/bolgemuduruekle")]
         public async Task<IActionResult> Create(RegionalManagerViewModel viewModel)
         {
             if (ModelState.IsValid)

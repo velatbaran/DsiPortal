@@ -46,8 +46,6 @@
                   enctype="multipart/form-data"
                   id="announcementForm">
 
-
-                <!-- VALIDATION -->
                 <div asp-validation-summary="ModelOnly"
                      class="alert alert-danger"
                      role="alert">
@@ -55,7 +53,6 @@
 
 
                 <div class="row g-4">
-
 
                     <!-- NAME -->
                     <div class="col-12">
@@ -214,7 +211,7 @@
                 <div class="management-form-actions">
 
 
-                    <a asp-action="Index"
+                    <a href="/admin/duyurular"
                        class="btn btn-light management-btn">
 
                         <i class="fa-solid fa-arrow-left"></i>
@@ -272,11 +269,6 @@
         const previewIcon =
             document.getElementById("previewIcon");
 
-
-        // -------------------------------------------------
-        // UPLOAD AREA
-        // -------------------------------------------------
-
         uploadArea.addEventListener(
             "click",
             function () {
@@ -285,11 +277,6 @@
 
             }
         );
-
-
-        // -------------------------------------------------
-        // FILE SELECT
-        // -------------------------------------------------
 
         fileInput.addEventListener(
             "change",
@@ -305,11 +292,6 @@
             }
         );
 
-
-        // -------------------------------------------------
-        // DRAG OVER
-        // -------------------------------------------------
-
         uploadArea.addEventListener(
             "dragover",
             function (event) {
@@ -321,11 +303,6 @@
             }
         );
 
-
-        // -------------------------------------------------
-        // DRAG LEAVE
-        // -------------------------------------------------
-
         uploadArea.addEventListener(
             "dragleave",
             function () {
@@ -334,11 +311,6 @@
 
             }
         );
-
-
-        // -------------------------------------------------
-        // DROP
-        // -------------------------------------------------
 
         uploadArea.addEventListener(
             "drop",
@@ -362,11 +334,6 @@
 
             }
         );
-
-
-        // -------------------------------------------------
-        // SHOW FILE
-        // -------------------------------------------------
 
         function showFile(file) {
 
@@ -419,11 +386,6 @@
                 "block";
 
         }
-
-
-        // -------------------------------------------------
-        // FORM SUBMIT
-        // -------------------------------------------------
 
         document
             .getElementById("announcementForm")

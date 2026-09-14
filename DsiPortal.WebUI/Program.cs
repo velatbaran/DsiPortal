@@ -71,6 +71,8 @@ builder.Services.AddControllersWithViews()
     })
     .AddRazorRuntimeCompilation();
 
+builder.Services.AddHttpClient();
+
 var app = builder.Build();
 
 app.UseNToastNotify();

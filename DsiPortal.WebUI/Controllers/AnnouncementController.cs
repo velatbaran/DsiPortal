@@ -27,12 +27,15 @@ namespace DsiPortal.WebUI.Controllers
             _serviceAnnouncements = serviceAnnouncements;
             _toastNotification = toastNotification;
         }
+
+        [Route("admin/duyurular")]
         public async Task<IActionResult> Index()
         {
             return View(await _serviceAnnouncements.GetQueryable().OrderByDescending(x => x.CreatedDate).ToListAsync());
         }
 
         [HttpGet]
+        [Route("admin/duyuruekle")]
         public IActionResult Create()
         {
             return View();
@@ -40,6 +43,7 @@ namespace DsiPortal.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("admin/duyuruekle")]
         public async Task<IActionResult> Create(AnnocumentViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -65,6 +69,8 @@ namespace DsiPortal.WebUI.Controllers
             }
             return View(viewModel);
         }
+
+        [Route("admin/duyuruindir/{id}")]
         public async Task<IActionResult> Download(int? id)
         {
             if (id == null)
@@ -81,6 +87,7 @@ namespace DsiPortal.WebUI.Controllers
             return File(document.Content, GetMimeType(document.FileType), document.Name + document.FileType);
         }
 
+        [Route("admin/duyurupdfgoruntule/{id}")]
         public IActionResult ViewPdf(int id)
         {
             var document = _serviceAnnouncements.Find(id);
@@ -94,6 +101,7 @@ namespace DsiPortal.WebUI.Controllers
 
             return File(document.Content, "application/pdf");
         }
+
         private string GetMimeType(string fileType)
         {
             switch (fileType.ToLower())

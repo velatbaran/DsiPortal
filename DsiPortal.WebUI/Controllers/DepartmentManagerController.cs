@@ -24,12 +24,14 @@ namespace DsiPortal.WebUI.Controllers
             _serviceTitles = serviceTitles;
         }
 
+        [Route("admin/mudurler")]
         public async Task<IActionResult> Index()
         {
             return View(await _serviceDepartmentManagers.GetQueryable().Include(x=>x.Titles).OrderByDescending(x=>x.CreatedDate).ToListAsync());
         }
 
         [HttpGet]
+        [Route("admin/mudurekle")]
         public IActionResult Create()
         {
             ViewBag.Unvanlar = _serviceTitles.GetAll().ToList();
@@ -39,6 +41,7 @@ namespace DsiPortal.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("admin/mudurekle")]
         public async Task<IActionResult> Create(DepartmentManagerViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -87,6 +90,7 @@ namespace DsiPortal.WebUI.Controllers
         }
 
         [HttpGet]
+        [Route("admin/mudurguncelle/{id}")]
         public async Task<IActionResult> Edit(int id)
         {
            // ViewBag.Unvanlar = _serviceTitles.GetAll().ToList();
@@ -111,6 +115,7 @@ namespace DsiPortal.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("admin/mudurguncelle/{id}")]
         public async Task<IActionResult> EditAsync(DepartmentManagerEditViewModel viewModel)
         {
             if (ModelState.IsValid)

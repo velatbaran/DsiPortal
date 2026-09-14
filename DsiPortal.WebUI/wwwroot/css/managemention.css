@@ -1,0 +1,522 @@
+﻿/* ============================================================
+   DSİ YÖNETİM
+   INDEX + CREATE + EDIT ORTAK CSS
+   ============================================================ */
+
+:root {
+    --wc-primary: #0B3350;
+    --wc-primary-dark: #08283e;
+    --wc-primary-light: #eef4f8;
+    --wc-radius: 14px;
+    --wc-shadow: 0 4px 16px rgba(15, 23, 42, .06);
+}
+
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.wc-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.wc-title {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #0B3350;
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+}
+
+    .wc-title i {
+        color: var(--wc-primary);
+    }
+
+    .wc-title .badge {
+        font-size: .75rem;
+        background: var(--wc-primary-light);
+        color: var(--wc-primary);
+        font-weight: 600;
+        padding: .35rem .65rem;
+        border-radius: 8px;
+    }
+
+
+/* ============================================================
+   GERİ DÖN
+   ============================================================ */
+
+.wc-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    color: #64748b;
+    font-weight: 600;
+    font-size: .9rem;
+    text-decoration: none;
+    transition: all .15s ease;
+}
+
+    .wc-back-link:hover {
+        color: var(--wc-primary);
+        text-decoration: none;
+    }
+
+    .wc-back-link i {
+        transition: transform .15s ease;
+    }
+
+    .wc-back-link:hover i {
+        transform: translateX(-3px);
+    }
+
+
+/* ============================================================
+   ANA CARD
+   ============================================================ */
+
+.wc-card {
+    background: #fff;
+    border-radius: var(--wc-radius);
+    box-shadow: var(--wc-shadow);
+    border: 1px solid #eef0f4;
+    overflow: hidden;
+}
+
+
+/* ============================================================
+   FORM CARD
+   ============================================================ */
+
+.wc-form-card {
+    max-width: 700px;
+}
+
+.wc-form-body {
+    padding: 1.75rem;
+}
+
+
+/* ============================================================
+   FORM
+   ============================================================ */
+
+.wc-form-group {
+    margin-bottom: 1.3rem;
+}
+
+    .wc-form-group label {
+        display: block;
+        font-weight: 600;
+        font-size: .85rem;
+        color: #334155;
+        margin-bottom: .45rem;
+    }
+
+    .wc-form-group .form-control,
+    .wc-form-group .custom-file-input {
+        border: 1px solid #e2e5eb;
+        border-radius: 10px;
+        font-size: .92rem;
+        transition: all .15s ease;
+    }
+
+    .wc-form-group .form-control {
+        padding: .65rem .85rem;
+    }
+
+        .wc-form-group .form-control:hover {
+            border-color: #cbd5e1;
+        }
+
+        .wc-form-group .form-control:focus {
+            border-color: var(--wc-primary);
+            box-shadow: 0 0 0 3px var(--wc-primary-light);
+            outline: none;
+        }
+
+
+/* ============================================================
+   DOSYA BİLGİ NOTU
+   ============================================================ */
+
+.wc-info-note {
+    display: flex;
+    align-items: flex-start;
+    gap: .55rem;
+    margin-top: .65rem;
+    padding: .75rem .85rem;
+    background: #fff8e1;
+    border: 1px solid #f5df9a;
+    border-radius: 9px;
+    color: #795b00;
+    font-size: .78rem;
+    line-height: 1.55;
+}
+
+    .wc-info-note i {
+        margin-top: 2px;
+        color: #c28a00;
+        flex-shrink: 0;
+    }
+
+    .wc-info-note strong {
+        font-weight: 700;
+    }
+
+
+/* ============================================================
+   CUSTOM FILE
+   ============================================================ */
+
+.wc-file-wrapper {
+    position: relative;
+}
+
+    .wc-file-wrapper .custom-file {
+        height: 44px;
+    }
+
+    .wc-file-wrapper .custom-file-input {
+        height: 44px;
+        cursor: pointer;
+    }
+
+    .wc-file-wrapper .custom-file-label {
+        height: 44px;
+        padding: .65rem .85rem;
+        border: 1px dashed #dfe3ea;
+        border-radius: 10px;
+        color: #64748b;
+        background: #fafbff;
+        font-size: .85rem;
+        cursor: pointer;
+        transition: all .15s ease;
+    }
+
+        .wc-file-wrapper .custom-file-label::after {
+            height: 42px;
+            padding: .65rem .9rem;
+            content: "Seç";
+            color: #fff;
+            background: var(--wc-primary);
+            border-left: 0;
+            border-radius: 0 9px 9px 0;
+        }
+
+    .wc-file-wrapper:hover .custom-file-label {
+        border-color: var(--wc-primary);
+        background: var(--wc-primary-light);
+    }
+
+    .wc-file-wrapper .custom-file-input:focus ~ .custom-file-label {
+        border-color: var(--wc-primary);
+        box-shadow: 0 0 0 3px var(--wc-primary-light);
+    }
+
+
+/* ============================================================
+   KAYDET BUTONU
+   ============================================================ */
+
+.wc-btn-save {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .45rem;
+    background: var(--wc-primary);
+    border: none;
+    color: #fff;
+    border-radius: 10px;
+    padding: .6rem 1.4rem;
+    font-weight: 600;
+    font-size: .9rem;
+    transition: all .2s ease;
+    box-shadow: 0 2px 8px rgba(11, 51, 80, .25);
+}
+
+    .wc-btn-save:hover {
+        background: var(--wc-primary-dark);
+        color: #fff;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 14px rgba(11, 51, 80, .35);
+    }
+
+    .wc-btn-save:active {
+        transform: translateY(0);
+    }
+
+
+/* ============================================================
+   VALIDATION
+   ============================================================ */
+
+.text-danger {
+    font-size: .8rem;
+}
+
+.validation-summary-errors {
+    margin-bottom: 1rem;
+}
+
+    .validation-summary-errors ul {
+        margin-bottom: 0;
+        padding-left: 1.1rem;
+    }
+
+
+/* ============================================================
+   INDEX TOOLBAR
+   ============================================================ */
+
+.wc-toolbar {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid #f0f1f5;
+    background: #fafbff;
+}
+
+.wc-search-wrap .input-group-text {
+    background: #fff;
+    border-right: none;
+    color: #94a3b8;
+}
+
+.wc-search-wrap input {
+    border-left: none;
+}
+
+    .wc-search-wrap input:focus {
+        box-shadow: none;
+        border-color: #dfe3ea;
+    }
+
+
+/* ============================================================
+   TABLO
+   ============================================================ */
+
+table.wc-table {
+    margin-bottom: 0;
+}
+
+    table.wc-table thead th {
+        background: #f8f9fc;
+        color: #64748b;
+        font-size: .8rem;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+        font-weight: 700;
+        border-bottom: 1px solid #eef0f4;
+        padding: .9rem 1rem;
+        white-space: nowrap;
+    }
+
+    table.wc-table tbody tr.wc-row {
+        transition: background .15s ease;
+    }
+
+        table.wc-table tbody tr.wc-row:hover {
+            background: #f9fafe;
+        }
+
+    table.wc-table tbody td {
+        padding: .85rem 1rem;
+        vertical-align: middle;
+        border-bottom: 1px solid #f2f3f7;
+    }
+
+
+/* ============================================================
+   DOSYA ADI
+   ============================================================ */
+
+.wc-name {
+    font-weight: 600;
+    color: #1e293b;
+}
+
+
+/* ============================================================
+   DOSYA TİPLERİ
+   ============================================================ */
+
+.wc-file-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .3rem .65rem;
+    border-radius: 8px;
+    font-size: .78rem;
+    font-weight: 600;
+}
+
+    .wc-file-badge.word {
+        background: #eaf2ff;
+        color: #2563eb;
+    }
+
+    .wc-file-badge.pdf {
+        background: #fee2e2;
+        color: #dc2626;
+    }
+
+    .wc-file-badge.excel {
+        background: #e7f7ee;
+        color: #16a34a;
+    }
+
+    .wc-file-badge.image {
+        background: #f3e8ff;
+        color: #9333ea;
+    }
+
+
+/* ============================================================
+   İŞLEMLER
+   ============================================================ */
+
+.wc-actions {
+    display: flex;
+    gap: .4rem;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    border-radius: 9px;
+    border: none;
+    font-weight: 600;
+    font-size: .8rem;
+    padding: .4rem .7rem;
+    text-decoration: none;
+    transition: all .15s ease;
+}
+
+    .btn-action.btn-download {
+        background: var(--wc-primary-light);
+        color: var(--wc-primary);
+    }
+
+        .btn-action.btn-download:hover {
+            background: var(--wc-primary);
+            color: #fff;
+            text-decoration: none;
+        }
+
+    .btn-action.btn-view {
+        background: #e0f2fe;
+        color: #0284c7;
+    }
+
+        .btn-action.btn-view:hover {
+            background: #0284c7;
+            color: #fff;
+            text-decoration: none;
+        }
+
+.btn-icon-sm {
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    border: 1px solid #f1d3d3;
+    background: #fff5f5;
+    color: #e11d48;
+    transition: all .15s ease;
+    flex-shrink: 0;
+}
+
+    .btn-icon-sm:hover {
+        background: #e11d48;
+        color: #fff;
+    }
+
+
+/* ============================================================
+   BOŞ LİSTE
+   ============================================================ */
+
+.wc-empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #94a3b8;
+}
+
+
+/* ============================================================
+   DELETE MODAL
+   ============================================================ */
+
+#deleteModal .modal-content {
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+#deleteModal .modal-header {
+    background: #fff5f5;
+    border-bottom: none;
+}
+
+#deleteModal .modal-title {
+    color: #be123c;
+    font-weight: 700;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+    .wc-title {
+        font-size: 1.3rem;
+    }
+
+    .wc-form-body {
+        padding: 1.25rem;
+    }
+
+    .wc-form-card {
+        max-width: 100%;
+    }
+
+    .wc-actions {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 575px) {
+
+    .wc-header {
+        align-items: flex-start;
+    }
+
+    .wc-title {
+        font-size: 1.2rem;
+    }
+
+    .wc-form-body {
+        padding: 1rem;
+    }
+
+    .wc-btn-save {
+        width: 100%;
+    }
+
+    .wc-file-wrapper .custom-file-label {
+        font-size: .8rem;
+    }
+}

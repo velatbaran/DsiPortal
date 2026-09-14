@@ -1,4 +1,4 @@
-﻿@model List<MyGuideDto>
+﻿@model List<MyGuideApiModel>
 @{
     ViewData["Title"] = "Telefon Rehberi";
     Layout = "_LayoutHomePage";
@@ -59,7 +59,7 @@
                                     <td>
                                         <span class="badge department-badge px-2 py-1 fs-7">
                                             <i class="fa-regular fa-building me-1 text-muted"></i>
-                                            @(string.IsNullOrEmpty(item.DepartmentName) ? "-" : item.DepartmentName)
+                                            @(string.IsNullOrEmpty(item.Department) ? "-" : item.Department)
                                         </span>
                                     </td>
                                     <td class="text-center">
@@ -105,7 +105,7 @@
 
 @section Scripts {
     <!-- FontAwesome (İkonlar için) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+@*     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" /> *@
 
     <!-- DataTables JS & CSS -->
     <link href="~/datatable/datatables.min.css" rel="stylesheet" />

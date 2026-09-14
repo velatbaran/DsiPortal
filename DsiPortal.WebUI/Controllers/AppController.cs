@@ -22,12 +22,15 @@ namespace DsiPortal.WebUI.Controllers
             _serviceApps = serviceApps;
             _toastNotification = toastNotification;
         }
+
+        [Route("admin/uygulamalar")]
         public async Task<IActionResult> Index()
         {
             return View(await _serviceApps.GetQueryable().OrderByDescending(x => x.CreatedDate).ToListAsync());
         }
 
         [HttpGet]
+        [Route("admin/uygulamaekle")]
         public IActionResult Create()
         {
             return View();
@@ -35,6 +38,7 @@ namespace DsiPortal.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("admin/uygulamaekle")]
         public async Task<IActionResult> Create(AppViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -60,6 +64,7 @@ namespace DsiPortal.WebUI.Controllers
             }
             return View(viewModel);
         }
+
         public async Task<IActionResult> ViewImage(int id)
         {
             var image = await _serviceApps.FindAsync(id);
