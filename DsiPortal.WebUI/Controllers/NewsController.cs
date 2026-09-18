@@ -74,7 +74,7 @@ namespace DsiPortal.WebUI.Controllers
 
                     await _serviceWorksConducteds.SaveChangesAsync();
                     _toastNotification.AddSuccessToastMessage("Kayıt işlemi başarılı", new ToastrOptions { Title = "Başarılı" });
-                    return Redirect(nameof(Index));
+                    return RedirectToAction(nameof(Index));
                 }
                 _toastNotification.AddErrorToastMessage("Kayıt işlemi yapılırken hata oluştu.", new ToastrOptions { Title = "Hata" });
                 return View(viewModel);
