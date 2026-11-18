@@ -209,38 +209,123 @@
    Bölge Müdürü
    =================================================================== */
 
+
 .manager-card {
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    height: 415px;
+    height: 500px;
+    width: 100%;
+    background: #fff;
+    border: 1px solid rgba(11, 51, 80, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 5px 18px rgba(11, 51, 80, 0.08);
+    transition: all 0.3s ease;
 }
 
     .manager-card:hover {
         transform: translateY(-3px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12) !important;
+        box-shadow: 0 12px 28px rgba(11, 51, 80, 0.14);
     }
 
+/* Fotoğraf alanı */
 .manager-img-wrapper {
-    height: 100%;
-    position: relative;
+    height: 355px;
+    flex-shrink: 0;
+    background: linear-gradient(145deg, #f5f8fa, #e9eff4);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+    padding-top: 20px;
 }
 
+.manager-img-frame {
+    width: 250px;
+    height: 315px;
+    overflow: hidden;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 5px 18px rgba(11, 51, 80, 0.10);
+}
 .manager-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: top center;
+    object-position: center top;
+    display: block;
+    transition: transform 0.4s ease;
 }
 
-.manager-overlay {
+.manager-card:hover .manager-img {
+    transform: scale(1.025);
+}
+
+/* Bilgi alanı */
+.manager-info {
+    flex: 1;
+    background: #fff;
+    padding: 17px 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+
+.manager-info-line {
     position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient( 180deg, rgba(0,0,0,0) 45%, rgba(8, 39, 65, 0.92) 100% );
+    left: 22px;
+    width: 38px;
+    height: 3px;
+    background: #FFCC00;
+    border-radius: 3px;
 }
 
-.tracking-wide {
-    letter-spacing: 0.8px;
+.manager-name {
+    color: #0B3350;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 9px;
+    letter-spacing: 0.2px;
 }
+
+.manager-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.manager-divider {
+    width: 22px;
+    height: 2px;
+    background: #0B3350;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
+.manager-title {
+    color: #71808c;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .manager-card {
+        height: 450px;
+    }
+
+    .manager-img-wrapper {
+        height: 320px;
+    }
+
+    .manager-img-frame {
+        height: 285px;
+        width: 185px;
+        border-radius: 12px;
+    }
+}
+

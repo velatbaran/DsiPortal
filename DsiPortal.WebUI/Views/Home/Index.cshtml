@@ -10,7 +10,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-9 px-0">
+        <div class="col-lg-10 px-0">
             <div class="owl-carousel main-carousel position-relative">
                 @foreach (var item in Model.WorksConducteds.ToList())
                 {
@@ -40,30 +40,34 @@
             </div>
 
         </div>
-        <div class="col-lg-3 px-0">
-            <div class="manager-card position-relative overflow-hidden shadow-lg rounded-lg bg-white" style="height: 500px;">
-                <div class="manager-img-wrapper h-100">
-                    <img class="manager-img"
-                         src="@Url.Action("ViewImageRegionalManager", new { Id = Model.RegionalManager.Id })"
-                         alt="@Model.RegionalManager.Name">
 
-                    <div class="manager-overlay d-flex flex-column justify-content-end p-4">
-                        <!-- İsim -->
-                        <h4 class="text-white font-weight-bold mb-1 manager-name">
-                            @Model.RegionalManager.Name
-                        </h4>
+        <div class="col-lg-2 col-md-3 col-sm-6 px-2">
+            <div class="manager-card">
 
-                        <!-- Unvan ve Ayraç Çizgisi -->
-                        <div class="manager-title-wrapper d-flex align-items-center mt-1">
-                            <span class="manager-divider"></span>
-                            <p class="text-white-50 m-0 text-uppercase tracking-wider font-weight-semibold manager-title">
-                                @Model.RegionalManager.Title
-                            </p>
-                        </div>
+                <div class="manager-img-wrapper">
+                    <div class="manager-img-frame">
+                        <img class="manager-img"
+                             src="@Url.Action("ViewImageRegionalManager", new { Id = Model.RegionalManager.Id })"
+                             alt="@Model.RegionalManager.Name">
                     </div>
                 </div>
+
+                <div class="manager-info">
+                    <h4 class="manager-name">
+                        @Model.RegionalManager.Name
+                    </h4>
+
+                    <div class="manager-title-wrapper">
+                        <span class="manager-divider"></span>
+                        <span class="manager-title">
+                            @Model.RegionalManager.Title
+                        </span>
+                    </div>
+                </div>
+
             </div>
         </div>
+
     </div>
 </div>
 <div class="container-fluid pt-5 mb-3">
